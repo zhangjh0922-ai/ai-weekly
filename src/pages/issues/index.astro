@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import IssueCard from '../../components/IssueCard.astro';
+
+const isProd = import.meta.env.PROD;
+
+const issues = (await getCollection('issues', ({ data }) => !isProd || !data.draft)).sort(
+  (a, b) => b.data.issue - a.data.issue,
+);
+
+const allTags = [...new Set(issues.flatMap((i) => i.data.tags))].sort((a, b) =>
+  a.localeCompare(b, 'zh-CN'),
+);
+---
+
+<BaseLayout title="往期" description="AI 周报全部往期，可按标签和关键词筛选。" wide>
+  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 0.5rem;">往期</h1>
+  <p class="lede" style="margin:0 0 2rem;">共 {issues.length} 期。输入关键词或点标签筛选。</p>
+
+  <div class="filters">
+    <input
+      type="search"
+      id="q"
+      placeholder="搜索标题、摘要、要点…"
+      aria-label="搜索往期"
+      autocomplete="off"
+    />
+    <button class="chip" data-tag="" aria-pressed="true">全部</button>
+    {
+      allTags.map((t) => (
+        <button class="chip" data-tag={t} aria-pressed="false">
+          {t}
+        </button>
+      ))
+    }
+  </div>
+
+  <div id="list">
+    {issues.map((issue) => <IssueCard issue={issue} filterable />)}
+  </div>
+
+  <p class="empty-note" id="empty" hidden>没有匹配的期号。换个词试试。</p>
+</BaseLayout>
+
+<script>
+  const q = document.getElementById('q') as HTMLInputElement | null;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-tag]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-issue-card]')];
+  const empty = document.getElementById('empty');
+
+  let activeTag = '';
+
+  function apply() {
+    const term = (q?.value ?? '').trim().toLowerCase();
+    let shown = 0;
+
+    for (const card of cards) {
+      const tags = (card.dataset.tags ?? '').split('|').filter(Boolean);
+      const hay = card.dataset.search ?? '';
+
+      const okTag = !activeTag || tags.includes(activeTag);
+      const okTerm = !term || hay.includes(term);
+      const visible = okTag && okTerm;
+
+      card.hidden = !visible;
+      if (visible) shown++;
+    }
+
+    if (empty) empty.hidden = shown > 0;
+  }
+
+  q?.addEventListener('input', apply);
+
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      activeTag = chip.dataset.tag ?? '';
+      for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
+      apply();
+    });
+  }
+</script>

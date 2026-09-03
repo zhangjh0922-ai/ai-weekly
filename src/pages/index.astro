@@ -1,0 +1,125 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IssueCard from '../components/IssueCard.astro';
+import { SITE } from '../consts';
+import { link, formatDate, daysAgo } from '../lib/utils';
+
+const isProd = import.meta.env.PROD;
+
+const issues = (await getCollection('issues', ({ data }) => !isProd || !data.draft)).sort(
+  (a, b) => b.data.issue - a.data.issue,
+);
+
+const [latest, ...rest] = issues;
+const recentIssues = rest.slice(0, 4);
+
+const models = (await getCollection('models'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 6);
+
+const LatestContent = latest ? (await render(latest)).Content : null;
+---
+
+<BaseLayout>
+  <section style="margin-bottom:3.5rem">
+    <p class="eyebrow">{SITE.org}</p>
+    <h1 style="font-size:2rem;line-height:1.4;letter-spacing:-0.02em;margin:0.4rem 0 0.75rem;">
+      {SITE.title}
+    </h1>
+    <p class="lede" style="margin:0;">{SITE.tagline}。</p>
+    <p class="lede" style="margin:0.6rem 0 0;font-size:0.95rem;">
+      每条都尽量回答同样五个问题：发生了什么、为什么重要、我们实际试了什么、对学生有什么用、它仍有哪些边界。
+      <a href={link('/about')} style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;"
+        >为什么这么写 →</a
+      >
+    </p>
+  </section>
+
+  {
+    latest ? (
+      <section style="margin-bottom:4rem">
+        <h2 class="section-title">最新一期</h2>
+
+        <div class="issue-card__top">
+          <span class="issue-card__no">第 {latest.data.issue} 期</span>
+          <span class="meta">
+            {formatDate(latest.data.date)} · 覆盖 {latest.data.range}
+            {latest.data.editors.length > 0 && ` · ${latest.data.editors.join('、')}`}
+          </span>
+        </div>
+
+        <h3 style="font-size:1.5rem;line-height:1.45;letter-spacing:-0.015em;margin:0.2rem 0 0.6rem;font-weight:680;">
+          <a href={link(`/issues/${latest.id}`)}>{latest.data.title}</a>
+        </h3>
+
+        <p class="lede" style="margin:0 0 1.5rem;">{latest.data.summary}</p>
+
+        <div class="prose">
+          {LatestContent && <LatestContent />}
+        </div>
+
+        {latest.data.tags.length > 0 && (
+          <div class="tag-row" style="margin-top:2rem">
+            {latest.data.tags.map((t) => (
+              <a class="tag" href={link(`/tags/${encodeURIComponent(t)}`)}>
+                {t}
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+    ) : (
+      <p class="empty-note">
+        还没有任何一期。运行 <code>npm run new</code> 创建第 1 期，或 <code>npm run weekly</code> 让脚本先拉一份草稿。
+      </p>
+    )
+  }
+
+  {
+    models.length > 0 && (
+      <section style="margin-bottom:4rem">
+        <h2 class="section-title">最近的模型发布</h2>
+        <ul class="timeline">
+          {models.map((m) => (
+            <li class="tl-item" data-recent={daysAgo(m.data.date) <= 30 ? 'true' : 'false'}>
+              <div class="tl-date">
+                <time datetime={m.data.date}>{m.data.date}</time>
+              </div>
+              <div class="tl-body">
+                <h3>
+                  <a href={m.data.url} rel="noopener noreferrer" target="_blank">
+                    {m.data.name}
+                  </a>
+                  <span class="tl-org">{m.data.org}</span>
+                </h3>
+                <p>{m.data.note}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p style="margin-top:1.5rem">
+          <a class="btn" href={link('/models')}>
+            查看完整时间线 →
+          </a>
+        </p>
+      </section>
+    )
+  }
+
+  {
+    recentIssues.length > 0 && (
+      <section>
+        <h2 class="section-title">往期</h2>
+        {recentIssues.map((issue) => (
+          <IssueCard issue={issue} showHighlights={false} />
+        ))}
+        <p style="margin-top:1.75rem">
+          <a class="btn" href={link('/issues')}>
+            全部 {issues.length} 期 →
+          </a>
+        </p>
+      </section>
+    )
+  }
+</BaseLayout>

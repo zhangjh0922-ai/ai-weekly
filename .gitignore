@@ -1,0 +1,22 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+.astro/
+
+# 采集缓存与待审核数据
+.cache/
+
+# 环境变量（含 API key，绝对不要提交）
+.env
+.env.local
+.env.*.local
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.vscode/
+.idea/

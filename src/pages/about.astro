@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+import { link } from '../lib/utils';
+---
+
+<BaseLayout title="关于" description="AI 周报怎么写、怎么核对、怎么纠错。">
+  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 1.5rem;">关于</h1>
+
+  <div class="prose">
+    <h2 id="这是什么">这是什么</h2>
+    <p>
+      {SITE.title} 是 {SITE.org} 维护的公开内容之一，由学生撰写，每周记录值得关注的模型发布、产品更新、论文和行业事件。
+    </p>
+    <p>
+      它不以「把新闻搬过来」为目标。行业里已经有大量做得更快、更全的资讯源；一份由学生写的周报如果只是转述，没有存在的必要。
+      我们想补的是另一件事：<strong>这些变化对一个正在读书的人到底意味着什么</strong>
+      —— 哪些能立刻用在学习和项目里，哪些只是发布会话术，哪些边界必须知道。
+    </p>
+
+    <h2 id="每条怎么写">每条怎么写</h2>
+    <p>每条重要条目尽量回答同样五个问题：</p>
+    <ol>
+      <li><strong>发生了什么</strong> —— 事实陈述，附原始来源链接。</li>
+      <li><strong>为什么重要</strong> —— 放回上下文：它相对之前变了什么。</li>
+      <li><strong>我们实际试了什么</strong> —— 具体任务、具体提示、具体结果。没试就明说没试。</li>
+      <li><strong>对学生有什么用</strong> —— 能不能进作业、项目、社课的工作流。</li>
+      <li><strong>它仍有哪些边界</strong> —— 失败案例、限制、需要人工核查的地方。</li>
+    </ol>
+
+    <h2 id="我们怎么对待不确定">我们怎么对待不确定</h2>
+    <ul>
+      <li>
+        <strong>标注时间和版本。</strong> 模型信息过期极快。任何体验都写清「哪个模型、哪个版本、什么时候测的」。
+        一次体验不是永久结论。
+      </li>
+      <li>
+        <strong>区分体验和横评。</strong> 「我觉得 A 比 B 好」是体验；只有当我们用同一套任务、同一批提示词、
+        同一个评分标准跑过并保留原始输出，才叫横评。两者在文中会分开标。
+      </li>
+      <li>
+        <strong>没试过就说没试过。</strong> 只读了公告没上手的条目会明确写成「未实测」。
+      </li>
+      <li>
+        <strong>会写错。</strong> 出错时在原文标注更正，不静默修改。
+      </li>
+    </ul>
+
+    <h2 id="ai-在生产流程里的位置">AI 在生产流程里的位置</h2>
+    <p>
+      我们用脚本每周从各家官方博客、发布页和 arXiv 抓候选条目，再用大模型把候选压成一份<strong>结构化草稿</strong>：
+      分类、去重、提示哪些值得写。
+    </p>
+    <p>
+      <strong>草稿不是成品。</strong> 判断、实测、取舍和「对学生有什么用」这几段由人写。
+      模型帮我们不漏掉东西，但它没法替我们回答「这周我真的用它做成了什么」。
+      采集和成稿脚本都在仓库里公开，包括提示词。
+    </p>
+
+    <h2 id="纠错与共建">纠错与共建</h2>
+    <p>
+      发现事实错误、失效链接或有误导的判断，欢迎直接开 issue 或提 PR：
+      <a href={SITE.repo} rel="noopener noreferrer" target="_blank">{SITE.repo}</a>。
+      模型发布时间线的数据在 <code>data/models.json</code>，补一条只需要改一个 JSON 对象。
+    </p>
+    <p>
+      也可以订阅 <a href={link('/rss.xml')}>RSS</a>，或直接看
+      <a href={link('/models')}>模型时间线</a>。
+    </p>
+
+    <h2 id="授权">授权</h2>
+    <p>
+      文章内容以 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>
+      发布，站点与脚本代码以 MIT 发布。转载请注明来源并链接回原文。
+    </p>
+  </div>
+</BaseLayout>

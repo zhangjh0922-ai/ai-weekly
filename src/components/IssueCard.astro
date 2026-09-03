@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { link, formatDate } from '../lib/utils';
+
+interface Props {
+  issue: CollectionEntry<'issues'>;
+  /** 列表页要给 JS 筛选用的数据属性 */
+  filterable?: boolean;
+  /** 是否展示 highlights 列表 */
+  showHighlights?: boolean;
+}
+
+const { issue, filterable = false, showHighlights = true } = Astro.props;
+const d = issue.data;
+const href = link(`/issues/${issue.id}`);
+
+const haystack = filterable
+  ? [d.title, d.summary, ...d.highlights, ...d.tags, `第${d.issue}期`].join(' ').toLowerCase()
+  : undefined;
+---
+
+<article
+  class="issue-card"
+  data-issue-card={filterable ? '' : undefined}
+  data-tags={filterable ? d.tags.join('|') : undefined}
+  data-search={haystack}
+>
+  <div class="issue-card__top">
+    <span class="issue-card__no">第 {d.issue} 期</span>
+    <span class="meta">{formatDate(d.date)} · 覆盖 {d.range}</span>
+  </div>
+
+  <a href={href}>
+    <h3>{d.title}</h3>
+  </a>
+
+  <p>{d.summary}</p>
+
+  {
+    showHighlights && d.highlights.length > 0 && (
+      <ul>
+        {d.highlights.map((h) => (
+          <li>{h}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    d.tags.length > 0 && (
+      <div class="tag-row">
+        {d.tags.map((t) => (
+          <a class="tag" href={link(`/tags/${encodeURIComponent(t)}`)}>
+            {t}
+          </a>
+        ))}
+      </div>
+    )
+  }
+</article>

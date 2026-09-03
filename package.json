@@ -1,0 +1,35 @@
+{
+  "name": "emergence-ai-weekly",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Emergence AI Lab · AI 周报 —— 每周追踪模型发布与 AI 变化，并给出学生视角的判断",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "collect": "node scripts/collect.mjs",
+    "draft": "node scripts/draft.mjs",
+    "weekly": "node scripts/collect.mjs && node scripts/draft.mjs",
+    "new": "node scripts/new-issue.mjs",
+    "harvest": "node scripts/harvest-models.mjs",
+    "check-links": "node scripts/check-links.mjs",
+    "models": "node scripts/list-models.mjs",
+    "enrich": "node scripts/enrich-specs.mjs",
+    "changes": "node scripts/extract-changes.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.2.10"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
+    "@astrojs/check": "^0.9.10",
+    "rss-parser": "^3.13.0",
+    "typescript": "^6.0.3",
+    "undici": "^8.10.1",
+    "zod": "^4.5.4"
+  }
+}

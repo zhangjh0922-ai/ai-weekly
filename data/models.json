@@ -1,0 +1,2891 @@
+[
+  {
+    "id": "claude-fable-5-1",
+    "name": "Claude Fable 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-03",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+    "note": "Fable 5 的迭代版，官方称是「面向编程与知识工作的最先进模型」。三个对使用者最实际的变化：价格约降 25%（高智能体场景最多约 45%）、新的企业级数据留存方案、网络安全误报大幅减少。⚠️ 官方页面只标到「2026 年 9 月」，未给具体日期，此处日期为近似。",
+    "tags": [
+      "闭源 API",
+      "降价"
+    ],
+    "prev": "claude-fable-5-mythos-5",
+    "changes": [
+      "官方称典型负载下比 Fable 5 便宜约 25%，原因是下调了缓存读取（cache read）的价格",
+      "官方称高强度智能体任务的节省更大，最多约 45%",
+      "推出 Enterprise Frontier Safeguards（EFS）：数据存在客户自己控制的云上而非 Anthropic，效果等同零数据留存；今秋起分批开放，在此之前符合条件的客户可直接用零留存模式",
+      "官方称网络安全场景的误报比此前减少 60%；Fable 5.1 现在可用于发现软件漏洞，但不能用于开发漏洞利用代码",
+      "官方称设为 Low 或 Medium 思考强度时，效果已能达到或超过 Fable 5，而成本低得多",
+      "在 Claude Code 里默认 High 强度，在 Claude Cowork 和 Claude 网页端默认 Medium"
+    ]
+  },
+  {
+    "id": "claude-mythos-5-1",
+    "name": "Claude Mythos 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-03",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+    "note": "和 Fable 5.1 是**同一个模型**，区别只在防护级别。Mythos 5.1 仅通过受信任访问计划开放，其防护专为网络安全和生命科学工作设计。⚠️ 日期同为近似。",
+    "tags": [
+      "闭源 API",
+      "受限访问"
+    ],
+    "prev": "claude-fable-5-mythos-5",
+    "changes": [
+      "与 Fable 5.1 是同一个模型，仅防护级别不同：Fable 5.1 公开可用，Mythos 5.1 只走受信任访问计划",
+      "生物学能力方面，官方称与美国政府合作建立了访问计划，即将向科研人员开放报名"
+    ]
+  },
+  {
+    "id": "deepseek-v4-flash-vision-exp",
+    "name": "DeepSeek-V4-Flash-Vision-Exp",
+    "org": "DeepSeek",
+    "date": "2026-08-31",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp",
+    "note": "DeepSeek V4 系列的实验性视觉版本，MIT 许可，权重直接上了 Hugging Face。名字里的 Exp 是官方自己打的标签 —— 别拿它当稳定依赖。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "MIT",
+      "实验版"
+    ],
+    "issue": 2,
+    "specs": {
+      "params": 304646824126,
+      "weightsBytes": 167819616863,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 256,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 0,
+      "likes": 385,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "deepseek-v4-flash-0731",
+    "changes": [
+      "推出 DeepSeek-V4 家族首个实验性多模态模型，基于 V4-Flash 架构加入视觉模块",
+      "官方称多模态智能体能力大幅提升，ApexBench 36.5 分、前代 26.2 分",
+      "官方称 ZeroBench (Pass@5) 获 35.0 分，超过 Opus-4.8",
+      "官方称文本智能体任务与前代相当，Terminal Bench 2.1 达 83.9 分",
+      "仓库以 MIT 协议开源，含分词器、提示编码参考与最小 PyTorch 推理实现",
+      "支持 SGLang 部署并启用 DSPARK 投机解码，目标与草稿权重共用同一检查点"
+    ]
+  },
+  {
+    "id": "gemini-omni-1-1-flash",
+    "name": "Gemini Omni 1.1 Flash",
+    "org": "Google DeepMind",
+    "date": "2026-08-27",
+    "url": "https://deepmind.google/blog/gemini-omni-1-1-flash-lets-you-build-with-more-control",
+    "note": "Gemini Omni 的 Flash 档更新，官方口径强调「给开发者更多控制」。Flash 档通常是延迟和价格优先，适合放在需要频繁调用的工作流里。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "issue": 2,
+    "prev": "gemini-omni",
+    "changes": [
+      "支持场景扩展，可分析前10秒上下文（此前仅1秒），每次延长10秒、累计最长40秒",
+      "新增首尾帧控制：指定起始帧与结束帧，生成两帧间连续视频，实现平滑转场与运镜",
+      "新增360p草稿预览，官方称生成比720p快至多60%、成本仅为其三分之一",
+      "支持1080p与4K高分辨率输出，官方称达到专业制作水准",
+      "多模态输入可引用最长3秒的视频参考，以保持角色与视觉一致性",
+      "已在Google AI Studio的Gemini API上线，开发者即日起可用"
+    ]
+  },
+  {
+    "id": "hy4-preview",
+    "name": "Hunyuan Hy4 Preview",
+    "org": "腾讯",
+    "date": "2026-08-27",
+    "url": "https://huggingface.co/tencent/Hy4-preview",
+    "note": "混元 Hy4 预览版：770B 总参 / 49B 激活的 MoE，1M 上下文，纯文本不带视觉，权重 1.56TB。对比 7 月的 Hy3（295B / 21B 激活 / 25.6 万上下文 / 598GB）是一次全面加大 —— 但 1.56TB 这个体积基本排除了个人设备本地跑的可能。",
+    "tags": [
+      "开源权重",
+      "MoE",
+      "预览版"
+    ],
+    "issue": 2,
+    "specs": {
+      "params": 779960992733,
+      "weightsBytes": 1560008337568,
+      "contextTokens": 1048576,
+      "architecture": "hy_v4",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2512.02556",
+      "downloads": 2589,
+      "likes": 361,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "hy3",
+    "changes": [
+      "腾讯开源新一代 MoE 旗舰 Hy4 preview，总参数 770B、每 token 激活 49B，上下文 1M",
+      "注意力采用 Gated DSA 配 IndexCache 跨层索引复用，残差路径使用 iHC",
+      "内置 10B 参数原生 MTP 层用于投机解码，提供 vLLM 与 SGLang 官方部署镜像",
+      "官方称 163 名专家盲评 203 项工程任务，均分 2.99 小胜 GLM 5.3 与 Kimi K3",
+      "权重以 Apache 2.0 协议开源，同步发布 FP8 量化版 Hy4 preview-FP8",
+      "推理默认 high 深度思维链，可切 no_think 模式直接作答"
+    ]
+  },
+  {
+    "id": "gemini-3-5-transcribe",
+    "name": "Gemini 3.5 Transcribe",
+    "org": "Google DeepMind",
+    "date": "2026-08-26",
+    "url": "https://deepmind.google/blog/intelligent-transcription-with-gemini-3-5-transcribe",
+    "note": "专做语音转文字。对学生最直接的用途是课堂录音和访谈转录 —— 但「转录准确」和「它顺手替你把话改通顺」是两回事，用于研究访谈时必须核对原音。",
+    "tags": [
+      "闭源 API",
+      "语音"
+    ],
+    "issue": 2,
+    "changes": [
+      "发布语音转写模型 Gemini 3.5 Transcribe，自动检测并转写 85 种以上语言",
+      "智能转写可处理自我纠正、去除填充词并自动排版，支持自定义词汇识别术语",
+      "预录音频支持最多三名说话人归属与词级时间戳，实时流式为亚秒级延迟",
+      "官方称 Artificial Analysis 测得平均 WER：流式 4.0%、非流式 2.6%",
+      "官方称 FLEURS 基准 WER 流式 5.50%、非流式 5.04%，耗时较 Chirp 3 降 70%",
+      "已开放公开预览，落地 Gboard Rambler、Antigravity 与 macOS 版 Gemini 应用"
+    ]
+  },
+  {
+    "id": "glm-5-3",
+    "name": "GLM-5.3",
+    "org": "Z.ai（智谱）",
+    "date": "2026-08-25",
+    "url": "https://huggingface.co/zai-org/GLM-5.3",
+    "note": "智谱 GLM-5.3 主力版，MIT 许可，中英双语。上线一周 6.6 万次下载。",
+    "tags": [
+      "开源权重",
+      "中文",
+      "MIT"
+    ],
+    "issue": 2,
+    "specs": {
+      "params": 753329940480,
+      "weightsBytes": 755663627013,
+      "contextTokens": 1048576,
+      "architecture": "glm_moe_dsa",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "F8_E4M3",
+      "license": "other",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2602.15763",
+      "downloads": 66195,
+      "likes": 1427,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "glm-5-2",
+    "changes": [
+      "与 GLM-5.2 共用同一基座模型，官方称全部提升来自后训练",
+      "官方称是最强开源编程模型，自建 Z.ai Code Bench 较 GLM-5.2 提升 50%",
+      "Terminal Bench 3.0 从 4.6 升至 28.3，官方称为开源 SOTA",
+      "ExploitBench 得分 54.4，较 GLM-5.2 的 24.4 翻倍以上",
+      "新增 reasoning_effort 思考预算参数，可选 low/high/max，默认 max",
+      "已支持 SGLang、vLLM、Unsloth 等推理框架及 Ascend NPU 平台部署"
+    ]
+  },
+  {
+    "id": "glm-5-3-flash",
+    "name": "GLM-5.3-Flash",
+    "org": "Z.ai（智谱）",
+    "date": "2026-08-25",
+    "url": "https://huggingface.co/zai-org/GLM-5.3-Flash",
+    "note": "GLM-5.3 的多模态 Flash 版，一周 38 万次下载，是主力版的近 6 倍。Together 用 900 次 DeepSWE rollout 实测：相比正式版，Flash 的 pass@1 低 5.6 分，但成本只有 1/17（pass@4 差距缩到 2.6 分）—— 这个「便宜 17 倍、差 5.6 分」的取舍比任何跑分榜都实用。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "中文",
+      "可本地部署"
+    ],
+    "issue": 2,
+    "specs": {
+      "params": 321323031390,
+      "weightsBytes": 656694018754,
+      "contextTokens": 1048576,
+      "architecture": "glm5_next",
+      "experts": 288,
+      "expertsPerToken": 8,
+      "precision": "F8_E4M3",
+      "license": "mit",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": "2602.15763",
+      "downloads": 379271,
+      "likes": 1822,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "GLM-5 系列首个原生多模态模型，320B 总参数、18B 激活参数",
+      "官方称基准与实际负载表现超越 GLM-5.2，价格仅为其十分之一",
+      "官方称编码与智能体基准接近 Claude Opus 4.8",
+      "GLM 系列首次采用稀疏与线性注意力混合架构，官方称可降低长文本服务成本",
+      "采用 mHC 结构，基于 30T token 多模态语料预训练",
+      "新增 reasoning_effort 思考预算参数，分 low、high、max 三档，默认 max"
+    ]
+  },
+  {
+    "id": "qwen3-8-flash-next",
+    "name": "Qwen3.8-Flash-Next",
+    "org": "阿里通义",
+    "date": "2026-08-24",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
+    "note": "多模态 MoE：125B 总参但只激活 6B，官方称它同时是 Qwen4 架构的早期预览。上线一周登上 Hugging Face 热度榜第一（4500+ likes / 15.8 万下载）。激活只有 6B 意味着推理开销接近小模型 —— 这是它能被社区大量量化和试用的关键。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "MoE",
+      "中文"
+    ],
+    "issue": 2,
+    "specs": {
+      "params": 179999981459,
+      "weightsBytes": 360013002208,
+      "contextTokens": 262144,
+      "architecture": "qwen4_exp",
+      "experts": 512,
+      "expertsPerToken": 10,
+      "precision": "BF16",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 158598,
+      "likes": 4539,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "qwen3-6-35b-a3b",
+    "changes": [
+      "Qwen3.8-Flash-Next开源发布，是Qwen4新架构的实验预览，支持图像输入",
+      "总参数125B、每次激活6B，另含51B N-gram Embedding与4B MTP",
+      "原生上下文262,144 tokens，官方称可扩展至1,000,000",
+      "新架构用Qwen Sparse Attention按微块处理，官方称降低长上下文延迟",
+      "官方称DeepSWE 1.1智能体编程得分58.7，高于Qwen3.8-27B的42.2",
+      "训练将Muon与AdamW用于不同权重类别，取消batch-size预热以支持更大学习率"
+    ]
+  },
+  {
+    "id": "deepseek-v4-pro-0813",
+    "name": "DeepSeek-V4-Pro-0813",
+    "org": "DeepSeek",
+    "date": "2026-08-13",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813",
+    "note": "V4-Pro 的 8 月更新版，MIT 许可，13.5 万次下载。DeepSeek 用日期后缀区分同一代模型的迭代版本 —— 引用时务必带上后缀，「DeepSeek-V4-Pro」和「V4-Pro-0813」不是一回事。",
+    "tags": [
+      "开源权重",
+      "MIT"
+    ],
+    "specs": {
+      "params": 1650497936906,
+      "weightsBytes": 1781787608346,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 384,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.19348",
+      "downloads": 134723,
+      "likes": 793,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "deepseek-v4-pro",
+    "changes": [
+      "正式版取代此前的 Preview，模型结构上新增 DSpark 投机解码模块",
+      "官方称 DeepSWE 得分从 Preview 版的 12.8 升至 62.7",
+      "官方称 Terminal Bench 2.1 达 87.9，Preview 版为 72.1",
+      "reasoning_effort 参数支持 low、high、max 三档，控制回答前思考量",
+      "vLLM 与 SGLang 均支持一键开启 DSpark 投机解码",
+      "官方建议 high 与 max 档位下最大输出长度设为 384K tokens"
+    ]
+  },
+  {
+    "id": "gemini-3-7-flash",
+    "name": "Gemini 3.7 Flash",
+    "org": "Google DeepMind",
+    "date": "2026-08-13",
+    "url": "https://deepmind.google/blog/introducing-gemini-3-7-flash/",
+    "note": "Gemini Flash 档的又一次迭代。Google 在 2026 年把 Flash 线拆得很细（3.5 / 3.5 Flash-Lite / 3.5 Flash Cyber / 3.6 / 3.7），写作时一定要写全版本号。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gemini-3-6-flash",
+    "changes": [
+      "官方称 FrontierCode 1.1 Main 达 43.6%、DeepSWE v1.1 达 65.3%，均超 3.6 Flash",
+      "官方称 GDP.pdf 达 34.0%、AutomationBench 达 30.4%，复杂文档与业务流超 3.6 Flash",
+      "官方称 WebDev Arena Elo 达 1588（3.6 为 1538），可按截图或设计系统生成 UI",
+      "年内 introductory price 为 $0.75/1M 输入、$3.75/1M 输出，2027 年起涨至 $1.50/$7.50",
+      "Gemini Spark 即日起改用 3.7 Flash，覆盖 160 多个国家的 Google AI Pro/Ultra 订阅者",
+      "开发者可经 Google Antigravity、AI Studio、Android Studio 及 Gemini Enterprise 平台调用"
+    ]
+  },
+  {
+    "id": "qwen3-8-2-4t-a95b",
+    "name": "Qwen3.8-2.4T-A95B",
+    "org": "阿里通义",
+    "date": "2026-08-08",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B",
+    "note": "2.4 万亿总参数、950 亿激活的 MoE —— 是这份时间线里参数量最大的开放权重模型。个人无法部署，意义在于它把「开放权重」的规模上限又推高了一档。",
+    "tags": [
+      "开源权重",
+      "MoE"
+    ],
+    "specs": {
+      "params": 2446182725504,
+      "weightsBytes": 4892378458656,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5_moe_text",
+      "experts": 512,
+      "expertsPerToken": 10,
+      "precision": "BF16",
+      "license": "other",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": null,
+      "downloads": 36081,
+      "likes": 1189,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "Qwen3.8-2.4T-A95B 总参数 2.4T、激活 95B，首次开源 Max 级模型",
+      "原生上下文 262,144 tokens，可扩展至 1,010,000 tokens",
+      "官方版 Qwen3.8-Max 支持视觉输入与非思考模式，默认 1M 上下文、内置工具",
+      "reasoning_effort 调推理深度，preserve_thinking 保留历史思考",
+      "官方称 Qwen3.8-Max 在 PaperBench 获 93.0，为表中最高",
+      "官方称 Qwen3.8-Max Terminal Bench 2.1 获 86.6，前代 74.5"
+    ]
+  },
+  {
+    "id": "minimax-music3",
+    "name": "MiniMax-Music3",
+    "org": "MiniMax",
+    "date": "2026-08-07",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-Music3",
+    "note": "音乐生成模型。正好撞上 Sony、Warner 起诉 Anthropic 的档口 —— 音乐生成的训练数据版权问题目前没有定论，做社团项目要特别当心。",
+    "tags": [
+      "开源权重",
+      "音乐生成"
+    ],
+    "specs": {
+      "params": 2431905920,
+      "weightsBytes": 67214176196,
+      "contextTokens": null,
+      "architecture": "minimax_music3",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "F32",
+      "license": null,
+      "languages": null,
+      "modality": "text-to-audio",
+      "arxiv": null,
+      "downloads": 22250,
+      "likes": 1313,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "可根据歌词和音乐描述生成最长五分钟完整歌曲，输出32 kHz 16-bit立体声WAV",
+      "8B Global LLM基于Qwen3-8B建模长程结构，0.6B Local LLM管帧级声学",
+      "融合双LLM隐藏状态，经2.4B Flow Matching与123M Flow-VAE生成音频",
+      "歌词支持[Verse][Chorus]段落标签，描述可按曲风、人声、编曲三层结构化",
+      "推理支持SGLang-Omni、diffusers与ComfyUI，目前仅支持非流式生成",
+      "约22GB显存即可运行，逐层流式卸载后8GB显卡也能跑"
+    ]
+  },
+  {
+    "id": "qwen3-8-27b",
+    "name": "Qwen3.8-27B",
+    "org": "阿里通义",
+    "date": "2026-08-05",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B",
+    "note": "Apache 许可，多模态，472 万次下载、1.3 万 likes —— 本时间线里社区热度最高的一条。27B 这个尺寸是「单张高端显卡勉强跑得动」的甜点位，这大概是它下载量爆炸的原因。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 27781427952,
+      "weightsBytes": 55615875685,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 4720763,
+      "likes": 13489,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "qwen3-6-27b",
+    "changes": [
+      "发布 Qwen3.8-27B：27B 稠密模型，原生支持图像与视频理解，可理解小时级长视频",
+      "上下文原生 262,144 tokens，最长可扩展至 1,000,000 tokens",
+      "思考模式默认开启且可按请求关闭，可用 reasoning_effort 调节推理深度",
+      "官方称 SWE-bench Pro 得分 61.7，高于 Qwen3.6-27B 的 53.5",
+      "官方称 DeepSWE 1.1 得分 42.2，上代 Qwen3.6-27B 仅 13.3",
+      "Qwen Cloud 托管版即将上线，默认 1M 上下文并内置官方工具"
+    ]
+  },
+  {
+    "id": "seedrealtime",
+    "name": "SeedRealtime",
+    "org": "字节跳动 Seed",
+    "date": "2026-08-05",
+    "url": "https://seed.bytedance.com/blog/seedrealtime-audio-visual-full-duplex-llm-released-toward-omni-modal-natural-interaction",
+    "note": "音视频全双工大模型。「全双工」指边听边说、可被打断 —— 这是语音助手从「录完再答」走向自然对话的关键一步。",
+    "tags": [
+      "闭源 API",
+      "语音",
+      "多模态"
+    ],
+    "changes": [
+      "发布原生音视频全双工大模型SeedRealtime，统一架构融合音频、视频与文本",
+      "音视频联合理解：结合场景消解同音词歧义，理解视觉中的时序指代",
+      "主动交互：察觉画面状态变化（如关键目标出现）时主动提醒，可调用工具",
+      "轮次判断不再依赖外置VAD，由模型基于多模态信息持续决策接话时机",
+      "官方称端到端人工评测显示，相比级联模型对话节奏问题减少一半",
+      "已在豆包App全量上线，最新版对话框选择\"打电话\"进入视频通话即可体验"
+    ]
+  },
+  {
+    "id": "deepseek-v4-flash-0731",
+    "name": "DeepSeek-V4-Flash-0731",
+    "org": "DeepSeek",
+    "date": "2026-07-31",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731",
+    "note": "V4-Flash 的 7 月迭代版，MIT 许可，456 万次下载 —— 下载量和 Qwen3.8-27B 一个量级。MIT 意味着商用和二次分发几乎没有限制。",
+    "tags": [
+      "开源权重",
+      "MIT"
+    ],
+    "specs": {
+      "params": 304180418494,
+      "weightsBytes": 166888735421,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 256,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.19348",
+      "downloads": 4561861,
+      "likes": 3843,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "deepseek-v4-flash",
+    "changes": [
+      "DeepSeek-V4-Flash-0731 正式发布，取代 Preview 预览版，官方称智能体能力大幅增强",
+      "官方称 Terminal Bench 2.1 由 61.8 升至 82.7、DeepSWE 由 7.3 升至 54.4，超过 DeepSeek-V4-Pro (Preview)",
+      "reasoning_effort 参数新增 low、high、max 三档，控制模型回答前的思考量",
+      "沿用 DeepSeek-V4-Flash-DSpark 结构，自带投机解码模块，vLLM 和 SGLang 一条参数即可开启",
+      "本版不含 Jinja 聊天模板，改用 encoding 文件夹中的 Python 脚本编解码 OpenAI 格式消息",
+      "官方建议 high 和 max 推理档最大输出长度设为 384K tokens，temperature 设为 1.0"
+    ]
+  },
+  {
+    "id": "seedance-2-5",
+    "name": "Seedance 2.5",
+    "org": "字节跳动 Seed",
+    "date": "2026-07-31",
+    "url": "https://seed.bytedance.com/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+    "note": "视频生成模型，官方主打「一镜成片、随心参考」。Seedance 是豆包背后的视频线，从 2.0（2 月）到 2.5 只隔了五个多月。",
+    "tags": [
+      "闭源 API",
+      "视频生成"
+    ],
+    "prev": "seedance-2-0",
+    "changes": [
+      "单次视频生成时长从15秒提升至30秒，支持多轮延长，可生成数分钟连贯内容",
+      "多模态参考升级，单次最多可输入30张图片、10段视频、10段音频作为参考素材",
+      "支持时间戳精准控制与定向编辑，强化绿幕编辑、视角与运镜编辑、参考编辑",
+      "白模参考可用无纹理3D模型搭建空间结构与运镜，并增强光源方向、色温、阴影等光照控制",
+      "官方称画质、音质与运动质量大幅优化，弱化了视频生成中常见的「油腻感」",
+      "已陆续上线即梦AI、豆包专业版，API服务将于近期上线火山方舟"
+    ]
+  },
+  {
+    "id": "nemotron-voicechat-11b",
+    "name": "NemotronLabs-VoiceChat-11B",
+    "org": "NVIDIA",
+    "date": "2026-07-29",
+    "url": "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B",
+    "note": "语音对话模型，11B。下载量只有 3400 —— 语音这条线的社区规模比文本小得多，遇到问题能搜到的资料也少。",
+    "tags": [
+      "开源权重",
+      "语音"
+    ],
+    "specs": {
+      "params": 11095371252,
+      "weightsBytes": 44411750825,
+      "contextTokens": null,
+      "architecture": null,
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "F32",
+      "license": "openmdw-1.1",
+      "languages": [
+        "en"
+      ],
+      "modality": null,
+      "arxiv": "2410.17196",
+      "downloads": 3430,
+      "likes": 447,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "11B端到端全双工语音模型，单一架构完成语音理解与生成，取代ASR→LLM→TTS级联",
+      "官方称为首个支持工具调用的开源全双工模型，可为每个工具定义on-hold等待提示语",
+      "官方称轮流响应延迟约450ms，支持barge-in打断，打断场景TOR为1",
+      "官方称VoiceBench与Full-Duplex-Bench 1.0均列开源模型第2",
+      "AU Harness BFCL-v3语音工具调用平均得分56.1%",
+      "Full-Duplex-Bench v3工具选择准确率82.5%，Pass@1为33%"
+    ]
+  },
+  {
+    "id": "lfm2-5-2-6b",
+    "name": "LFM2.5-2.6B",
+    "org": "Liquid AI",
+    "date": "2026-07-28",
+    "url": "https://huggingface.co/LiquidAI/LFM2.5-2.6B",
+    "note": "2.6B 的小模型，19.8 万次下载。这个尺寸的意义是能在普通笔记本甚至手机上离线跑 —— 对没有 API 预算、或者需要处理不能上传的材料的人，小模型是唯一的选项。",
+    "tags": [
+      "开源权重",
+      "小模型",
+      "可本地部署"
+    ],
+    "specs": {
+      "params": 2697198592,
+      "weightsBytes": 5412333054,
+      "contextTokens": 131072,
+      "architecture": "lfm2",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "other",
+      "languages": [
+        "ar",
+        "zh",
+        "en",
+        "fr",
+        "de",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pl",
+        "pt",
+        "ru",
+        "es",
+        "th",
+        "vi"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2511.23404",
+      "downloads": 198253,
+      "likes": 722,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布端侧模型 LFM2.5-2.6B：2.69B 参数、30 层混合架构，上下文 128K",
+      "官方称工具使用、指令遵循与多步智能体任务表现可媲美 4 倍大的模型",
+      "官方称 M5 Max 上推理 220 tok/s、Ryzen CPU 上 113 tok/s",
+      "预训练约 34 万亿 tokens，后训练含两轮 SFT、多领域在线蒸馏与智能体强化学习",
+      "同步推出 328M 推测解码草稿模型 DSpark，官方称解码提速约 2.6 倍且输出不变",
+      "提供 GGUF、ONNX、MLX 等版本，支持 vLLM、SGLang、llama.cpp 部署"
+    ]
+  },
+  {
+    "id": "minimax-h3",
+    "name": "MiniMax-H3",
+    "org": "MiniMax",
+    "date": "2026-07-28",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3",
+    "note": "图生视频模型，累计 530 万次下载 —— 视频生成方向里下载量最大的一条。这条线更新极快，写进周报时务必标版本和日期。",
+    "tags": [
+      "开源权重",
+      "视频生成"
+    ],
+    "specs": {
+      "params": 33122992896,
+      "weightsBytes": 354016018214,
+      "contextTokens": null,
+      "architecture": null,
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-video",
+      "arxiv": null,
+      "downloads": 5362365,
+      "likes": 4713,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "MiniMax-H3 支持文本、图像、视频、音频统一输入，生成最高 2K、最长 15 秒的立体声视频",
+      "输出规格：24 FPS 帧率、32 kHz 立体声，短边默认 768p，支持 21:9 至 9:16 多种宽高比",
+      "稳定支持 11 种对话语言，含中、英、日、韩、法、德、意、葡、俄、西、阿",
+      "双变体 H3-Base-FL2VA 与 H3-Base-Ref2VA，后者支持最多 9 图、3 视频、3 音频参考",
+      "主干为 33B 单流 Transformer，文本/视觉编码器用 Qwen3-VL-32B 预训练权重",
+      "完整权重已开源支持微调；H3-Context-IR 与稀疏注意力实现未包含在本次发布"
+    ]
+  },
+  {
+    "id": "claude-opus-5",
+    "name": "Claude Opus 5",
+    "org": "Anthropic",
+    "date": "2026-07-24",
+    "url": "https://www.anthropic.com/news/claude-opus-5",
+    "note": "Anthropic 当前的主力模型。Opus 档是能力优先、价格也最高的一档；4.5→4.6→4.7→4.8→5 这条线在 2025-11 到 2026-07 之间迭代了五次，节奏比任何一家都快。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-opus-4-8",
+    "changes": [
+      "成为 Claude Max 默认模型与 Claude Pro 最强模型，价格约为 Fable 5 一半",
+      "官方称 Frontier-Bench v0.1 成绩超 Opus 4.8 两倍多且成本更低",
+      "CursorBench 3.2 满档成绩官方称距 Fable 5 峰值不足 0.5%，成本减半",
+      "官方称 ARC-AGI 3 得分达次优模型三倍，GDPval-AA 等知识工作基准亦为最佳",
+      "OSWorld 2.0 上官方称以 Fable 5 约三分之一成本超过其最佳成绩",
+      "有机化学任务官方称较 Opus 4.8 高 10.2 个百分点，蛋白质功能预测高 7.7 个百分点"
+    ]
+  },
+  {
+    "id": "gemini-3-6-flash",
+    "name": "Gemini 3.6 Flash / 3.5 Flash-Lite / 3.5 Flash Cyber",
+    "org": "Google DeepMind",
+    "date": "2026-07-21",
+    "url": "https://deepmind.google/blog/introducing-gemini-3-6-flash-3-5-flash-lite-and-3-5-flash-cyber/",
+    "note": "一次公告里同时发了三个 Flash 变体。命名越来越细意味着选型成本越来越高 —— 用之前先看清楚自己调的到底是哪一个。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gemini-3-flash",
+    "changes": [
+      "官方称3.6 Flash输出token用量比3.5 Flash减少17%，DeepSWE任务最高降65%",
+      "3.6 Flash定价$1.50/1M输入token、$7.50/1M输出token",
+      "官方称3.5 Flash-Lite为3.5系列最快，每秒输出350 token",
+      "3.5 Flash-Lite定价$0.3/1M输入、$2.5/1M输出token",
+      "3.5 Flash Cyber专攻漏洞修复，仅经CodeMender向政府等限量开放",
+      "官方宣布已启动Gemini 4预训练，3.5 Pro正与合作方测试"
+    ]
+  },
+  {
+    "id": "seed-audio-1-0",
+    "name": "Seed Audio 1.0",
+    "org": "字节跳动 Seed",
+    "date": "2026-07-20",
+    "url": "https://seed.bytedance.com/blog/from-speech-to-audio-creation-introducing-the-seed-audio-1-0-audio-creation-model",
+    "note": "音频创作模型，官方口径是从「会说」走向「会创作」—— 即从语音合成扩展到音乐与音效生成。",
+    "tags": [
+      "闭源 API",
+      "语音",
+      "音乐生成"
+    ],
+    "changes": [
+      "发布音频创作模型 Seed Audio 1.0，统一框架联合建模人声、音效与环境声",
+      "一条 prompt 编排带情绪的对白、音效与环境声，进场时间控制精度 100ms",
+      "支持零样本生成，可用文本或参考音频控制音色，单次生成约 2 分钟并可延长",
+      "支持 20+ 语种音频生成，含中文、英文、日语、韩语、西班牙语、印尼语等",
+      "官方称多数场景音频可用率达 90% 以上，多语言音频自然度 MOS 超 4 分",
+      "已上线火山方舟体验中心，支持专题叙事、剧情对话、主播互动等场景"
+    ]
+  },
+  {
+    "id": "fara1-5-27b",
+    "name": "Fara1.5-27B",
+    "org": "Microsoft",
+    "date": "2026-07-17",
+    "url": "https://huggingface.co/microsoft/Fara1.5-27B",
+    "note": "27B 多模态，MIT 许可。下载量 2188，属于「发布了但社区还没用起来」的状态。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "MIT"
+    ],
+    "specs": {
+      "params": 27356728560,
+      "weightsBytes": 54733595583,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "mit",
+      "languages": [
+        "en"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": "2606.20785",
+      "downloads": 2188,
+      "likes": 288,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "微软发布浏览器操作智能体 Fara1.5-27B，基于 Qwen3.5-27B 微调，MIT 许可开源",
+      "纯视觉感知，仅凭浏览器截图操作，直接输出像素级点击坐标，无需访问 DOM 或独立定位模型",
+      "官方称内置关键点安全设计，遇支付、提交表单、登录等不可逆操作会暂停并请用户确认",
+      "上下文 262,144 tokens，可容纳多张截图与完整动作历史的长任务轨迹",
+      "官方称 WebVoyager 得分 89.3、Online-Mind2Web 得分 72.3",
+      "推荐搭配 MagenticLite 部署，提供 Docker 沙箱、域名白名单、实时监控与随时暂停"
+    ]
+  },
+  {
+    "id": "shieldstral-1-0-3b",
+    "name": "Shieldstral-1.0-3B",
+    "org": "Mistral AI",
+    "date": "2026-07-16",
+    "url": "https://huggingface.co/mistralai/Shieldstral-1.0-3B",
+    "note": "3B 的安全护栏模型，Apache 许可 —— 不是用来聊天的，是用来给别的模型的输入输出做审查的。做面向同学的 AI 工具时，这类模型是绕不开的一环。",
+    "tags": [
+      "开源权重",
+      "小模型",
+      "安全",
+      "Apache"
+    ],
+    "specs": {
+      "params": 3849090048,
+      "weightsBytes": 15429828466,
+      "contextTokens": 262144,
+      "architecture": "mistral3",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "en",
+        "fr",
+        "es",
+        "de",
+        "it",
+        "pt",
+        "nl",
+        "zh",
+        "ja",
+        "ko",
+        "ar",
+        "ru"
+      ],
+      "modality": null,
+      "arxiv": "2607.25857",
+      "downloads": 20917,
+      "likes": 264,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布Shieldstral-1.0-3B：按自然语言安全策略打分的3B多模态安全分类器",
+      "审核策略以自然语言查询在推理时指定，同一检查点无需重训即可适配新策略",
+      "同一接口审核纯文本、纯图像与图文混合内容，单次前向传播输出yes/no置信分",
+      "官方称VLGuard上F1达97.7、UnsafeBench上达81.8，均列所测模型第一",
+      "支持英、法、德、西、中、日、韩等12种语言，训练上下文32k tokens",
+      "Apache 2.0协议开放权重可商用，BF16精度下16GB显存单卡即可部署"
+    ]
+  },
+  {
+    "id": "gpt-red",
+    "name": "GPT-Red",
+    "org": "OpenAI",
+    "date": "2026-07-15",
+    "url": "https://openai.com/index/unlocking-self-improvement-gpt-red",
+    "note": "官方标题为「Unlocking Self-Improvement for Robustness」，方向是模型的自我改进与鲁棒性。具体能力需读原文。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "OpenAI训练内部专用红队模型GPT-Red，以自我对弈强化学习规模化发现提示注入漏洞",
+      "GPT-Red参与对抗训练GPT-5.6 Sol，官方称其最难直接提示注入基准失败减少6倍",
+      "官方称在间接提示注入竞技场测试中，GPT-Red攻击成功场景占84%，人类红队仅13%",
+      "官方称GPT-Red攻破售货机代理Vendy，实现改价至$0.50、取消订单等三项目标",
+      "官方称GPT-5.6 Sol面对GPT-Red直接提示注入的失败率仅0.05%",
+      "官方称在10个数据外泄场景中，GPT-Red攻破Codex代理的效率优于GPT-5.5基线"
+    ]
+  },
+  {
+    "id": "gpt-5-6",
+    "name": "GPT-5.6",
+    "org": "OpenAI",
+    "date": "2026-07-09",
+    "url": "https://openai.com/index/gpt-5-6",
+    "note": "GPT-5 世代的主力迭代。官方标题口径是「随野心扩展的前沿智能」；后续陆续放出 Sol、Luna、Ultrafast 等变体，选型时要写清具体是哪一个。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gpt-5-5",
+    "changes": [
+      "发布GPT-5.6系列：旗舰Sol、均衡款Terra、低价款Luna，已全面开放",
+      "官方称Sol在Agents' Last Exam得53.6分，比Fable 5高13.1分",
+      "新增ultra最高档位，默认并行协调4个智能体，加速完成复杂任务",
+      "官方称Sol在Artificial Analysis编码智能体指数获80分，刷新SOTA",
+      "新增Programmatic Tool Calling，支持模型编写程序协调工具与过滤数据",
+      "上线后Luna降价80%、Terra降价20%，Sol的API价格也下调超20%"
+    ]
+  },
+  {
+    "id": "gpt-live",
+    "name": "GPT-Live",
+    "org": "OpenAI",
+    "date": "2026-07-08",
+    "url": "https://openai.com/index/introducing-gpt-live",
+    "note": "官方公告标题为「Introducing GPT-Live」。具体能力和定价需回官方公告核对。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "OpenAI发布新一代语音模型GPT-Live，采用全双工架构，可同时听和说",
+      "GPT-Live-1和GPT-Live-1 mini今日起向全球ChatGPT用户开放",
+      "需要搜索或深度推理时，GPT-Live会把任务委托给后台的GPT-5.5，对话不中断",
+      "官方称GPT-Live-1在GPQA科学推理和BrowseComp网页搜索基准上优于前代",
+      "GPT-Live-1为付费用户默认语音模型，免费用户默认GPT-Live-1 mini",
+      "ChatGPT语音对话中可展示天气、股票、体育等可视化卡片，并优化了九个音色"
+    ]
+  },
+  {
+    "id": "seedream-5-0-pro",
+    "name": "Seedream 5.0 Pro",
+    "org": "字节跳动 Seed",
+    "date": "2026-07-08",
+    "url": "https://seed.bytedance.com/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro",
+    "note": "图像生成模型的 Pro 档，官方强调「更懂设计」而不只是生成。Seedream 是豆包背后的图像线。",
+    "tags": [
+      "闭源 API",
+      "图像生成"
+    ],
+    "prev": "seedream-5-0-lite",
+    "changes": [
+      "字节 Seed 发布多模态图像创作模型 Seedream 5.0 Pro，上线火山方舟体验中心，将陆续登陆豆包、即梦",
+      "官方称可单次生成融合时间轴、柱状图、饼图、折线图的高密度信息图，密集文字无错漏",
+      "新增交互式精准编辑：点选、圈选、草图渲染、色彩与材质替换、图层分离、多图融合可自由组合",
+      "支持输入 Hex 色卡值或参考外部色卡控制颜色，并同步替换对象材质",
+      "图层智能拆分可将完整海报拆为文字、主体、背景等十余个独立图层，并补全被遮挡的背景区域",
+      "原生支持法语、德语、俄语、日语、韩语、西班牙语、阿拉伯语等十余种语言的直接输入与生成"
+    ]
+  },
+  {
+    "id": "hy3",
+    "name": "Hunyuan Hy3",
+    "org": "腾讯",
+    "date": "2026-07-02",
+    "url": "https://huggingface.co/tencent/Hy3",
+    "note": "混元 Hy3 正式版，Apache 许可。8 月的 Hy4 Preview 就是从这一代往上走的 —— 两个月一大版，这个节奏本身值得记录。",
+    "tags": [
+      "开源权重",
+      "Apache"
+    ],
+    "specs": {
+      "params": 298786155776,
+      "weightsBytes": 597584438620,
+      "contextTokens": 262144,
+      "architecture": "hy_v3",
+      "experts": 192,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": null,
+      "downloads": 11680,
+      "likes": 961,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布 295B 参数 MoE 模型 Hy3，激活参数 21B，上下文长度 256K",
+      "开源 Hy3 与 Hy3-FP8 权重，上线 Hugging Face、ModelScope 等平台",
+      "官方称 270 名专家盲评得分 2.67/4，高于 GLM-5.1 的 2.51/4",
+      "官方称 SWE-Bench Verified 跨 CodeBuddy 等脚手架准确率波动小于 4%",
+      "官方称内部评测幻觉率从 12.5% 降至 5.4%，常识错误率从 25.4% 降至 12.7%",
+      "官方称内部多轮测试问题率从 17.4% 降至 7.9%，长对话评测 MRCR 明显改善"
+    ]
+  },
+  {
+    "id": "claude-sonnet-5",
+    "name": "Claude Sonnet 5",
+    "org": "Anthropic",
+    "date": "2026-06-30",
+    "url": "https://www.anthropic.com/news/claude-sonnet-5",
+    "note": "Sonnet 档是能力与成本的平衡位，通常也是各家 API 里性价比最合适的默认选择。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-sonnet-4-6",
+    "changes": [
+      "全方案上线，Free/Pro 默认模型，API 型号 claude-sonnet-5",
+      "定价 $2/百万输入、$10/百万输出 token，后转为永久定价",
+      "官方称 BrowseComp、OSWorld-Verified 成绩严格优于 Sonnet 4.6",
+      "官方称高努力档可匹敌 Opus 4.8，支持调节 effort 平衡成本与性能",
+      "未专门训练网络安全能力，官方称其远弱于 Opus 4.8，默认开启实时拦截防护",
+      "改用新 tokenizer，相同输入 token 数约增至 1.0–1.35 倍"
+    ]
+  },
+  {
+    "id": "tabfm-1-0",
+    "name": "TabFM 1.0",
+    "org": "Google DeepMind",
+    "date": "2026-06-29",
+    "url": "https://huggingface.co/google/tabfm-1.0.0-pytorch",
+    "note": "表格数据的基础模型 —— 不是聊天模型。做数据分析类项目时，这类专门模型往往比让通用大模型硬算靠谱。",
+    "tags": [
+      "开源权重",
+      "数据分析"
+    ],
+    "specs": {
+      "params": null,
+      "weightsBytes": 26298740814,
+      "contextTokens": null,
+      "architecture": "tabfm",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": null,
+      "license": "other",
+      "languages": null,
+      "modality": "tabular-classification",
+      "arxiv": null,
+      "downloads": 39307,
+      "likes": 457,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "Google 发布零样本表格基础模型 TabFM 1.0，无需微调即可处理分类与回归任务",
+      "官方称在 TabArena 51 个数据集上，零样本单步推理超过深度调参的梯度提升树等基线",
+      "训练数据全部为数亿个由结构因果模型（SCM）动态生成的合成数据集",
+      "同时发布 PyTorch 与 JAX/Flax 权重，权重限非商业使用，代码为 Apache 2.0",
+      "分类最多支持 10 类（硬性架构限制），针对最多 500 特征的表格优化",
+      "官方称 ensemble() 预设（特征交叉、SVD、NNLS 混合）能进一步提升效果"
+    ]
+  },
+  {
+    "id": "deepseek-v4-dspark",
+    "name": "DeepSeek-V4-Pro-DSpark / V4-Flash-DSpark",
+    "org": "DeepSeek",
+    "date": "2026-06-27",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark",
+    "note": "V4 系列的 DSpark 变体，Pro 和 Flash 同日发布。DeepSeek 的版本命名分支较多，引用时务必带全后缀。",
+    "tags": [
+      "开源权重",
+      "MIT"
+    ],
+    "specs": {
+      "params": 1650497936906,
+      "weightsBytes": 892755974486,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 384,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.19348",
+      "downloads": 4201,
+      "likes": 541,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "V4-Pro参数1.6T/激活49B，V4-Flash为284B/13B，上下文均达1M",
+      "官方称CSA+HCA混合注意力将1M推理FLOPs降至V3.2的27%、KV缓存降至10%",
+      "官方称V4-Pro-Max在LiveCodeBench以93.5分居所列模型首位",
+      "两款模型均提供Non-think、Think High、Think Max三档推理模式",
+      "DSpark版并非新模型，而是同一检查点外接投机解码模块",
+      "已在HuggingFace与ModelScope开源，采用MIT许可证"
+    ]
+  },
+  {
+    "id": "gpt-5-6-sol",
+    "name": "GPT-5.6 Sol",
+    "org": "OpenAI",
+    "date": "2026-06-26",
+    "url": "https://openai.com/index/previewing-gpt-5-6-sol",
+    "note": "GPT-5.6 的一个变体，2026-06-26 以预览形式先放出，早于 GPT-5.6 正式发布（07-09）。8 月又发了 Ultrafast 模式，官方称速度最高 14 倍。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "GPT-5.6 系列分三档：旗舰 Sol、均衡 Terra（官方称比 GPT-5.5 便宜 2 倍）、低价 Luna",
+      "新增 max 推理档位，另推 ultra 模式，可调用子智能体加速复杂任务",
+      "官方称 Sol 在 Terminal-Bench 2.1 命令行工作流基准上刷新 SOTA",
+      "官方称 Sol 在 GeneBench v1 基因组分析上超越 GPT-5.5 且 token 消耗更少",
+      "官方称 Sol 在 ExploitBench 上仅用约 1/3 输出 token 即媲美 Mythos Preview",
+      "应美国政府要求先向小范围受信合作伙伴限量预览，数周内再广泛发布"
+    ]
+  },
+  {
+    "id": "mistral-ocr-4",
+    "name": "Mistral OCR 4",
+    "org": "Mistral AI",
+    "date": "2026-06-23",
+    "url": "https://mistral.ai/news/ocr-4/",
+    "note": "专做文档识别。把 PDF 扫描件、拍照的讲义转成可搜索文字，是学生高频需求 —— 这条线值得和百度的 Unlimited-OCR、Qianfan-OCR 一起横评。",
+    "tags": [
+      "闭源 API",
+      "OCR"
+    ],
+    "changes": [
+      "新增边界框定位、块类型分类（标题、表格、公式、签名等）及逐页逐词置信度分数输出",
+      "支持 170 种语言、10 个语组，官方称在低资源和专业语言上优势最明显",
+      "官方称人工盲评平均胜率 72%，并在 OlmOCRBench 以 85.20 分居首",
+      "模型可单容器自托管部署，面向企业客户，满足数据驻留与合规需求",
+      "API 定价每千页 4 美元，Batch API 五折后 2 美元，Document AI 每千页 5 美元",
+      "已集成进开源搜索框架 Search Toolkit（公共预览），输出可直接接入 RAG 检索管线"
+    ]
+  },
+  {
+    "id": "seed-2-1",
+    "name": "Seed 2.1",
+    "org": "字节跳动 Seed",
+    "date": "2026-06-23",
+    "url": "https://seed.bytedance.com/blog/seed2-1-officially-released-advancing-ai-productivity",
+    "note": "Seed 基础模型的迭代版 —— 这条线就是豆包对话能力的底座。距 2.0 发布四个月。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "seed-2-0",
+    "changes": [
+      "豆包、TRAE 与火山引擎上线 Doubao-Seed-2.1-Pro 和 Turbo 型号",
+      "官方称 Seed2.1 Pro 在 GDPval 基准获得最高分",
+      "官方称 Seed2.1 在 MobileWorld 获最高分，OSWorld 平均步数减少 16%",
+      "官方称众测评估中 Seed2.1 Pro 相比 Claude Opus 4.6 胜率 59.1%",
+      "Preview 版在 Code Arena: Frontend 榜单以 1539 分排名第 8",
+      "官方称 Seed2.1 Pro 在 CharXiv-RQ、ERQA 等视觉基准取得最高分"
+    ]
+  },
+  {
+    "id": "qwen-agentworld-35b",
+    "name": "Qwen-AgentWorld-35B-A3B",
+    "org": "阿里通义",
+    "date": "2026-06-22",
+    "url": "https://huggingface.co/Qwen/Qwen-AgentWorld-35B-A3B",
+    "note": "面向智能体场景的 MoE（35B 总参 / 3B 激活），Apache 许可。3B 激活意味着推理开销接近小模型。",
+    "tags": [
+      "开源权重",
+      "智能体",
+      "MoE",
+      "Apache"
+    ],
+    "specs": {
+      "params": 34660610688,
+      "weightsBytes": 69334122558,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5_moe",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.24597",
+      "downloads": 72612,
+      "likes": 709,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "阿里通义发布 Qwen-AgentWorld-35B-A3B，用语言世界模型模拟智能体环境、预测动作后的下一状态",
+      "单模型统一覆盖 MCP、Search、Terminal、SWE、Android、Web、OS 七个交互域，含文本与 GUI 环境",
+      "采用 CPT→SFT→RL（GSPO）三阶段训练，从 CPT 起即以环境建模为训练目标",
+      "35B 总参数、3B 激活，256 专家 MoE，上下文 262,144 tokens",
+      "官方称 AgentWorldBench 总分 56.39，较基座 Qwen3.5-35B-A3B 的 47.73 提升，397B 版 58.71 超 GPT-5.4",
+      "Apache 2.0 开源，支持 Transformers、vLLM、SGLang 部署，官方称可零样本泛化到 OpenClaw 等域外环境"
+    ]
+  },
+  {
+    "id": "baidu-unlimited-ocr",
+    "name": "Unlimited-OCR",
+    "org": "百度",
+    "date": "2026-06-19",
+    "url": "https://huggingface.co/baidu/Unlimited-OCR",
+    "note": "MIT 许可的 OCR 模型，310 万次下载、4163 likes —— 是这份时间线里最受欢迎的专用模型。对要处理大量中文扫描材料的人，这类专用模型比通用多模态模型更值得先试。",
+    "tags": [
+      "开源权重",
+      "OCR",
+      "多模态",
+      "MIT"
+    ],
+    "specs": {
+      "params": 3336106240,
+      "weightsBytes": 6767737257,
+      "contextTokens": 32768,
+      "architecture": "unlimited-ocr",
+      "experts": 64,
+      "expertsPerToken": 6,
+      "precision": "BF16",
+      "license": "mit",
+      "languages": [
+        "multilingual"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": "2606.23050",
+      "downloads": 3107972,
+      "likes": 4163,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "qianfan-ocr",
+    "changes": [
+      "百度发布 Unlimited-OCR，官方称在 Deepseek-OCR 基础上进一步推进长文档解析",
+      "支持多页与 PDF 一次性长文档解析，推理上下文长度达 32768",
+      "单图提供 gundam 与 base 两种推理配置，多页及 PDF 模式仅支持 base",
+      "已支持 vLLM、SGLang 与 Transformers 推理，并提供官方 Docker 镜像",
+      "模型上线 ModelScope 与百度云，Hugging Face Spaces 提供在线 demo",
+      "新增 ms-swift 训练支持，模型以 MIT 协议开源"
+    ]
+  },
+  {
+    "id": "glm-5-2",
+    "name": "GLM-5.2",
+    "org": "Z.ai（智谱）",
+    "date": "2026-06-16",
+    "url": "https://huggingface.co/zai-org/GLM-5.2",
+    "note": "MIT 许可，155 万次下载。GLM 从 5.1（4 月）到 5.2（6 月）再到 5.3（8 月），基本是两个月一代。",
+    "tags": [
+      "开源权重",
+      "中文",
+      "MIT"
+    ],
+    "specs": {
+      "params": 753329940480,
+      "weightsBytes": 1506689458421,
+      "contextTokens": 1048576,
+      "architecture": "glm_moe_dsa",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "mit",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2602.15763",
+      "downloads": 1552546,
+      "likes": 5064,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "glm-5-1",
+    "changes": [
+      "首次支持稳定的 1M token 上下文，官方称可稳定支撑长周期任务",
+      "新增多档思考力度（thinking effort）调节，官方称可平衡编码性能与延迟",
+      "提出 IndexShare 架构，四个稀疏注意力层共享索引器，1M 上下文 FLOPs 降 2.9×",
+      "改进 MTP 层用于投机解码，接受长度最高提升 20%",
+      "官方称 SWE-bench Pro 得分 62.1、AIME 2026 达 99.2，高于 GLM-5.1",
+      "以 MIT 协议开源，支持 SGLang、vLLM、Transformers 及 Ascend NPU 部署"
+    ]
+  },
+  {
+    "id": "kimi-k3",
+    "name": "Kimi-K3",
+    "org": "Moonshot AI（月之暗面）",
+    "date": "2026-06-13",
+    "url": "https://huggingface.co/moonshotai/Kimi-K3",
+    "note": "多模态，279 万次下载、1.1 万 likes —— 中文开放权重模型里社区反响最强的一条之一。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "中文"
+    ],
+    "specs": {
+      "params": 2779931837184,
+      "weightsBytes": 1561018243668,
+      "contextTokens": 1048576,
+      "architecture": "kimi_k3",
+      "experts": 896,
+      "expertsPerToken": null,
+      "precision": "U8",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 2792274,
+      "likes": 11120,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "kimi-k2-6",
+    "changes": [
+      "发布 2.8T 参数开源模型 Kimi K3，激活参数 104B，896 个专家每 token 激活 16 个",
+      "基于 Kimi Delta Attention 与 Attention Residuals 新架构",
+      "官方称 Stable LatentMoE 使整体扩展效率较 Kimi K2 提升约 2.5 倍",
+      "原生多模态支持文本、图像、视频，视觉编码器 MoonViT-V2 为 401M 参数",
+      "上下文窗口达 100 万 token，权重按 Kimi K3 License 全量开源",
+      "官方称 GPQA Diamond 得 93.5、AA-LCR 得 74.7、DeepSWE 得 67.5"
+    ]
+  },
+  {
+    "id": "kimi-k2-7-code",
+    "name": "Kimi-K2.7-Code",
+    "org": "Moonshot AI（月之暗面）",
+    "date": "2026-06-11",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2.7-Code",
+    "note": "代码方向的专门版本。做编程项目时，专用代码模型和通用模型的差距值得自己测一轮再下结论。",
+    "tags": [
+      "开源权重",
+      "代码",
+      "中文"
+    ],
+    "specs": {
+      "params": 1026879376368,
+      "weightsBytes": 595204651032,
+      "contextTokens": 262144,
+      "architecture": "kimi_k25",
+      "experts": 384,
+      "expertsPerToken": 8,
+      "precision": "I32",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 229309,
+      "likes": 1376,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "kimi-k2-6",
+    "changes": [
+      "官方称 Kimi-K2.7-Code 思考 token 用量较 K2.6 减少约 30%",
+      "采用 1T 总参数、32B 激活的 MoE 架构，上下文长度 256K",
+      "官方称 Kimi Code Bench v2 得分 62.0，高于前代 K2.6 的 50.9",
+      "官方称 MCP Mark Verified 得分 81.1、MCP Atlas 得分 76.0",
+      "采用与 Kimi-K2-Thinking 相同的原生 INT4 量化",
+      "支持图像与视频输入，视频对话为实验功能且仅限官方 API"
+    ]
+  },
+  {
+    "id": "gemma-4-12b",
+    "name": "Gemma 4 12B",
+    "org": "Google DeepMind",
+    "date": "2026-06-09",
+    "url": "https://deepmind.google/blog/introducing-gemma-4-12b-a-unified-encoder-free-multimodal-model/",
+    "note": "官方描述为「统一的、无编码器的多模态模型」（unified, encoder-free）。12B 尺寸配合 Gemma 一贯的开放许可，是学生能实际跑起来的多模态选项之一。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "可本地部署"
+    ],
+    "changes": [
+      "发布 Gemma 4 12B，为系列首款支持原生音频输入的中型模型",
+      "采用无编码器统一架构：视觉以单次矩阵乘法嵌入替代，音频编码器完全移除",
+      "官方称标准基准表现接近自家 26B MoE 模型，总内存占用不到其一半",
+      "可在仅 16GB 显存或统一内存的消费级笔记本上本地运行",
+      "以 Apache 2.0 许可开源，内置 MTP drafters 以降低推理延迟",
+      "同步发布官方 Skills Repository 技能库，供智能体基于 Gemma 模型构建"
+    ]
+  },
+  {
+    "id": "diffusiongemma-26b",
+    "name": "DiffusionGemma-26B-A4B",
+    "org": "Google DeepMind",
+    "date": "2026-06-09",
+    "url": "https://huggingface.co/google/diffusiongemma-26B-A4B-it",
+    "note": "扩散式语言模型（不是常见的自回归架构），Apache 许可，134 万次下载。架构路线上的分叉，值得当作「模型不只有一种做法」的教学案例。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "Apache"
+    ],
+    "specs": {
+      "params": 25823778864,
+      "weightsBytes": 51679870650,
+      "contextTokens": 262144,
+      "architecture": "diffusion_gemma",
+      "experts": 128,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 1339787,
+      "likes": 1198,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布DiffusionGemma-26B-A4B，基于Gemma 4架构改用离散扩散并行去噪生成文本，替代逐token自回归",
+      "总参数25.2B、激活3.8B，稀疏MoE为8活跃/128专家，上下文最长256K tokens",
+      "官方称单次前向传递生成15-20个token，H100 FP8低批量下单用户速度超1100 tokens/秒",
+      "支持文本、图像、视频交错输入并输出文本，视频最长60秒，图像支持可变宽高比与分辨率",
+      "内置Thinking推理模式与原生函数调用，开箱支持35+语言，预训练覆盖140+语言",
+      "官方基准MMLU Pro 77.6%、LiveCodeBench v6 69.1%，多数项目分数低于Gemma 4 26B A4B"
+    ]
+  },
+  {
+    "id": "scail-2",
+    "name": "SCAIL-2",
+    "org": "Z.ai（智谱）",
+    "date": "2026-06-09",
+    "url": "https://huggingface.co/zai-org/SCAIL-2",
+    "note": "视频生成方向，MIT 许可。下载量 4243，还处在早期。",
+    "tags": [
+      "开源权重",
+      "视频生成",
+      "MIT"
+    ],
+    "specs": {
+      "params": null,
+      "weightsBytes": 82457219401,
+      "contextTokens": null,
+      "architecture": null,
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": null,
+      "license": "mit",
+      "languages": null,
+      "modality": "image-to-video",
+      "arxiv": "2606.10804",
+      "downloads": 4243,
+      "likes": 331,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "开源端到端可控角色动画模型，用驱动视频驱动参考角色，摆脱骨骼图等中间姿态表示",
+      "支持角色替换与多角色场景，官方称涌现出跨身份替换、动物驱动等能力",
+      "零样本支持 SAM3D-Body 网格渲染等高级控制中间表示",
+      "用 SCAIL-Preview、Wan-Animate、MoCha 合成 60K 运动对训练",
+      "端到端驱动支持 512p 与 704p，官方称姿态驱动与替换在 704p 效果更好",
+      "检查点内置 Wan VAE 与 T5，以 MIT 协议开源"
+    ]
+  },
+  {
+    "id": "claude-fable-5-mythos-5",
+    "name": "Claude Fable 5 与 Claude Mythos 5",
+    "org": "Anthropic",
+    "date": "2026-06-09",
+    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "note": "Opus 之外的另一条产品线，同日发布两个型号。命名从数字档位转向代号，说明产品线在分叉 —— 引用时务必写全名。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "发布 Claude Fable 5 与 Mythos 5，前者面向公众，后者面向少数网络防御者",
+      "Fable 5 对敏感话题改由 Opus 4.8 代答，官方称平均不到 5% 的会话会触发",
+      "官方称 Fable 5 在 FrontierCode、Hebbia 金融基准等评测中得分最高",
+      "Stripe 报告称 Fable 5 一天完成 5000 万行 Ruby 代码库迁移，人工需两个多月",
+      "官方称 Mythos 5 让部分药物设计提速约 10 倍，14 个蛋白靶点中 9 个得到强候选",
+      "每百万输入 token 10 美元、输出 50 美元，定价不及 Mythos Preview 的一半"
+    ]
+  },
+  {
+    "id": "north-mini-code-1-0",
+    "name": "North-Mini-Code 1.0",
+    "org": "Cohere",
+    "date": "2026-06-05",
+    "url": "https://huggingface.co/CohereLabs/North-Mini-Code-1.0",
+    "note": "面向代码的小模型。代码专用小模型这条线值得和 Kimi-K2.7-Code、GPT-5.3-Codex 一起测。",
+    "tags": [
+      "开源权重",
+      "代码",
+      "小模型"
+    ],
+    "changes": [
+      "Cohere 开源代码模型 North-Mini-Code-1.0，30B 总参、3B 激活",
+      "上下文 256K、最大输出 64K，以 Apache 2.0 协议开放权重",
+      "稀疏 MoE 架构含 128 个专家，每 token 激活 8 个",
+      "后训练为两阶段级联 SFT 加 RLVR，聚焦智能体编程",
+      "针对智能体编程训练了工具调用，官方称开启交错思考时表现最佳",
+      "可在 OpenCode 和 Hugging Face Space 试用，支持 vLLM 本地部署"
+    ]
+  },
+  {
+    "id": "minimax-m3",
+    "name": "MiniMax-M3",
+    "org": "MiniMax",
+    "date": "2026-06-02",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3",
+    "note": "多模态，19.4 万次下载。",
+    "tags": [
+      "开源权重",
+      "多模态"
+    ],
+    "specs": {
+      "params": 427040140160,
+      "weightsBytes": 1708357470332,
+      "contextTokens": 1048576,
+      "architecture": "minimax_m3_vl",
+      "experts": 128,
+      "expertsPerToken": 4,
+      "precision": "BF16",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": "2606.13392",
+      "downloads": 194488,
+      "likes": 1514,
+      "fetchedAt": "2026-09-01"
+    },
+    "prev": "minimax-m2-7",
+    "changes": [
+      "发布MiniMax-M3：约428B总参数、约23B激活参数，上下文达1M",
+      "从第一步起混合模态训练，原生融合文本、图像、视频三种模态",
+      "推出稀疏注意力MSA，1M上下文下较M2预填充提速9倍、解码提速15倍",
+      "官方称在长周期智能体基准上达到前沿水平，编程与协作能力突出",
+      "通过thinking参数支持enabled、adaptive、disabled三种推理模式",
+      "已上线MiniMax Agent与API，可用SGLang、vLLM等框架本地部署"
+    ]
+  },
+  {
+    "id": "lfm2-5-8b-a1b",
+    "name": "LFM2.5-8B-A1B",
+    "org": "Liquid AI",
+    "date": "2026-05-28",
+    "url": "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B",
+    "note": "8B 总参 / 1B 激活的 MoE。这种「参数不小但激活很少」的设计是让小设备跑得动大模型的主流思路之一。",
+    "tags": [
+      "开源权重",
+      "小模型",
+      "MoE",
+      "可本地部署"
+    ],
+    "specs": {
+      "params": 8467856832,
+      "weightsBytes": 16971818099,
+      "contextTokens": 128000,
+      "architecture": "lfm2_moe",
+      "experts": 32,
+      "expertsPerToken": 4,
+      "precision": "BF16",
+      "license": "other",
+      "languages": [
+        "en",
+        "ar",
+        "zh",
+        "fr",
+        "de",
+        "ja",
+        "ko",
+        "es",
+        "pt",
+        "it"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2511.23404",
+      "downloads": 99989,
+      "likes": 749,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布 LFM2.5-8B-A1B：8.3B 总参、1.5B 激活的混合架构模型，面向端侧部署",
+      "上下文 128K，训练量 38 万亿 token，支持中英日法德等 10 种语言",
+      "推理调优版本，回答前显式输出思维链，并支持四步函数调用",
+      "官方称 CPU/GPU 推理为同尺寸级别最快，指令遵循与智能体任务可对标更大模型",
+      "首发支持 llama.cpp、MLX、vLLM、SGLang 等推理框架",
+      "配套 328M 投机解码草稿模型 DSpark，官方称解码加速约 2.5 倍"
+    ]
+  },
+  {
+    "id": "claude-opus-4-8",
+    "name": "Claude Opus 4.8",
+    "org": "Anthropic",
+    "date": "2026-05-28",
+    "url": "https://www.anthropic.com/news/claude-opus-4-8",
+    "note": "Opus 4 世代的末代版本，两个月后被 Opus 5 接替。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-opus-4-7",
+    "changes": [
+      "发布 Claude Opus 4.8，价格不变：每百万 token 输入 $5、输出 $25",
+      "fast mode 提速 2.5 倍、费用降至此前三分之一，定价 $10/$50 每百万 token",
+      "Claude Code 推出 dynamic workflows 研究预览，单会话可跑数百个并行子代理",
+      "claude.ai 与 Cowork 新增 effort control，所有套餐用户可调努力档位",
+      "Messages API 接受 messages 数组内的 system 条目，任务中途可更新指令",
+      "官方称 Opus 4.8 对代码缺陷视而不见的概率约为前代四分之一"
+    ]
+  },
+  {
+    "id": "step-3-7-flash",
+    "name": "Step-3.7-Flash",
+    "org": "阶跃星辰",
+    "date": "2026-05-23",
+    "url": "https://huggingface.co/stepfun-ai/Step-3.7-Flash",
+    "note": "多模态，Apache 许可，3.9 万次下载。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "Apache"
+    ],
+    "specs": {
+      "params": 201365316160,
+      "weightsBytes": 402731781945,
+      "contextTokens": 262144,
+      "architecture": "step3p7",
+      "experts": 288,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "en"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 38822,
+      "likes": 448,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "198B稀疏MoE视觉语言模型，每token激活约11B参数，支持256k上下文",
+      "提供低/中/高三档推理等级，可按速度、成本与推理深度调节",
+      "官方称SimpleVQA(Search)以79.2分居首，V*(Python)达95.3",
+      "官方称ClawEval-1.1以67.1分领跑，SWE-Bench PRO以56.3分获第二",
+      "API定价：输入$0.20/M（缓存命中$0.04/M），输出$1.15/M",
+      "已在StepFun开放平台、OpenRouter及NVIDIA NIM上线，可本地部署"
+    ]
+  },
+  {
+    "id": "minicpm5-1b",
+    "name": "MiniCPM5-1B",
+    "org": "OpenBMB（面壁智能）",
+    "date": "2026-05-21",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B",
+    "note": "1B 参数，79 万次下载，Apache 许可。面壁一直做端侧小模型 —— 这个体量真的能塞进手机，适合做「离线可用」的社团项目。",
+    "tags": [
+      "开源权重",
+      "小模型",
+      "中文",
+      "可本地部署",
+      "Apache"
+    ],
+    "specs": {
+      "params": 1080632832,
+      "weightsBytes": 2161290912,
+      "contextTokens": 131072,
+      "architecture": "llama",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2506.07900",
+      "downloads": 790508,
+      "likes": 1092,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "面壁智能发布 MiniCPM5 系列首个模型 MiniCPM5-1B，1B 稠密模型，主打端侧本地部署",
+      "官方称在 1B 级开源模型对比集中达 SOTA，优势集中在工具调用、代码生成与困难推理",
+      "同一检查点支持 Think / No Think 双模式，用 enable_thinking 开关切换",
+      "上下文 131,072，采用标准 LlamaForCausalLM 架构，主流推理引擎可直接加载",
+      "官方称 RL+OPD 后训练使数学、代码与指令遵循均分提升 16 分，超限回复占比降 29 个百分点",
+      "另发 GGUF 与 MLX 4bit 版，支持 llama.cpp、Ollama、Apple Silicon"
+    ]
+  },
+  {
+    "id": "gemini-omni",
+    "name": "Gemini Omni",
+    "org": "Google DeepMind",
+    "date": "2026-05-17",
+    "url": "https://deepmind.google/blog/introducing-gemini-omni/",
+    "note": "Omni 系列的首次发布，8 月的 Omni 1.1 Flash 从这里延续。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "changes": [
+      "推出视频生成模型家族 Gemini Omni，可将图像、音频、视频、文本任意组合作为输入",
+      "首发模型 Gemini Omni Flash 上线 Gemini app 和 Google Flow",
+      "支持用自然语言对话多轮编辑视频，官方称角色一致性与物理效果跨轮保持",
+      "新增 Avatars 数字分身功能，可生成形象和声音都与本人一致的视频",
+      "所有生成视频带 SynthID 数字水印，可在 Gemini app 及 Google 搜索验证",
+      "Google AI Plus、Pro、Ultra 订阅者今起可用，YouTube Shorts 免费开放"
+    ]
+  },
+  {
+    "id": "nemotron-asr-streaming",
+    "name": "Nemotron-3.5-ASR-Streaming-0.6B",
+    "org": "NVIDIA",
+    "date": "2026-05-15",
+    "url": "https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b",
+    "note": "0.6B 的流式语音识别，92 万次下载，支持中文。体积小到可以本地实时跑 —— 课堂录音转写这个需求，未必需要调云端 API。",
+    "tags": [
+      "开源权重",
+      "语音",
+      "小模型",
+      "中文",
+      "可本地部署"
+    ],
+    "specs": {
+      "params": 637997088,
+      "weightsBytes": 8031463139,
+      "contextTokens": null,
+      "architecture": "nemotron3_5_asr",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "F32",
+      "license": "other",
+      "languages": [
+        "en",
+        "es",
+        "de",
+        "fr",
+        "it",
+        "ar",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "hi",
+        "zh",
+        "vi",
+        "he",
+        "nl",
+        "cs",
+        "da",
+        "pl",
+        "no",
+        "sv",
+        "th",
+        "tr",
+        "bg",
+        "el",
+        "et",
+        "fi",
+        "hr",
+        "hu",
+        "lt",
+        "lv",
+        "ro",
+        "sk",
+        "uk",
+        "mt",
+        "sl"
+      ],
+      "modality": "automatic-speech-recognition",
+      "arxiv": "2312.17279",
+      "downloads": 919868,
+      "likes": 1073,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "NVIDIA发布Nemotron 3.5 ASR：600M参数多语言流式语音识别模型，可商用",
+      "单一模型覆盖40个语言区域，经语言ID提示实现，可自动检测语种并输出标签",
+      "语言支持分三档：19个区域开箱即用、13个广泛覆盖、8个需领域内微调解锁",
+      "推理时可选80ms至1120ms五档chunk大小，无需重训即可调节延迟与精度",
+      "官方称FLEURS基准WER（1.12s帧）：英语7.91、西语4.11、韩语7.12",
+      "采用Cache-Aware FastConformer-RNNT架构，复用缓存消除重叠计算"
+    ]
+  },
+  {
+    "id": "gemini-3-5",
+    "name": "Gemini 3.5",
+    "org": "Google DeepMind",
+    "date": "2026-05-15",
+    "url": "https://deepmind.google/blog/gemini-3-5-frontier-intelligence-with-action/",
+    "note": "Gemini 3.5 主版本。之后衍生出 Flash、Flash-Lite、Flash Cyber、Transcribe 等一大堆变体 —— Google 的命名细分程度是各家里最高的，写作时必须写全。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "prev": "gemini-3-1-pro",
+    "changes": [
+      "发布Gemini 3.5系列，首发3.5 Flash，3.5 Pro已内部使用、下月推出",
+      "官方称3.5 Flash在Terminal-Bench 2.1获76.2%、MCP Atlas获83.6%，超越Gemini 3.1 Pro",
+      "官方称3.5 Flash输出token速度4倍于其他前沿模型，成本不到其一半",
+      "3.5 Flash成为Gemini应用与搜索AI Mode的默认模型",
+      "新个人智能体Gemini Spark由3.5 Flash驱动，今日起向可信测试者推出",
+      "开发者可经Google Antigravity与Gemini API使用3.5 Flash"
+    ]
+  },
+  {
+    "id": "hy-mt2-30b",
+    "name": "Hy-MT2-30B-A3B",
+    "org": "腾讯",
+    "date": "2026-05-11",
+    "url": "https://huggingface.co/tencent/Hy-MT2-30B-A3B",
+    "note": "专做翻译的 MoE（30B 总参 / 3B 激活），Apache 许可，同期还发了 1.8B 的小版本。翻译是专用模型仍然常常打得过通用模型的领域之一。",
+    "tags": [
+      "开源权重",
+      "翻译",
+      "MoE",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 30064725888,
+      "weightsBytes": 61121431316,
+      "contextTokens": 262144,
+      "architecture": "hy_v3",
+      "experts": 128,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "zh",
+        "en",
+        "fr",
+        "pt",
+        "es",
+        "ja",
+        "tr",
+        "ru",
+        "ar",
+        "ko",
+        "th",
+        "it",
+        "de",
+        "vi",
+        "ms",
+        "id",
+        "tl",
+        "hi",
+        "pl",
+        "cs",
+        "nl",
+        "km",
+        "my",
+        "fa",
+        "gu",
+        "ur",
+        "te",
+        "mr",
+        "he",
+        "bn",
+        "ta",
+        "uk",
+        "bo",
+        "kk",
+        "mn",
+        "ug"
+      ],
+      "modality": "translation",
+      "arxiv": "2605.22064",
+      "downloads": 22734,
+      "likes": 495,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "开源 Hy-MT2 翻译模型系列：1.8B、7B、30B-A3B（MoE）三种规格，支持 33 种语言互译",
+      "AngelSlim 1.25-bit 极限量化将 1.8B 模型存储压至 440MB，推理速度提升 1.5 倍",
+      "官方称 7B 与 30B-A3B 在快思考模式下超过 DeepSeek-V4-Pro、Kimi K2.6 等开源模型",
+      "官方称轻量版 1.8B 整体表现超过微软、豆包等主流商用翻译 API",
+      "同步开源翻译指令遵循能力评测基准 IFMTBench",
+      "推出 Hy-MT2-Translator Skill，已上架 ClawHub 与 SkillHub 便于集成调用"
+    ]
+  },
+  {
+    "id": "gpt-5-5-instant",
+    "name": "GPT-5.5 Instant",
+    "org": "OpenAI",
+    "date": "2026-05-05",
+    "url": "https://openai.com/index/gpt-5-5-instant",
+    "note": "GPT-5.5 的低延迟档。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gpt-5-5",
+    "changes": [
+      "GPT-5.5 Instant 成为 ChatGPT 默认模型，面向所有用户开放",
+      "官方称医学、法律、金融类高风险提示幻觉减少 52.5%，被标记对话不准确陈述减少 37.3%",
+      "图片分析、STEM 问答能力提升，并能更好判断何时使用联网搜索",
+      "官方示例显示回答字数减少 30.2%、行数减少 29.2%，并减少不必要追问和表情符号",
+      "个性化升级：可利用过往聊天、文件和已连接的 Gmail，该功能已扩展至 Go 与 Free 档",
+      "新增 memory sources 功能，用户可查看个性化回答使用了哪些上下文并加以控制"
+    ]
+  },
+  {
+    "id": "mimo-v2-5-pro",
+    "name": "MiMo-V2.5-Pro",
+    "org": "小米",
+    "date": "2026-04-27",
+    "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro",
+    "note": "MIT 许可，4.8 万次下载。手机厂商下场做开放权重模型，方向多半是端侧。",
+    "tags": [
+      "开源权重",
+      "中文",
+      "MIT"
+    ],
+    "specs": {
+      "params": 1023244718976,
+      "weightsBytes": 1033418613038,
+      "contextTokens": 1048576,
+      "architecture": "mimo_v2",
+      "experts": 384,
+      "expertsPerToken": 8,
+      "precision": "F8_E4M3",
+      "license": "mit",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "text-generation",
+      "arxiv": null,
+      "downloads": 48214,
+      "likes": 745,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "小米开源 MiMo-V2.5-Pro：1.02T 总参、42B 激活的 MoE 模型，上下文 1M",
+      "混合注意力按滑窗与全局注意力 6:1 交错，官方称 KV-cache 存储降近 7 倍",
+      "内置 3 层 MTP 模块，官方称推理输出速度提升至 3 倍",
+      "以 FP8 混合精度、原生 32k 序列长度完成 27T tokens 预训练",
+      "官方称 GraphWalks 长上下文基准 1M 处仍得 0.37/0.62，上代同长度跌至 0",
+      "基座模型 MATH 86.2、GSM8K 99.6，官方称多项分数超过 Kimi-K2 Base"
+    ]
+  },
+  {
+    "id": "gpt-5-5",
+    "name": "GPT-5.5",
+    "org": "OpenAI",
+    "date": "2026-04-23",
+    "url": "https://openai.com/index/introducing-gpt-5-5",
+    "note": "官方公告标题为「Introducing GPT-5.5」。具体能力和定价需回官方公告核对。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gpt-5-4",
+    "changes": [
+      "GPT-5.5 登陆 ChatGPT 与 Codex 付费档，Pro 版限 Pro 及以上用户",
+      "4 月 24 日更新：GPT-5.5 与 GPT-5.5 Pro 已登陆 API",
+      "官方称 Terminal-Bench 2.0 准确率 82.7% 为该基准最优",
+      "官方称 GDPval 知识工作基准得分 84.9%，覆盖 44 种职业",
+      "官方称延迟与 GPT-5.4 持平，同一 Codex 任务 token 用量更少",
+      "官方称 Artificial Analysis 编码指数登顶，成本为竞品一半"
+    ]
+  },
+  {
+    "id": "seed3d-2-0",
+    "name": "Seed3D 2.0",
+    "org": "字节跳动 Seed",
+    "date": "2026-04-23",
+    "url": "https://seed.bytedance.com/blog/seed3d-2-0-released-higher-precision-and-greater-usability",
+    "note": "3D 生成模型，官方称精度和可用性都有提升。3D 这条线目前各家都还在早期。",
+    "tags": [
+      "闭源 API",
+      "3D 生成"
+    ],
+    "changes": [
+      "几何引入Coarse-to-Fine两阶段DiT，官方称锐利边缘与薄壁结构生成更精准",
+      "纹理改为统一PBR生成模型替代级联方案，结合MoE架构与VLM先验提升材质细节与分解稳定性",
+      "官方称几何与纹理生成均取得SOTA，60名打分员盲评中纹理偏好率超69%",
+      "部件级生成由Seed3D-PartSeg分割、Seed3D-PartDiT补全组合为部件化网格",
+      "关节化建模输出URDF并兼容Isaac Sim，场景生成支持文本与多视角图片输入",
+      "技术报告已公开，API已上线火山引擎，体验入口为Doubao-Seed3D-2.0"
+    ]
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek-V4-Pro",
+    "org": "DeepSeek",
+    "date": "2026-04-22",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro",
+    "note": "V4 世代的首发主力版，MIT 许可，80.9 万次下载、5492 likes。同日还发了 Base（未经指令微调）版本 —— 一般人要的是这个非 Base 版。",
+    "tags": [
+      "开源权重",
+      "MIT"
+    ],
+    "specs": {
+      "params": 1598839674782,
+      "weightsBytes": 864761623612,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 384,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.19348",
+      "downloads": 809261,
+      "likes": 5492,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "V4-Pro 总参数 1.6T、激活 49B，支持 100 万 token 上下文，MIT 协议开源",
+      "架构新增 mHC 超连接与 CSA+HCA 混合注意力，训练采用 Muon 优化器",
+      "官方称 1M 上下文下推理 FLOPs 仅为 V3.2 的 27%、KV cache 仅 10%",
+      "超 32T token 预训练，后训练先 SFT+GRPO 培养领域专家再蒸馏整合",
+      "支持 Non-think、Think High、Think Max 三档推理力度模式",
+      "官方称 V4-Pro-Max 为当前最佳开源模型，LiveCodeBench 达 93.5"
+    ]
+  },
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek-V4-Flash",
+    "org": "DeepSeek",
+    "date": "2026-04-22",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash",
+    "note": "和 Pro 同日发布的轻量档，MIT 许可，170 万次下载 —— 比 Pro 还高，又一次印证「大多数人要的是跑得动，不是最强」。",
+    "tags": [
+      "开源权重",
+      "MIT"
+    ],
+    "specs": {
+      "params": 290944616402,
+      "weightsBytes": 159641337663,
+      "contextTokens": 1048576,
+      "architecture": "deepseek_v4",
+      "experts": 256,
+      "expertsPerToken": 6,
+      "precision": "I8",
+      "license": "mit",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "2606.19348",
+      "downloads": 1704533,
+      "likes": 2169,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "支持百万token上下文，Flash版284B、激活13B，Pro版1.6T、激活49B",
+      "新架构混合CSA与HCA两种注意力机制，并以mHC强化残差连接、Muon优化器训练",
+      "官方称Pro版1M上下文单token推理FLOPs仅为V3.2的27%、KV缓存仅10%",
+      "预训练超32T token；后训练先以SFT与GRPO分领域培养专家，再在线蒸馏整合",
+      "支持Non-think、Think High、Think Max三档推理力度模式",
+      "官方称Pro-Max版为当前最佳开源模型，LiveCodeBench达93.5"
+    ]
+  },
+  {
+    "id": "qwen3-6-27b",
+    "name": "Qwen3.6-27B",
+    "org": "阿里通义",
+    "date": "2026-04-21",
+    "url": "https://huggingface.co/Qwen/Qwen3.6-27B",
+    "note": "Apache 许可，多模态，565 万次下载 —— 是这份时间线里下载量最高的模型。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 27781427952,
+      "weightsBytes": 55576522126,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 5651249,
+      "likes": 2283,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "Qwen3.6-27B 为 Qwen3.6 系列首个开源权重模型，采用 Apache-2.0 协议",
+      "模型带视觉编码器，支持图像与文本输入（image-text-to-text）",
+      "Agentic Coding 升级：官方称前端工作流与仓库级推理更流畅精准",
+      "新增 Thinking Preservation 选项，可保留历史消息中的推理上下文",
+      "上下文原生 262,144 tokens，最高可扩展至 1,010,000 tokens",
+      "官方称 SWE-bench Verified 达 77.2，较 Qwen3.5-27B 的 75.0 提升"
+    ]
+  },
+  {
+    "id": "gpt-rosalind",
+    "name": "GPT-Rosalind",
+    "org": "OpenAI",
+    "date": "2026-04-16",
+    "url": "https://openai.com/index/introducing-gpt-rosalind",
+    "note": "面向生命科学研究的专门模型（6 月又发了能力更新）。厂商开始按学科出专用模型，这个趋势对做科研方向项目的人值得关注。",
+    "tags": [
+      "闭源 API",
+      "科研"
+    ],
+    "changes": [
+      "推出生命科学推理模型 GPT-Rosalind，面向生物学、药物发现与转化医学研究，为该系列首个版本",
+      "以研究预览登陆 ChatGPT、Codex 与 API，初期仅面向美国合格企业客户开放",
+      "免费的 Codex Life Sciences 插件上线 GitHub，接入超 50 个科学工具与数据源",
+      "官方称在生物信息学基准 BixBench 上取得已公布分数模型中的领先表现",
+      "官方称 LABBench2 上 11 项任务中 6 项超过 GPT-5.4，CloningQA 提升最大",
+      "官方称在 Dyno Therapeutics 的 RNA 任务中，模型预测超过第 95 百分位人类专家"
+    ]
+  },
+  {
+    "id": "claude-opus-4-7",
+    "name": "Claude Opus 4.7",
+    "org": "Anthropic",
+    "date": "2026-04-16",
+    "url": "https://www.anthropic.com/news/claude-opus-4-7",
+    "note": "Opus 4 世代的中期迭代。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-opus-4-6",
+    "changes": [
+      "正式上线 Claude 全系产品、API 及 Amazon Bedrock、Vertex AI、Microsoft Foundry",
+      "价格与 Opus 4.6 持平：每百万 token 输入 $5、输出 $25，API 型号为 claude-opus-4-7",
+      "官方称视觉能力大幅增强，支持更高分辨率图像，界面、幻灯片与文档生成质量更高",
+      "首个搭载网络安全防护的模型，自动检测并拦截高风险攻击类请求，另推出 Cyber Verification Program 供安全研究者申请",
+      "官方称 CursorBench 通过率达 70%，Opus 4.6 为 58%；Harvey 的 BigLaw Bench 在 high effort 下得分 90.9%"
+    ]
+  },
+  {
+    "id": "qwen3-6-35b-a3b",
+    "name": "Qwen3.6-35B-A3B",
+    "org": "阿里通义",
+    "date": "2026-04-15",
+    "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+    "note": "35B 总参 / 3B 激活的 MoE，Apache 许可，491 万次下载。激活参数只有 3B，推理成本接近小模型。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "MoE",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 35951822704,
+      "weightsBytes": 71921347477,
+      "contextTokens": 262144,
+      "architecture": "qwen3_5_moe",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": null,
+      "downloads": 4913916,
+      "likes": 2758,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布 Qwen3.6 系列首个开源权重模型 Qwen3.6-35B-A3B",
+      "MoE 架构：总参数 35B、激活 3B，256 个专家中激活 8 路由 + 1 共享",
+      "上下文原生 262,144 tokens，可扩展至最多 1,010,000 tokens",
+      "新增 Thinking Preservation 选项，可保留历史消息中的推理上下文",
+      "官方称 Agentic Coding 增强，SWE-bench Verified 得分 73.4",
+      "模型内置视觉编码器，支持图像-文本多模态输入"
+    ]
+  },
+  {
+    "id": "kimi-k2-6",
+    "name": "Kimi-K2.6",
+    "org": "Moonshot AI（月之暗面）",
+    "date": "2026-04-14",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2.6",
+    "note": "多模态，65 万次下载。K2.6（4 月）→ K2.7-Code（6 月）→ K3（6 月）。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "中文"
+    ],
+    "specs": {
+      "params": 1026879376368,
+      "weightsBytes": 595263427116,
+      "contextTokens": 262144,
+      "architecture": "kimi_k25",
+      "experts": 384,
+      "expertsPerToken": 8,
+      "precision": "I32",
+      "license": "other",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": "2602.02276",
+      "downloads": 651881,
+      "likes": 1599,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "Kimi K2.6 开源发布：原生多模态 MoE 模型，1T 总参、32B 激活，256K 上下文",
+      "视觉编码器为 400M 参数的 MoonViT，模型以 Modified MIT 许可开源",
+      "官方称长程编程显著改进，泛化覆盖 Rust、Go、Python 及前端、DevOps 场景",
+      "Agent Swarm 可横向扩展至 300 个子智能体，执行 4000 步协调任务",
+      "编程驱动设计：由简单提示与视觉输入生成生产级界面与轻量全栈工作流",
+      "官方称 HLE-Full（带工具）得分 54.0，高于表中 GPT-5.4 等对比模型"
+    ]
+  },
+  {
+    "id": "minicpm-v-4-6",
+    "name": "MiniCPM-V-4.6",
+    "org": "OpenBMB（面壁智能）",
+    "date": "2026-04-13",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6",
+    "note": "端侧多模态，Apache 许可，54 万次下载。「能看图的小模型」这条线里社区基础最好的一支。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "小模型",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 1300428016,
+      "weightsBytes": 2620950009,
+      "contextTokens": 262144,
+      "architecture": "minicpmv4_6",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": "2604.27393",
+      "downloads": 543985,
+      "likes": 1203,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "基于SigLIP2-400M与Qwen3.5-0.8B，引入4x/16x混合视觉token压缩，可切换精度与速度",
+      "官方称Artificial Analysis Intelligence Index得13分，超Qwen3.5-0.8B的10分，token成本低19倍",
+      "官方称在OpenCompass、RefCOCO、OCRBench等基准达到Qwen3.5 2B水平",
+      "官方称采用LLaVA-UHD v4技术使视觉编码FLOPs降低超50%，token吞吐约为Qwen3.5-0.8B的1.5倍",
+      "支持iOS、Android、HarmonyOS三端本地部署，端侧适配代码全部开源",
+      "上线MiniCPM-V 4.6 API服务，并提供公共免费API key"
+    ]
+  },
+  {
+    "id": "minimax-m2-7",
+    "name": "MiniMax-M2.7",
+    "org": "MiniMax",
+    "date": "2026-04-09",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.7",
+    "note": "114 万次下载。",
+    "tags": [
+      "开源权重"
+    ],
+    "specs": {
+      "params": 228689764864,
+      "weightsBytes": 230142259486,
+      "contextTokens": 204800,
+      "architecture": "minimax_m2",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "F8_E4M3",
+      "license": "other",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": null,
+      "downloads": 1142168,
+      "likes": 1244,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "MiniMax首个深度参与自身进化的模型，支持Agent Teams与动态工具搜索",
+      "自我进化机制：模型自主更新记忆、为RL实验构建技能并改进自身学习过程",
+      "内部版本经100多轮自主优化编程脚手架，官方称性能提升30%",
+      "官方称MLE Bench Lite奖牌率66.6%，仅次于Opus-4.6和GPT-5.4",
+      "官方称SWE-Pro得分56.22%，与GPT-5.3-Codex持平",
+      "官方称多次将线上生产事故恢复时间缩短至三分钟以内"
+    ]
+  },
+  {
+    "id": "ernie-image",
+    "name": "ERNIE-Image",
+    "org": "百度",
+    "date": "2026-04-07",
+    "url": "https://huggingface.co/baidu/ERNIE-Image",
+    "note": "文生图，Apache 许可。同期还有 Turbo 版本。",
+    "tags": [
+      "开源权重",
+      "图像生成",
+      "Apache"
+    ],
+    "specs": {
+      "params": 8033490048,
+      "weightsBytes": 39294235694,
+      "contextTokens": null,
+      "architecture": null,
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "text-to-image",
+      "arxiv": null,
+      "downloads": 1642,
+      "likes": 670,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "百度开源文生图模型 ERNIE-Image：8B 单流 DiT 架构，Apache-2.0 协议",
+      "分 SFT 标准版（50 步推理）与 Turbo 版（DMD 加 RL 优化，8 步推理）",
+      "配套轻量 Prompt Enhancer，可将简短提示词扩展为结构化描述",
+      "官方称 GENEval 总分 0.8856，领先 Qwen-Image 等开源模型",
+      "官方称 LongTextBench 中英平均 0.9733，仅次于 Seedream 4.5",
+      "支持 24GB 显存消费级 GPU 运行，已提供 Diffusers 与 SGLang 部署支持"
+    ]
+  },
+  {
+    "id": "granite-4-1-8b",
+    "name": "Granite 4.1 8B",
+    "org": "IBM",
+    "date": "2026-04-06",
+    "url": "https://huggingface.co/ibm-granite/granite-4.1-8b",
+    "note": "Apache 许可，118 万次下载。likes 只有 254 但下载量过百万 —— 典型的「企业在用、社区不聊」的模型。",
+    "tags": [
+      "开源权重",
+      "Apache"
+    ],
+    "specs": {
+      "params": 8791592960,
+      "weightsBytes": 17583228152,
+      "contextTokens": 131072,
+      "architecture": "granite",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "text-generation",
+      "arxiv": "0000.00000",
+      "downloads": 1177594,
+      "likes": 254,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "发布8B长上下文指令模型Granite-4.1-8B，以Apache 2.0协议开源",
+      "基于Granite-4.1-8B-Base微调，采用开放许可指令数据与内部合成数据训练",
+      "官方称经改进的后训练（监督微调+强化学习对齐）增强工具调用、指令遵循与对话能力",
+      "支持英语、德语、西班牙语、法语、日语、中文等12种语言",
+      "8B版本MMLU 73.84、GPQA 41.96、ArenaHard 68.98",
+      "工具调用兼容OpenAI函数定义格式，支持FIM中间填充代码补全与RAG"
+    ]
+  },
+  {
+    "id": "glm-5-1",
+    "name": "GLM-5.1",
+    "org": "Z.ai（智谱）",
+    "date": "2026-04-03",
+    "url": "https://huggingface.co/zai-org/GLM-5.1",
+    "note": "GLM 5 世代的早期版本，MIT 许可。",
+    "tags": [
+      "开源权重",
+      "中文",
+      "MIT"
+    ],
+    "specs": {
+      "params": 753864139008,
+      "weightsBytes": 1507756036618,
+      "contextTokens": 202752,
+      "architecture": "glm_moe_dsa",
+      "experts": 256,
+      "expertsPerToken": 8,
+      "precision": "BF16",
+      "license": "mit",
+      "languages": [
+        "en",
+        "zh"
+      ],
+      "modality": "text-generation",
+      "arxiv": "2602.15763",
+      "downloads": 87292,
+      "likes": 1841,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "官方称 GLM-5.1 在 SWE-Bench Pro 得分 58.4，高于 GLM-5 的 55.1",
+      "官方称 Terminal-Bench 2.0 与 NL2Repo 分别升至 63.5 和 42.7",
+      "官方称模型可在数百轮迭代、数千次工具调用中持续优化，运行越久效果越好",
+      "官方称 CyberGym 得分从 48.3 大幅提升至 68.7",
+      "模型以 MIT 协议开源，支持 SGLang、vLLM 等框架本地部署",
+      "API 已在 Z.ai 平台上线，chat.z.ai 将于近日接入"
+    ]
+  },
+  {
+    "id": "voxcpm2",
+    "name": "VoxCPM2",
+    "org": "OpenBMB（面壁智能）",
+    "date": "2026-04-03",
+    "url": "https://huggingface.co/openbmb/VoxCPM2",
+    "note": "语音方向，Apache 许可，33 万次下载，支持中文。",
+    "tags": [
+      "开源权重",
+      "语音",
+      "中文",
+      "Apache"
+    ],
+    "specs": {
+      "params": 2290004544,
+      "weightsBytes": 9538100293,
+      "contextTokens": null,
+      "architecture": null,
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "zh",
+        "en",
+        "ar",
+        "my",
+        "da",
+        "nl",
+        "fi",
+        "fr",
+        "de",
+        "el",
+        "he",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "km",
+        "ko",
+        "lo",
+        "ms",
+        "no",
+        "pl",
+        "pt",
+        "ru",
+        "es",
+        "sw",
+        "sv",
+        "tl",
+        "th",
+        "tr",
+        "vi"
+      ],
+      "modality": "text-to-speech",
+      "arxiv": "2509.24650",
+      "downloads": 335473,
+      "likes": 1559,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "2B参数无tokenizer扩散自回归TTS，基于MiniCPM-4，训练数据超200万小时",
+      "支持30种语言及四川话、粤语等9种中文方言，输入无需语言标签",
+      "新增Voice Design：文字描述性别、年龄、情绪、语速即可生成新声音，无需参考音频",
+      "可控克隆可用文字引导情绪语速；Ultimate Cloning凭参考音频加逐字稿保真复刻",
+      "AudioVAE V2自带超分：16kHz参考音进、48kHz出，无需外部升采样器",
+      "官方称流式合成在RTX 4090上RTF约0.30，经Nano-VLLM加速后约0.13"
+    ]
+  },
+  {
+    "id": "hy-embodied-0-5",
+    "name": "HY-Embodied-0.5",
+    "org": "腾讯",
+    "date": "2026-04-02",
+    "url": "https://huggingface.co/tencent/HY-Embodied-0.5",
+    "note": "具身智能方向（机器人控制）的多模态模型。912 likes 但只有 241 次下载 —— 关注的人多、真正能跑的人少，因为它需要硬件。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "具身智能"
+    ],
+    "specs": {
+      "params": 3785086960,
+      "weightsBytes": 7570409285,
+      "contextTokens": 262144,
+      "architecture": "hunyuan_vl_mot",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "other",
+      "languages": [
+        "multilingual"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": "2604.07430",
+      "downloads": 241,
+      "likes": 912,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "开源 HY-Embodied-0.5 MoT-2B 权重与官方推理代码，已上线 Hugging Face",
+      "系列含面向边缘部署的 2B 版与面向复杂推理的 32B 版，官方称 32B 性能可比 Gemini 3.0 Pro",
+      "MoT-2B 采用 Mixture-of-Transformers 架构，总参数 4B、推理仅激活 2.2B",
+      "通过 on-policy 蒸馏将 32B 模型的推理与规划能力迁移至 2B 版本",
+      "预训练使用超 1 亿条具身与空间数据点，训练语料超 2000 亿 token",
+      "官方称 MoT-2B 在 CV-Bench 得 89.2、DA-2K 得 92.3，超过 Qwen3-VL 2B/4B"
+    ]
+  },
+  {
+    "id": "gemma-4",
+    "name": "Gemma 4",
+    "org": "Google DeepMind",
+    "date": "2026-04-02",
+    "url": "https://deepmind.google/blog/gemma-4-byte-for-byte-the-most-capable-open-models/",
+    "note": "Gemma 是 Google 的开放权重系列，官方称「同等体积下最强的开放模型」。后续 12B / 26B-A4B / 31B 各档陆续上 Hugging Face，累计下载量在这份时间线里排第一。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "Apache"
+    ],
+    "changes": [
+      "发布 Gemma 4 四款尺寸：E2B、E4B、26B MoE 与 31B Dense，改用 Apache 2.0 开源许可",
+      "官方称 31B 在 Arena AI 文本榜列开源模型第 3、26B 列第 6，可胜过 20 倍参数模型",
+      "全系原生支持函数调用、结构化 JSON 输出与系统指令，面向智能体工作流",
+      "全系原生处理视频与图像，E2B/E4B 新增音频输入，原生训练覆盖 140+ 种语言",
+      "端侧模型配 128K 上下文，大模型最高 256K；26B MoE 推理仅激活 3.8B 参数",
+      "31B bf16 权重可装入单张 80GB H100，首日支持 Hugging Face、Ollama、vLLM 等工具"
+    ]
+  },
+  {
+    "id": "mistral-medium-3-5-128b",
+    "name": "Mistral-Medium-3.5-128B",
+    "org": "Mistral AI",
+    "date": "2026-03-31",
+    "url": "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B",
+    "note": "8 万次下载，支持中文。Mistral 是欧洲少数持续做开放权重的团队。",
+    "tags": [
+      "开源权重",
+      "中文"
+    ],
+    "specs": {
+      "params": 127704210176,
+      "weightsBytes": 267248709697,
+      "contextTokens": 262144,
+      "architecture": "mistral3",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "F8_E4M3",
+      "license": "other",
+      "languages": [
+        "en",
+        "fr",
+        "de",
+        "es",
+        "pt",
+        "it",
+        "ja",
+        "ko",
+        "ru",
+        "zh",
+        "ar",
+        "fa",
+        "id",
+        "ms",
+        "ne",
+        "pl",
+        "ro",
+        "sr",
+        "sv",
+        "tr",
+        "uk",
+        "vi",
+        "hi",
+        "bn"
+      ],
+      "modality": null,
+      "arxiv": null,
+      "downloads": 80746,
+      "likes": 431,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "128B 稠密参数、256k 上下文，指令、推理、编码能力合入单一权重",
+      "在 Le Chat 接替 Medium 3.1 与 Magistral，在编程代理 Vibe 接替 Devstral 2",
+      "官方称 τ³-Telecom 达 91.4%、SWE-Bench Verified 达 77.6%",
+      "推理强度可按请求切换 none/high，快速回复与复杂智能体任务可兼顾",
+      "视觉编码器从零训练，支持可变图像尺寸与宽高比，图文输入、文本输出",
+      "以 Modified MIT License 发布，商用与非商用均允许，高收入公司除外"
+    ]
+  },
+  {
+    "id": "cohere-transcribe-03-2026",
+    "name": "Cohere Transcribe",
+    "org": "Cohere",
+    "date": "2026-03-24",
+    "url": "https://huggingface.co/CohereLabs/cohere-transcribe-03-2026",
+    "note": "语音转写模型，Hugging Face 上 1099 likes。可以和 Gemini 3.5 Transcribe、NVIDIA Nemotron ASR 放在一起横评。",
+    "tags": [
+      "开源权重",
+      "语音"
+    ]
+  },
+  {
+    "id": "qianfan-ocr",
+    "name": "Qianfan-OCR",
+    "org": "百度",
+    "date": "2026-03-18",
+    "url": "https://huggingface.co/baidu/Qianfan-OCR",
+    "note": "Apache 许可的 OCR 模型，7.5 万次下载。百度在 OCR 这条线上 3 月和 6 月各发了一个。",
+    "tags": [
+      "开源权重",
+      "OCR",
+      "多模态",
+      "Apache"
+    ],
+    "specs": {
+      "params": 4741408256,
+      "weightsBytes": 9506840109,
+      "contextTokens": 32768,
+      "architecture": "qianfan_ocr",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": [
+        "multilingual"
+      ],
+      "modality": "image-text-to-text",
+      "arxiv": "2603.13398",
+      "downloads": 75346,
+      "likes": 1203,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "百度千帆发布 Qianfan-OCR：4B 参数端到端文档模型，图片直接转 Markdown",
+      "官方称 OmniDocBench v1.5 总分 93.12，列端到端模型第一",
+      "官方称 OlmOCR Bench 得分 79.8；五个 KIE 基准均分 87.9，均列第一",
+      "新增 Layout-as-Thought 思考模式：先输出版面框与阅读顺序，再生成最终结果",
+      "支持 192 种语言 OCR，官方称 W8A8 量化下单张 A100 达 1.024 PPS",
+      "提供文档智能 Skill，可供 Claude Code、Codex 等助手直接调用"
+    ]
+  },
+  {
+    "id": "gpt-5-4-mini-nano",
+    "name": "GPT-5.4 mini / nano",
+    "org": "OpenAI",
+    "date": "2026-03-17",
+    "url": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano",
+    "note": "GPT-5.4 的小尺寸档。厂商同代出多个尺寸已是常态，选型时先想清楚任务需要多强，别默认用最贵的。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "OpenAI发布GPT-5.4 mini与nano小模型，定位编码、子代理等高并发低延迟场景",
+      "官方称mini比GPT-5 mini快2倍以上，SWE-Bench Pro成绩54.4%",
+      "GPT-5.4 mini上线API、Codex与ChatGPT，上下文窗口400k",
+      "mini每百万token输入$0.75、输出$4.50，nano为$0.20/$1.25",
+      "nano仅API提供，官方推荐用于分类、数据抽取、排序及编码子代理",
+      "ChatGPT免费及Go用户可在+菜单Thinking中使用mini"
+    ]
+  },
+  {
+    "id": "mistral-small-4",
+    "name": "Mistral Small 4",
+    "org": "Mistral AI",
+    "date": "2026-03-16",
+    "url": "https://mistral.ai/news/mistral-small-4/",
+    "note": "官方公告标题为「Introducing Mistral Small 4」。具体规格需回官方公告核对。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "首次把Magistral推理、Pixtral多模态、Devstral编码能力统一进单一模型",
+      "MoE架构：128个专家、每token激活4个；总参数119B、激活6B，上下文256k",
+      "新增reasoning_effort参数：none为快速响应，high为逐步深度推理",
+      "官方称端到端完成时间减少40%，每秒请求数达Mistral Small 3的3倍",
+      "官方称AA LCR得分0.72，输出仅1.6K字符，比Qwen模型同水平输出短3.5-4倍",
+      "Apache 2.0开源，API定价输入$0.15、输出$0.6/百万token"
+    ]
+  },
+  {
+    "id": "gemma-4-31b-it",
+    "name": "Gemma 4 31B",
+    "org": "Google DeepMind",
+    "date": "2026-03-11",
+    "url": "https://huggingface.co/google/gemma-4-31B-it",
+    "note": "Apache 许可，多模态，832 万次下载 —— 全时间线下载量第一。同期还有 26B-A4B 的 MoE 版本（814 万次下载）。Gemma 系列的开放许可和 Google 的模型质量组合，是它下载量长期居高的原因。",
+    "tags": [
+      "开源权重",
+      "多模态",
+      "Apache"
+    ],
+    "specs": {
+      "params": 31273088876,
+      "weightsBytes": 174974072605,
+      "contextTokens": 262144,
+      "architecture": "gemma4",
+      "experts": null,
+      "expertsPerToken": null,
+      "precision": "BF16",
+      "license": "apache-2.0",
+      "languages": null,
+      "modality": "image-text-to-text",
+      "arxiv": "2607.02770",
+      "downloads": 8317909,
+      "likes": 3685,
+      "fetchedAt": "2026-09-01"
+    },
+    "changes": [
+      "Gemma 4 发布 E2B、E4B、12B、26B A4B、31B 五款规格，均开放权重",
+      "中型模型（12B、26B A4B、31B）上下文窗口 256K，小模型为 128K",
+      "E2B、E4B、12B 原生支持音频，全系支持图像输入并可逐帧分析视频",
+      "官方称 31B 的 MMLU Pro 85.2%、AIME 2026 89.2%、Codeforces ELO 2150",
+      "12B 采用无编码器统一架构，图像与音频直接映射进语言模型",
+      "新增原生 system 角色支持与函数调用，内置可配置思考模式"
+    ]
+  },
+  {
+    "id": "gpt-5-4",
+    "name": "GPT-5.4",
+    "org": "OpenAI",
+    "date": "2026-03-05",
+    "url": "https://openai.com/index/introducing-gpt-5-4",
+    "note": "官方公告标题为「Introducing GPT-5.4」。具体能力和定价需回官方公告核对。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gpt-5-2",
+    "changes": [
+      "GPT-5.4 登陆 ChatGPT、API 与 Codex，另推更高性能的 GPT-5.4 Pro",
+      "官方称首个原生支持 computer-use 的通用模型，上下文最高 100 万 tokens",
+      "GPT-5.4 Thinking 会先展示思考计划，可在回答中途调整方向",
+      "官方称 GDPval 得分 83.0%（GPT-5.2 为 70.9%），覆盖 44 种职业",
+      "官方称 OSWorld-Verified 成功率 75.0%，超过人类水平 72.4%",
+      "新增 original 图像输入档位，支持最高 1024 万像素全保真输入"
+    ]
+  },
+  {
+    "id": "gemini-3-1-pro",
+    "name": "Gemini 3.1 Pro",
+    "org": "Google DeepMind",
+    "date": "2026-02-19",
+    "url": "https://deepmind.google/blog/gemini-3-1-pro-a-smarter-model-for-your-most-complex-tasks/",
+    "note": "Gemini 3.1 世代的 Pro 档，面向复杂任务。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "prev": "gemini-3-flash",
+    "changes": [
+      "官方称 ARC-AGI-2 基准验证得分 77.1%，推理表现为 3 Pro 的两倍以上",
+      "已上线 Gemini API、Vertex AI、Gemini app 和 NotebookLM",
+      "Gemini app 对 Google AI Pro 和 Ultra 订阅用户开放更高用量上限",
+      "NotebookLM 仅向 Google AI Pro 与 Ultra 用户开放",
+      "官方称可从文字提示直接生成网页可用的动画 SVG，任意缩放清晰且文件体积小于视频",
+      "当前以预览形式发布，官方称验证更新、推进 agentic 工作流后正式发布"
+    ]
+  },
+  {
+    "id": "claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6",
+    "org": "Anthropic",
+    "date": "2026-02-17",
+    "url": "https://www.anthropic.com/news/claude-sonnet-4-6",
+    "note": "Sonnet 4 世代的末代版本。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-sonnet-4-5",
+    "changes": [
+      "Claude Sonnet 4.6 发布，1M token 上下文窗口以测试版提供",
+      "免费与 Pro 计划默认升级为 Sonnet 4.6，定价不变，每百万 3/15 美元",
+      "官方称 Claude Code 用户约 70% 时间更偏好 Sonnet 4.6 而非上代",
+      "官方称 Sonnet 4.6 在 OfficeQA 企业文档基准上追平 Opus 4.6",
+      "API 网页搜索与抓取工具可自动编写并执行代码过滤结果，代码执行、记忆等五项工具转正式可用",
+      "Claude in Excel 新增 MCP 连接器支持，接入 FactSet 等金融数据"
+    ]
+  },
+  {
+    "id": "seed-2-0",
+    "name": "Seed 2.0",
+    "org": "字节跳动 Seed",
+    "date": "2026-02-14",
+    "url": "https://seed.bytedance.com/blog/seed-2-0-official-launch",
+    "note": "Seed 基础模型 2.0，豆包的底座模型。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "推出 Pro、Lite、Mini 三款通用 Agent 模型及专门的 Code 模型",
+      "Seed2.0 Pro与Code上线豆包App和TRAE，全系列API上线火山引擎",
+      "官方称 Seed2.0 Pro 在 MathVista 等数学推理基准达业界最优",
+      "官方称视频理解强化，可处理小时级长视频，EgoTempo 基准得分超过人类",
+      "官方称 Seed2.0 Pro 在 ICPC、IMO、CMO 测试中均获金牌",
+      "官方称 token 定价降低约一个数量级，效果与业界顶尖大模型相当"
+    ]
+  },
+  {
+    "id": "seedream-5-0-lite",
+    "name": "Seedream 5.0 Lite",
+    "org": "字节跳动 Seed",
+    "date": "2026-02-13",
+    "url": "https://seed.bytedance.com/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite",
+    "note": "图像生成的轻量档，比 Pro 档早五个月发布。",
+    "tags": [
+      "闭源 API",
+      "图像生成"
+    ],
+    "changes": [
+      "首次为 Seedream 系列引入实时检索增强能力，可联网获取最新知识，检索可开关",
+      "支持多步视觉推理生图，官方称可完成围棋落子推理、散乱零件组装等任务",
+      "内置覆盖科技与人文多垂类的世界知识库，官方称生成更符合物理规律",
+      "官方称 MagicArena 双盲对战 Elo 评分超越 Seedream 4.5，办公学习场景提升突出",
+      "官方称编辑可控性提升，局部修图或替换主体时更稳定保持非编辑区域一致",
+      "已上线即梦AI与火山方舟体验中心，并在豆包开启内测"
+    ]
+  },
+  {
+    "id": "seedance-2-0",
+    "name": "Seedance 2.0",
+    "org": "字节跳动 Seed",
+    "date": "2026-02-12",
+    "url": "https://seed.bytedance.com/blog/seedance-2-0-official-launch",
+    "note": "视频生成模型 2.0。这份时间线里字节最早的一条。",
+    "tags": [
+      "闭源 API",
+      "视频生成"
+    ],
+    "changes": [
+      "采用统一多模态音视频联合生成架构，支持文字、图片、音频、视频四种模态输入",
+      "可同时输入最多9张图片、3段视频、3段音频及文字指令，并参考其构图、动作、运镜、声音",
+      "支持15秒多镜头音视频输出，集成双声道立体声，可多轨并行输出并对齐画面节奏",
+      "新增视频编辑与视频延长功能，可对指定片段、角色、动作或剧情定向修改，并按提示生成连续镜头",
+      "官方称在复杂交互和运动场景下生成可用率达到业界SOTA水平",
+      "已上线即梦AI、豆包App及火山方舟体验中心，型号为Doubao-Seedance-2.0"
+    ]
+  },
+  {
+    "id": "claude-opus-4-6",
+    "name": "Claude Opus 4.6",
+    "org": "Anthropic",
+    "date": "2026-02-05",
+    "url": "https://www.anthropic.com/news/claude-opus-4-6",
+    "note": "Opus 4 世代。同月 Sonnet 4.6 也发布，两条线基本同步推进。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "claude-opus-4-5",
+    "changes": [
+      "Opus 级模型首次支持 1M token 上下文窗口（beta）",
+      "官方称在 Terminal-Bench 2.0 智能体编程评测中得分最高",
+      "官方称 GDPval-AA 领先 GPT-5.2 约 144 Elo 分",
+      "Claude Code 新增 agent teams，API 支持上下文压缩与自适应思考",
+      "发布 Claude in PowerPoint 研究预览版，并升级 Claude in Excel",
+      "已上线 claude.ai、API 及主要云平台，定价维持每百万 token $5/$25"
+    ]
+  },
+  {
+    "id": "gpt-5-3-codex",
+    "name": "GPT-5.3-Codex",
+    "org": "OpenAI",
+    "date": "2026-02-05",
+    "url": "https://openai.com/index/introducing-gpt-5-3-codex",
+    "note": "面向编程的专门版本，一周后又发了更小的 Codex-Spark。写代码这条线各家都在出专用模型，值得和 Kimi-K2.7-Code 一起横评。",
+    "tags": [
+      "闭源 API",
+      "代码"
+    ],
+    "changes": [
+      "融合 GPT-5.2-Codex 的编程与 GPT-5.2 的推理能力于一身，官方称速度快 25%",
+      "官方称 SWE-Bench Pro、Terminal-Bench 2.0 创新高，token 用量历代最少",
+      "GDPval 知识工作表现与 GPT-5.2 持平，官方称 OSWorld 电脑操作远超前代（人类约 72%）",
+      "支持任务中途实时提问、纠偏，模型持续汇报进展，可在设置开启 Follow-up behavior",
+      "官方称这是首个参与构建自身的模型：用早期版本调试自身训练、部署并诊断评测",
+      "首个被列为网络安全 High 能力等级的模型，官方称首次直接训练识别软件漏洞"
+    ]
+  },
+  {
+    "id": "gemini-3-flash",
+    "name": "Gemini 3 Flash",
+    "org": "Google DeepMind",
+    "date": "2025-12-17",
+    "url": "https://deepmind.google/blog/gemini-3-flash-frontier-intelligence-built-for-speed/",
+    "note": "Gemini 3 世代的 Flash 档，这份时间线里 Google 最早的一条。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "取代2.5 Flash成为Gemini app与搜索AI Mode默认模型，免费开放",
+      "官方称GPQA Diamond达90.4%，MMMU Pro获81.2%",
+      "SWE-bench Verified达78%，官方称超2.5系列和Gemini 3 Pro",
+      "官方称速度为2.5 Pro的3倍，日常任务token用量平均少30%",
+      "定价$0.50/1M输入token、$3/1M输出token，音频输入$1/1M",
+      "开发者可经Gemini API、Antigravity、Vertex AI等使用"
+    ]
+  },
+  {
+    "id": "gpt-5-2",
+    "name": "GPT-5.2",
+    "org": "OpenAI",
+    "date": "2025-12-11",
+    "url": "https://openai.com/index/introducing-gpt-5-2",
+    "note": "GPT-5 世代较早的一次迭代，这份时间线里 OpenAI 最早的一条。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "官方称GPT-5.2 Thinking在GDPval上70.9%打平或击败行业专家",
+      "官方称SWE-Bench Pro为55.6%，SWE-bench Verified为80%",
+      "官方称回答含错误的比例较GPT-5.1 Thinking相对降低30%",
+      "官方称4-needle MRCR变体在256k tokens内接近100%准确",
+      "新增Responses /compact端点，可扩展有效上下文以支持超长工具工作流",
+      "GPT-5.2 Instant、Thinking、Pro今日起向付费用户推送，API已开放"
+    ]
+  },
+  {
+    "id": "claude-opus-4-5",
+    "name": "Claude Opus 4.5",
+    "org": "Anthropic",
+    "date": "2025-11-24",
+    "url": "https://www.anthropic.com/news/claude-opus-4-5",
+    "note": "Opus 4.5，这份时间线里 Anthropic 最早的一条。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "已上线官方应用、API 及三大云平台，定价每百万 token $5/$25",
+      "官方称在 SWE-bench Multilingual 的 8 种编程语言中 7 种领先",
+      "官方称 Aider Polyglot 得分较 Sonnet 4.5 提升 10.6%",
+      "API 新增 effort 参数，可在省时省钱与最大化能力间调节",
+      "新增 Excel、Chrome 及桌面端用法，应用内长对话不再撞墙",
+      "官方称其抗提示注入攻击能力强于所有前沿模型，评测由 Gray Swan 开发"
+    ]
+  },
+  {
+    "id": "claude-haiku-4-5",
+    "name": "Claude Haiku 4.5",
+    "org": "Anthropic",
+    "date": "2025-10-15",
+    "url": "https://www.anthropic.com/news/claude-haiku-4-5",
+    "note": "Haiku 是最小最快的一档，适合高频、低难度的批量任务。对预算有限的学生项目，先试 Haiku 档往往比默认上 Opus 划算得多。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "发布小型模型 Claude Haiku 4.5，10月15日起面向全部用户开放",
+      "API型号claude-haiku-4-5，每百万输入/输出token定价$1/$5",
+      "官方称编程性能接近 Claude Sonnet 4，成本约为其三分之一、速度快一倍多",
+      "官方称在「使用电脑」等任务上超越 Claude Sonnet 4",
+      "SWE-bench Verified 编程基准得分 73.3%",
+      "官方称其为迄今最安全模型，按 ASL-2 安全等级发布"
+    ]
+  },
+  {
+    "id": "claude-sonnet-4-5",
+    "name": "Claude Sonnet 4.5",
+    "org": "Anthropic",
+    "date": "2025-09-29",
+    "url": "https://www.anthropic.com/news/claude-sonnet-4-5",
+    "note": "Sonnet 4 世代。",
+    "tags": [
+      "闭源 API"
+    ],
+    "changes": [
+      "官方称 SWE-bench Verified 达 77.2%，高算力配置下达 82.0%",
+      "官方称 OSWorld 电脑操作得分 61.4%，Sonnet 4 四个月前为 42.2%",
+      "Claude Code 新增检查点可保存进度并即时回滚，还上线原生 VS Code 扩展",
+      "Claude API 新增上下文编辑与记忆工具，官方称可让智能体运行更久、处理更复杂任务",
+      "发布 Claude Agent SDK，开放 Claude Code 同款智能体基础设施",
+      "Claude 应用对话中支持代码执行与文件创建，可生成电子表格、幻灯片和文档"
+    ]
+  },
+  {
+    "id": "grok-2",
+    "name": "Grok-2",
+    "org": "xAI",
+    "date": "2025-08-22",
+    "url": "https://huggingface.co/xai-org/grok-2",
+    "note": "xAI 开放了 Grok-2 的权重，Hugging Face 上 1157 likes。xAI 是少数把旗舰模型权重公开的美国厂商之一（Grok-1 在 2024-03 已开放）。",
+    "tags": [
+      "开源权重"
+    ],
+    "changes": [
+      "xAI 在 Hugging Face 开放 Grok 2 权重，该模型于 2024 年在 xAI 训练并使用",
+      "完整权重共 42 个文件，体积约 500 GB，可用 hf download 下载",
+      "部署需 SGLang >= v0.5.1，采用 TP=8，需 8 张各 40GB 以上显存的 GPU",
+      "推理启动命令使用 fp8 量化与 triton 注意力后端",
+      "该 checkpoint 为后训练模型，发送请求须使用指定的 chat template",
+      "权重依据 Grok 2 Community License Agreement 协议发布"
+    ]
+  }
+]

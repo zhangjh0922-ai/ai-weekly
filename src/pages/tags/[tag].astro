@@ -1,0 +1,38 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import IssueCard from '../../components/IssueCard.astro';
+import { link } from '../../lib/utils';
+
+export const getStaticPaths = (async () => {
+  const isProd = import.meta.env.PROD;
+  const issues = await getCollection('issues', ({ data }) => !isProd || !data.draft);
+  const tags = [...new Set(issues.flatMap((i) => i.data.tags))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      issues: issues
+        .filter((i) => i.data.tags.includes(tag))
+        .sort((a, b) => b.data.issue - a.data.issue),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, issues } = Astro.props;
+---
+
+<BaseLayout title={`标签：${tag}`} description={`所有带「${tag}」标签的 AI 周报。`} wide>
+  <p class="eyebrow">标签</p>
+  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0.3rem 0 0.5rem;">{tag}</h1>
+  <p class="lede" style="margin:0 0 2rem;">
+    {issues.length} 期 · <a
+      href={link('/issues')}
+      style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;">返回全部往期</a
+    >
+  </p>
+
+  {issues.map((issue) => <IssueCard issue={issue} />)}
+</BaseLayout>

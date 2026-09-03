@@ -1,0 +1,283 @@
+# AI 周报 · Emergence AI Lab
+
+每周追踪模型发布与 AI 变化，并给出学生视角的判断。
+
+站点用 [Astro](https://astro.build) 构建，内容是 Markdown，部署在 GitHub Pages。
+附带一套「采集 → AI 成稿 → 人工核对」的流水线，**AI 只做筛选和整理，判断和实测由人来写**。
+
+---
+
+## 快速开始
+
+```bash
+npm install
+npm run dev
+```
+
+打开 http://localhost:4321 。`draft: true` 的期在本地能看到，但不会出现在线上。
+
+---
+
+## 目录结构
+
+```
+├── src/
+│   ├── content/issues/        每一期周报，一个 Markdown 文件
+│   ├── content.config.ts      frontmatter 的字段定义与校验
+│   ├── pages/                 首页 / 往期 / 单期 / 模型时间线 / 标签 / 关于 / RSS
+│   ├── layouts/               页面骨架
+│   ├── components/            期号卡片
+│   └── styles/global.css      全部样式，含深色模式
+├── data/models.json           模型时间线数据（含规格与版本谱系）
+├── scripts/
+│   ├── sources.json           信息源清单
+│   ├── collect.mjs            抓周报候选条目（不调用大模型）
+│   ├── harvest-models.mjs     抓模型发布，补时间线（不调用大模型）
+│   ├── enrich-specs.mjs       给时间线条目补硬规格（不调用大模型）
+│   ├── check-links.mjs        体检所有外链是否还活着
+│   ├── draft.mjs              生成草稿（调用大模型）
+│   ├── new-issue.mjs          手写一期时生成空模板
+│   ├── list-models.mjs        问端点要真实可用的模型 ID
+│   └── lib/llm.mjs            厂商无关的大模型调用层
+└── .github/workflows/
+    ├── deploy.yml             推送到 main 自动部署
+    └── weekly-draft.yml       每周一自动生成草稿并开 PR
+```
+
+---
+
+## 每周的实际流程
+
+### 1. 采集
+
+```bash
+npm run collect
+```
+
+从 `scripts/sources.json` 里的 22 个源抓最近 7 天的条目，去重、按「疑似模型发布」加权排序，写到 `.cache/collected.json`。**这一步不调用任何大模型，不花钱。**
+
+```bash
+npm run collect -- --days=14      # 换时间窗口
+npm run collect -- --check        # 体检所有源是否还活着
+npm run collect -- --only=openai,qwen
+```
+
+源会失效。每隔一阵跑一次 `--check`，挂掉的直接从 `sources.json` 里删或换地址。
+
+### 2. 生成草稿
+
+```bash
+npm run draft
+```
+
+把候选交给大模型，产出 `src/content/issues/<年份>-w<周>.md`，自动带好 frontmatter 和 `draft: true`。
+
+```bash
+npm run draft -- --dry-run                    # 只看会发出去什么，不调 API
+npm run draft -- --provider=deepseek          # 临时换厂商
+npm run draft -- --issue=7 --slug=2026-w40    # 手动指定期号和文件名
+```
+
+同时会把识别到的新模型发布写到 `.cache/proposed-models.json`，**不会自动并进 `data/models.json`** —— 日期和链接必须人工核对过再合并。
+
+### 3. 人工补完（这一步没法省）
+
+脚本刻意把「我们实际试了什么」和「对学生有什么用」两段留成 TODO。这是整份周报唯一不可替代的部分 —— 模型能帮你不漏掉东西，但没法替你回答「这周我真的用它做成了什么」。
+
+发布前的检查项：
+
+- [ ] 逐条核对链接和事实，尤其是标了「二手报道」的
+- [ ] 填掉所有 TODO，真的去试
+- [ ] 核对 `.cache/proposed-models.json` 后并进 `data/models.json`（注意 `id` 不能重复）
+- [ ] 补上 `editors`
+- [ ] `draft: false`
+
+### 4. 发布
+
+推到 `main` 就自动构建部署。
+
+---
+
+## 维护模型时间线
+
+模型时间线（站点上的 `/models`）的数据在 `data/models.json`，和周报解耦 —— 「某个模型什么时候发的」可以被单独查询和引用。
+
+```bash
+npm run harvest                                  # 最近 90 天，likes >= 200
+npm run harvest -- --days=365 --min-likes=500    # 拉长窗口、提高门槛
+npm run harvest -- --merge                       # 核对后直接并进 data/models.json
+```
+
+两条线，**都不调用大模型**：
+
+- **开放权重** —— Hugging Face API。作者、创建时间、下载量、许可、模态全部来自官方元数据，可核实。脚本会自动跳过 GGUF / AWQ / FP8 这类量化和格式变体 —— 它们是同一个模型的再打包，放进时间线只会把真正的发布淹掉。
+- **闭源模型（有 RSS 的）** —— OpenAI / DeepMind / Mistral / Qwen 的官方博客。判定发布看的是**模型名在标题里的位置**，不是关键词黑名单：真发布把模型名放最前（`GPT-5.6: …`、`Introducing Claude Opus 5`），客户故事放句中（`Model ML completes … with GPT-5.6 Sol`）。纯黑名单会误杀 —— GPT-5.6 的发布标题里就有 "scales" 一词。
+- **闭源模型（没 RSS 的）** —— Anthropic 和字节跳动 Seed 走 `sitemap.xml`（两家 robots.txt 都是 `Allow: /`）。⚠️ **不能用 sitemap 的 `lastmod` 当发布日**，那是最后修改时间 —— Anthropic 有四个模型页的 lastmod 全是同一天，那是一次站点重渲染。必须回页面里取标注的日期。要加新厂商，往 `SITEMAP_VENDORS` 里加一条配置即可。
+
+默认只写 `.cache/harvested-models.json` 供人工核对。**`note` 字段是机器拼的，必须改写成人话再发布** —— 机器只能告诉你「Apache 许可、472 万次下载」，说不出「27B 是单张高端显卡跑得动的甜点位」。
+
+### 补硬规格与「更新详情」
+
+```bash
+npm run enrich                 # 只补还没有 specs 的条目
+npm run enrich -- --refresh    # 全部重拉（下载量会变）
+```
+
+从 Hugging Face API 和模型自己的 `config.json` 抓：参数总量、权重体积、上下文长度、MoE 专家配置、架构、精度、许可、语言、配套论文。全部可核实，**不调用大模型**。
+
+时间线上每条会多出一个可展开的「规格与变化」。给条目加 `prev`（上一代同系列模型的 id）之后，差异是**自动算出来的**，不需要人工写：
+
+```json
+{ "id": "hy4-preview", "prev": "hy3", ... }
+```
+
+> 渲染成：参数量 298.8B → 780.0B（2.6 倍）、上下文 256K → 1M（4 倍）、权重体积 598 GB → 1.56 TB、MoE 专家数 192 → 256
+
+三条设计上的注意：
+
+- **精度变化会一并显示。** 否则「权重体积减半」会被读成「模型变小了」。真实案例：GLM-5.2 → 5.3 参数量没变，只是精度从 BF16 换成 FP8。
+- **闭源模型（Claude / GPT / Gemini）没有公开权重**，硬指标一律留空，只显示版本沿革和间隔天数，并注明以官方公告为准。不要为了让表格好看去猜。
+- **`prev` 只连同一条产品线。** 跨线对比（比如拿 MiniCPM-V 视觉线去比 MiniCPM5 文本线）会得出误导性的结论。
+- 想手写补充数字表达不了的东西，用 `changes` 字段（字符串数组）。
+
+### 链接体检
+
+这份周报的可信度几乎全押在「每条都有原始来源」上，死链等于自毁招牌。
+
+```bash
+npm run check-links                  # 查 models.json + 所有期的正文链接
+npm run check-links -- --only=models
+```
+
+建议每月跑一次。失效的链接要么换地址，要么在正文里标注「原链接已失效」，不要静默删掉。
+
+---
+
+## 换大模型厂商
+
+成稿脚本不绑定任何一家。复制 `.env.example` 成 `.env`，改两行就能换：
+
+```bash
+LLM_PROVIDER=deepseek
+LLM_MODEL=deepseek-chat
+DEEPSEEK_API_KEY=sk-...
+```
+
+| `LLM_PROVIDER` | 走的协议 | key 环境变量 |
+| --- | --- | --- |
+| `anthropic` | 官方 SDK（自适应思考 + 拒绝回退） | `ANTHROPIC_API_KEY` |
+| `openai` | OpenAI 兼容 | `OPENAI_API_KEY` |
+| `deepseek` | OpenAI 兼容 | `DEEPSEEK_API_KEY` |
+| `moonshot` | OpenAI 兼容 | `MOONSHOT_API_KEY` |
+| `zhipu` | OpenAI 兼容 | `ZHIPU_API_KEY` |
+| `qwen` | OpenAI 兼容（DashScope） | `DASHSCOPE_API_KEY` |
+| `siliconflow` | OpenAI 兼容 | `SILICONFLOW_API_KEY` |
+| `openrouter` | OpenAI 兼容 | `OPENROUTER_API_KEY` |
+| `gemini` | Google 原生 REST | `GEMINI_API_KEY` |
+| `ollama` | OpenAI 兼容（本地，免费） | 不需要 |
+| `custom` | 任意 OpenAI 兼容端点 | `LLM_API_KEY` + `LLM_BASE_URL` |
+
+### 先查真实的模型 ID
+
+**API 上的模型 ID 和 Hugging Face 上的仓库名经常对不上**，猜一个填进去换来的通常是 404 或空响应。直接问端点：
+
+```bash
+npm run models                      # 列出当前 provider 下所有可用模型
+npm run models -- --filter=kimi     # 按关键词过滤
+npm run models -- --provider=deepseek
+```
+
+> `scripts/lib/llm.mjs` 里每个 preset 的 `defaultModel` 只是兜底值，模型名换代很快。注意 `LLM_MODEL` 留空**不会报错**，而是静默回落到 `defaultModel` —— 成稿时终端会打印实际用的模型，留意那一行。
+
+### 用推理模型要注意
+
+Kimi K3、DeepSeek-R1 这类推理模型会先「想」很久再写正文，实测 186 条候选（约 4.5 万 token 输入）要想好几分钟。三件事：
+
+- **进度是可见的。** 终端会显示 `推理中… N 字符`，不是卡死。
+- **推理内容不进最终稿，但一样计费。** 跑完会单独报告推理字符数。
+- **`max_tokens` 要给够。** 推理和正文共享这个额度，给小了会出现「只有推理没有正文」——脚本会明确这样报错，而不是给你一个空文件。
+
+嫌慢或想省钱，用 `--max-items` 裁剪输入（候选已按重要性排好序，截掉的是最不重要的那批）：
+
+```bash
+npm run draft -- --max-items=80
+```
+
+一次采集的提示词约 4.5 万 token，主流厂商的上下文都装得下。想更省，可以调小 `sources.json` 里各源的 `maxItems`。
+
+不想花钱：`LLM_PROVIDER=ollama` 本地跑，或者干脆跳过 `draft`，用 `npm run new` 生成空模板自己写。
+
+---
+
+## 部署到 GitHub Pages
+
+1. 建仓库并推上去（这个目录可以单独作为一个仓库）：
+
+   ```bash
+   git init && git add -A && git commit -m "init"
+   gh repo create ai-weekly --public --source=. --push
+   ```
+
+2. 仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
+
+3. 推到 `main` 即自动部署。`base` 和 `site` 由工作流里的 `actions/configure-pages` 自动算出来，绑定自定义域名后也会自动跟着变，代码不用改。
+
+4. 把 `src/consts.ts` 里的 `SITE.repo` 改成你的仓库地址。
+
+### 让每周草稿自动生成（可选）
+
+在仓库 **Settings → Secrets and variables → Actions** 里配置：
+
+- Variables：`LLM_PROVIDER`、`LLM_MODEL`
+- Secrets：`LLM_API_KEY`
+
+之后每周一北京时间早 9 点会自动跑一遍并开一个 PR。因为草稿是 `draft: true`，即使误合并也不会把未核对的内容发到线上。
+
+---
+
+## 内容规范
+
+每条重要条目回答同样五个问题：
+
+1. **发生了什么** —— 事实，附原始来源链接
+2. **为什么重要** —— 相对之前变了什么
+3. **我们实际试了什么** —— 具体模型、版本、任务、日期；没试就写「未实测」
+4. **对学生有什么用** —— 能不能进作业、项目、社课的工作流
+5. **它仍有哪些边界** —— 失败案例、限制、需要人工核查的地方
+
+三条硬规矩：
+
+- **标注时间和版本。** 模型信息过期极快，一次体验不是永久结论。
+- **区分体验和横评。** 只有同一套任务、同一批提示词、同一个评分标准并保留原始输出，才叫横评。
+- **没试过就说没试过。** 宁可空着，不要编。
+
+新增一期：
+
+```bash
+npm run new           # 生成空模板，不调 API
+```
+
+---
+
+## 常用命令
+
+| 命令 | 作用 |
+| --- | --- |
+| `npm run dev` | 本地开发 |
+| `npm run build` | 构建到 `dist/` |
+| `npm run preview` | 预览构建产物 |
+| `npm run check` | 类型检查 |
+| `npm run collect` | 采集候选条目 |
+| `npm run draft` | 生成周报草稿 |
+| `npm run weekly` | 采集 + 成稿 |
+| `npm run new` | 生成空的一期模板 |
+| `npm run harvest` | 抓模型发布，补充时间线 |
+| `npm run check-links` | 体检所有外链 |
+| `npm run enrich` | 补模型硬规格 |
+| `npm run models` | 列出当前 provider 可用的模型 ID |
+
+---
+
+## 授权
+
+文章内容 CC BY 4.0，代码 MIT。

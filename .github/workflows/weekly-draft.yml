@@ -1,0 +1,65 @@
+name: 每周生成周报草稿
+
+on:
+  schedule:
+    # 每周一 UTC 01:00 = 北京时间周一早上 9 点
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 采集时间窗口（天）
+        required: false
+        default: '7'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: 采集
+        run: node scripts/collect.mjs --days=${{ github.event.inputs.days || '7' }}
+
+      - name: 生成草稿
+        env:
+          # 在仓库的 Settings → Secrets and variables → Actions 里配置。
+          # 换厂商只需要改这两个 secret，工作流本身不用动。
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'deepseek' }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: node scripts/draft.mjs
+
+      - name: 开一个 PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: weekly-draft
+          # 每周复用同一个分支，避免堆积一堆废弃分支
+          delete-branch: false
+          commit-message: 'chore: 本周周报草稿（自动生成）'
+          title: '📡 本周周报草稿'
+          body: |
+            脚本自动生成的草稿，**没有经过任何人工核对**。
+
+            合并前必须完成：
+
+            - [ ] 逐条核对链接和事实，尤其是标了「二手报道」的条目
+            - [ ] 填掉所有「我们实际试了什么」的 TODO —— 真的去试
+            - [ ] 填掉所有「对学生有什么用」的 TODO
+            - [ ] 检查 `.cache/proposed-models.json`，核对无误后并进 `data/models.json`
+            - [ ] 补上 `editors`
+            - [ ] 把 frontmatter 里的 `draft` 改成 `false`
+
+            > `draft: true` 的期不会出现在线上，所以误合并不会直接把未核对的内容发出去。
+          add-paths: |
+            src/content/issues/**

@@ -1,0 +1,164 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import {
+  formatParams,
+  formatBytes,
+  formatContext,
+  formatCount,
+  diffSpecs,
+} from '../lib/utils';
+
+interface Props {
+  model: CollectionEntry<'models'>;
+  /** 上一代同系列模型，用来算差异 */
+  prev?: CollectionEntry<'models'> | null;
+}
+
+const { model, prev = null } = Astro.props;
+const d = model.data;
+const s = d.specs;
+
+// 只列拿得到的字段。缺的整行不显示，不用「?」凑一个看起来完整的表。
+const rows: Array<[string, string]> = [];
+const push = (label: string, value: string | null | undefined) => {
+  if (value) rows.push([label, value]);
+};
+
+push('参数量', formatParams(s?.params));
+push('上下文窗口', formatContext(s?.contextTokens) && `${formatContext(s?.contextTokens)} token`);
+push('权重体积', formatBytes(s?.weightsBytes));
+push(
+  'MoE 结构',
+  s?.experts && s?.expertsPerToken
+    ? `${s.experts} 个专家，每 token 激活 ${s.expertsPerToken} 个`
+    : null,
+);
+push('架构', s?.architecture);
+push('权重精度', s?.precision);
+push('许可', s?.license?.toUpperCase());
+push('模态', s?.modality);
+push('语言', s?.languages?.join(' / '));
+push('下载量', formatCount(s?.downloads));
+push('社区收藏', formatCount(s?.likes));
+
+const diffs = prev ? diffSpecs(s, prev.data.specs) : [];
+
+// 闭源模型没有公开权重，规格和差异都算不出来 —— 但「上一代是谁、隔了多久」
+// 仍然是有用的更新信息，不该让这一半条目什么都不显示。
+const gapDays =
+  prev
+    ? Math.round(
+        (new Date(d.date).getTime() - new Date(prev.data.date).getTime()) / 86_400_000,
+      )
+    : null;
+
+const hasContent = rows.length > 0 || diffs.length > 0 || d.changes.length > 0 || !!prev;
+---
+
+{
+  hasContent && (
+    <details class="md">
+      <summary>
+        {d.changes.length > 0 ? '更新详情' : s ? '规格与变化' : '版本沿革'}
+        {d.changes.length > 0 && <span class="md__badge">{d.changes.length} 项更新</span>}
+        {d.changes.length === 0 && diffs.length > 0 && (
+          <span class="md__badge">相比上一代有 {diffs.length} 项变化</span>
+        )}
+      </summary>
+
+      <div class="md__body">
+        {d.changes.length > 0 && (
+          <div class="md__what">
+            <p class="md__label">这次更新了什么</p>
+            <ul class="md__changes">
+              {d.changes.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {prev && diffs.length === 0 && (
+          <div class="md__lineage">
+            <p class="md__label">上一代</p>
+            <p>
+              <a href={`#${prev.data.id}`}>{prev.data.name}</a>
+              <span class="md__gap">
+                {prev.data.date}
+                {gapDays != null && gapDays > 0 && ` · 间隔 ${gapDays} 天`}
+              </span>
+            </p>
+            {!s && (
+              <p class="md__hint">
+                闭源模型没有公开权重，参数量、上下文这些硬指标无法自动核实 —— 具体变化以
+                <a href={d.url} target="_blank" rel="noopener noreferrer">
+                  官方公告
+                </a>
+                为准。
+              </p>
+            )}
+          </div>
+        )}
+
+        {diffs.length > 0 && prev && (
+          <div class="md__diff">
+            <p class="md__label">
+              相比 <strong>{prev.data.name}</strong>（{prev.data.date}
+              {gapDays != null && gapDays > 0 && ` · 间隔 ${gapDays} 天`}）
+            </p>
+            <ul>
+              {diffs.map((x) => (
+                <li>
+                  <span class="md__diff-key">{x.label}</span>
+                  <span class="md__from">{x.from}</span>
+                  <span class="md__arrow" data-dir={x.direction}>
+                    →
+                  </span>
+                  <span class="md__to" data-dir={x.direction}>
+                    {x.to}
+                  </span>
+                  {x.ratio && <span class="md__ratio">{x.ratio}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {rows.length > 0 && (
+          <div>
+            {/* 有差异区时必须给规格表一个标题，否则两段会连成一片，读者分不清
+                哪些是「变化」哪些是「现状」 */}
+            {diffs.length > 0 && <p class="md__label">本代规格</p>}
+            <dl class="md__specs">
+              {rows.map(([k, v]) => (
+                <>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        <p class="md__foot">
+          {s?.arxiv && (
+            <a
+              href={`https://arxiv.org/abs/${s.arxiv}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              配套论文 arXiv:{s.arxiv}
+            </a>
+          )}
+          {s?.fetchedAt && (
+            <span>
+              规格抓取于 {s.fetchedAt}，来自 Hugging Face API 与模型 config.json。下载量会变，引用请带日期。
+            </span>
+          )}
+          {/* 沿革区已经说过闭源的事，这里不重复 */}
+          {!s && !prev && <span>闭源模型没有公开权重，规格以官方公告为准。</span>}
+        </p>
+      </div>
+    </details>
+  )
+}

@@ -1,0 +1,93 @@
+---
+import { SITE, NAV } from '../consts';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 用宽版容器（模型时间线、往期列表） */
+  wide?: boolean;
+}
+
+const { title, description, wide = false } = Astro.props;
+
+const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.org}`;
+const pageDesc = description ?? SITE.description;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const rssHref = new URL('rss.xml', Astro.site).href;
+
+// 当前导航高亮：把 base 前缀去掉后比较第一段路径
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.replace(base, '') || '/';
+const seg = '/' + (path.split('/').filter(Boolean)[0] ?? '');
+
+const link = (href: string) => `${base}${href}`.replace(/\/{2,}/g, '/') || '/';
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.title} RSS`} href={rssHref} />
+    <link rel="sitemap" href={link('/sitemap-index.xml')} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={`${SITE.title} · ${SITE.org}`} />
+    <meta property="og:title" content={title ?? SITE.title} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E"
+    />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class:list={['wrap', wide && 'wrap-wide']}>
+        <a class="brand" href={link('/')}>
+          {SITE.title}
+          <small>{SITE.org}</small>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          {
+            NAV.map((item) => (
+              <a
+                href={link(item.href)}
+                aria-current={item.href === seg || (item.href === '/' && seg === '/') ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class:list={['wrap', wide && 'wrap-wide']}>
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class:list={['wrap', wide && 'wrap-wide']}>
+        <span>{SITE.org} · 内容以 CC BY 4.0 发布，代码以 MIT 发布</span>
+        <span>
+          <a href={link('/rss.xml')}>RSS 订阅</a>
+          {' · '}
+          <a href={SITE.repo}>GitHub</a>
+          {' · '}
+          <a href={link('/about')}>关于与勘误</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

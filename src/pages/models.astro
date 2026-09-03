@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModelDetail from '../components/ModelDetail.astro';
+import { link, daysAgo } from '../lib/utils';
+
+const models = (await getCollection('models')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date),
+);
+
+const orgs = [...new Set(models.map((m) => m.data.org))].sort((a, b) => a.localeCompare(b));
+
+// prev 存的是 id，这里查成条目本身，供详情区算版本差异
+const byId = new Map(models.map((m) => [m.data.id, m]));
+
+// 按年份分组，方便扫读
+const byYear = new Map<string, typeof models>();
+for (const m of models) {
+  const year = m.data.date.slice(0, 4);
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(m);
+}
+const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
+---
+
+<BaseLayout
+  title="模型时间线"
+  description="按时间倒序记录各家发布的模型：什么时候发的、变了什么、对学生意味着什么。"
+  wide
+>
+  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 0.5rem;">模型时间线</h1>
+  <p class="lede" style="margin:0 0 0.5rem;">
+    共 {models.length} 条记录。每条都带官方来源链接和发布日期 —— 模型信息过期很快，日期比结论重要。
+  </p>
+  <p class="meta" style="margin:0 0 2rem;">
+    数据维护在仓库的 <code>data/models.json</code>，欢迎提 PR 补充或纠错。
+  </p>
+
+  <div class="filters">
+    <input
+      type="search"
+      id="q"
+      placeholder="搜索模型名、厂商、说明…"
+      aria-label="搜索模型"
+      autocomplete="off"
+    />
+    <button class="chip" data-org="" aria-pressed="true">全部</button>
+    {
+      orgs.map((o) => (
+        <button class="chip" data-org={o} aria-pressed="false">
+          {o}
+        </button>
+      ))
+    }
+  </div>
+
+  <div id="list">
+    {
+      years.map((year) => (
+        <section data-year-group={year}>
+          <h2 class="section-title" style="margin-top:2rem" data-year-head={year}>
+            {year}
+          </h2>
+          <ul class="timeline">
+            {byYear.get(year)!.map((m) => (
+              <li
+                class="tl-item"
+                id={m.data.id}
+                data-model-row
+                data-org={m.data.org}
+                data-search={[m.data.name, m.data.org, m.data.note, ...m.data.tags]
+                  .join(' ')
+                  .toLowerCase()}
+                data-recent={daysAgo(m.data.date) <= 30 ? 'true' : 'false'}
+              >
+                <div class="tl-date">
+                  <time datetime={m.data.date}>{m.data.date}</time>
+                </div>
+                <div class="tl-body">
+                  <h3>
+                    <a href={m.data.url} rel="noopener noreferrer" target="_blank">
+                      {m.data.name}
+                    </a>
+                    <span class="tl-org">{m.data.org}</span>
+                  </h3>
+                  <p>{m.data.note}</p>
+                  <div class="tag-row">
+                    {m.data.tags.map((t) => (
+                      <span class="tag">{t}</span>
+                    ))}
+                    {m.data.issue && (
+                      <a class="tag" href={link(`/issues`)} title={`第 ${m.data.issue} 期写过`}>
+                        第 {m.data.issue} 期
+                      </a>
+                    )}
+                  </div>
+
+                  <ModelDetail model={m} prev={m.data.prev ? (byId.get(m.data.prev) ?? null) : null} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <p class="empty-note" id="empty" hidden>没有匹配的模型。</p>
+</BaseLayout>
+
+<script>
+  const q = document.getElementById('q') as HTMLInputElement | null;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-org]')];
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-model-row]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-year-group]')];
+  const empty = document.getElementById('empty');
+
+  let activeOrg = '';
+
+  function apply() {
+    const term = (q?.value ?? '').trim().toLowerCase();
+    let shown = 0;
+
+    for (const row of rows) {
+      const okOrg = !activeOrg || row.dataset.org === activeOrg;
+      const okTerm = !term || (row.dataset.search ?? '').includes(term);
+      const visible = okOrg && okTerm;
+
+      row.hidden = !visible;
+      if (visible) shown++;
+    }
+
+    // 一整年都被过滤掉时，把年份标题也藏起来
+    for (const group of groups) {
+      const anyVisible = [...group.querySelectorAll<HTMLElement>('[data-model-row]')].some(
+        (r) => !r.hidden,
+      );
+      group.hidden = !anyVisible;
+    }
+
+    if (empty) empty.hidden = shown > 0;
+  }
+
+  q?.addEventListener('input', apply);
+
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      activeOrg = chip.dataset.org ?? '';
+      for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
+      apply();
+    });
+  }
+</script>

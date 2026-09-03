@@ -1,0 +1,142 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { link, formatDate } from '../../lib/utils';
+
+export const getStaticPaths = (async () => {
+  const issues = await getCollection('issues');
+  const sorted = issues.sort((a, b) => a.data.issue - b.data.issue);
+
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: sorted[i - 1] ?? null,
+      next: sorted[i + 1] ?? null,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content, headings } = await render(entry);
+
+// 只把 h2 放进目录，h3 太碎
+const toc = headings.filter((h: { depth: number }) => h.depth === 2);
+
+const relatedModels = (await getCollection('models'))
+  .filter((m) => m.data.issue === d.issue)
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
+---
+
+<BaseLayout title={`第 ${d.issue} 期 · ${d.title}`} description={d.summary}>
+  <article>
+    <header style="margin-bottom:2.5rem">
+      <div class="issue-card__top">
+        <span class="issue-card__no">第 {d.issue} 期</span>
+        <span class="meta">
+          {formatDate(d.date)} · 覆盖 {d.range}
+          {d.editors.length > 0 && ` · ${d.editors.join('、')}`}
+          {d.draft && ' · 草稿'}
+        </span>
+      </div>
+
+      <h1 style="font-size:1.85rem;line-height:1.4;letter-spacing:-0.02em;margin:0.3rem 0 0.9rem;font-weight:700;">
+        {d.title}
+      </h1>
+
+      <p class="lede" style="margin:0 0 1.5rem;">{d.summary}</p>
+
+      {
+        d.highlights.length > 0 && (
+          <ul style="margin:0 0 1.75rem;padding-left:1.2rem;color:var(--text-muted);font-size:0.95rem;">
+            {d.highlights.map((h) => (
+              <li style="margin-block:0.25rem">{h}</li>
+            ))}
+          </ul>
+        )
+      }
+
+      {
+        toc.length > 2 && (
+          <nav class="toc" aria-label="本期目录">
+            <p>本期目录</p>
+            <ol>
+              {toc.map((h: { slug: string; text: string }) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      relatedModels.length > 0 && (
+        <section style="margin-top:3.5rem">
+          <h2 class="section-title">本期涉及的模型发布</h2>
+          <ul class="timeline">
+            {relatedModels.map((m) => (
+              <li class="tl-item">
+                <div class="tl-date">
+                  <time datetime={m.data.date}>{m.data.date}</time>
+                </div>
+                <div class="tl-body">
+                  <h3>
+                    <a href={m.data.url} rel="noopener noreferrer" target="_blank">
+                      {m.data.name}
+                    </a>
+                    <span class="tl-org">{m.data.org}</span>
+                  </h3>
+                  <p>{m.data.note}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      d.tags.length > 0 && (
+        <div class="tag-row" style="margin-top:2.5rem">
+          {d.tags.map((t) => (
+            <a class="tag" href={link(`/tags/${encodeURIComponent(t)}`)}>
+              {t}
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <nav class="pager" aria-label="翻页">
+      {
+        prev ? (
+          <a href={link(`/issues/${prev.id}`)}>
+            <span>← 上一期</span>
+            第 {prev.data.issue} 期 · {prev.data.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next ? (
+          <a href={link(`/issues/${next.id}`)} style="text-align:right">
+            <span>下一期 →</span>
+            第 {next.data.issue} 期 · {next.data.title}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>

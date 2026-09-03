@@ -1,0 +1,252 @@
+{
+  "$comment": "信息源清单。所有 URL 在 2026-09-01 实测可用；跑 `npm run collect -- --check` 可随时体检。type: rss=RSS/Atom，hf-trending=Hugging Face 热门模型 API。weight 只影响草稿里的排序，不影响抓取。maxItems 用来给高噪音源封顶。",
+  "sources": [
+    {
+      "id": "openai",
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 3
+    },
+    {
+      "id": "anthropic-official",
+      "name": "Anthropic 官方公告",
+      "url": "https://www.anthropic.com/sitemap.xml",
+      "type": "sitemap",
+      "category": "厂商官方",
+      "weight": 3,
+      "maxItems": 30,
+      "note": "Anthropic 没有 RSS，但 robots.txt 是 Allow: /，sitemap 可用。发布页不一定在 /news/ 下 —— Fable 5.1 的公告就在根路径 /claude-fable-and-mythos-5-1。日期必须回页面取，sitemap 的 lastmod 是最后修改时间。",
+      "include": "anthropic\\.com/(news/|(claude-)?(opus|sonnet|haiku|fable|mythos)[\\w-]*$|claude-[\\w-]*(5|4)[\\w-]*$)",
+      "exclude": "/(careers|jobs|events|legal|terms|privacy|pricing|contact|supported-countries|aup|trust)"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic 相关报道（二手兜底）",
+      "url": "https://news.google.com/rss/search?q=Anthropic+Claude+model&hl=en-US&gl=US&ceid=US:en",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 1,
+      "maxItems": 15,
+      "note": "Anthropic 官网没有公开 RSS，这里用 Google News 检索兜底，因此是二手报道，写进周报前务必回到 anthropic.com/news 核对原文。"
+    },
+    {
+      "id": "deepmind",
+      "name": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 3
+    },
+    {
+      "id": "google-ai",
+      "name": "Google 官方博客 · AI",
+      "url": "https://blog.google/technology/ai/rss/",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 2
+    },
+    {
+      "id": "meta-eng",
+      "name": "Meta Engineering · ML",
+      "url": "https://engineering.fb.com/category/ml-applications/feed/",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 2,
+      "note": "ai.meta.com/blog 没有可用 RSS，用 Meta 工程博客的 ML 分类替代。"
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "url": "https://mistral.ai/rss.xml",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 2
+    },
+    {
+      "id": "qwen",
+      "name": "Qwen 通义千问",
+      "url": "https://qwenlm.github.io/blog/index.xml",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 3
+    },
+    {
+      "id": "together",
+      "name": "Together AI Blog",
+      "url": "https://www.together.ai/blog/rss.xml",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 1,
+      "maxItems": 20
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA · Deep Learning",
+      "url": "https://blogs.nvidia.com/blog/category/deep-learning/feed/",
+      "type": "rss",
+      "category": "厂商官方",
+      "weight": 1,
+      "maxItems": 20
+    },
+    {
+      "id": "msr",
+      "name": "Microsoft Research",
+      "url": "https://www.microsoft.com/en-us/research/feed/",
+      "type": "rss",
+      "category": "研究机构",
+      "weight": 1,
+      "maxItems": 20
+    },
+    {
+      "id": "hf-blog",
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "type": "rss",
+      "category": "开源社区",
+      "weight": 2,
+      "maxItems": 30
+    },
+    {
+      "id": "hf-trending",
+      "name": "Hugging Face 热门模型",
+      "url": "https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=40",
+      "type": "hf-trending",
+      "category": "开源社区",
+      "weight": 3,
+      "note": "直接看开源模型榜，是捕捉 DeepSeek / Qwen / Kimi / GLM 等新权重发布最快的一条线。"
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama Blog",
+      "url": "https://ollama.com/blog/rss.xml",
+      "type": "rss",
+      "category": "开源社区",
+      "weight": 1
+    },
+    {
+      "id": "simonw",
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/atom/everything/",
+      "type": "rss",
+      "category": "独立观察",
+      "weight": 3
+    },
+    {
+      "id": "import-ai",
+      "name": "Import AI",
+      "url": "https://importai.substack.com/feed",
+      "type": "rss",
+      "category": "行业周报",
+      "weight": 2
+    },
+    {
+      "id": "qbitai",
+      "name": "量子位",
+      "url": "https://www.qbitai.com/feed",
+      "type": "rss",
+      "category": "中文媒体",
+      "weight": 2,
+      "maxItems": 30
+    },
+    {
+      "id": "infoq-cn",
+      "name": "InfoQ 中文",
+      "url": "https://www.infoq.cn/feed",
+      "type": "rss",
+      "category": "中文媒体",
+      "weight": 1,
+      "maxItems": 20
+    },
+    {
+      "id": "hn-ai",
+      "name": "Hacker News · AI 高分帖",
+      "url": "https://hnrss.org/newest?q=AI+OR+LLM+OR+GPT+OR+Claude+OR+Gemini&points=150",
+      "type": "rss",
+      "category": "社区讨论",
+      "weight": 1
+    },
+    {
+      "id": "hn-front",
+      "name": "Hacker News · 首页高分",
+      "url": "https://hnrss.org/frontpage?points=300",
+      "type": "rss",
+      "category": "社区讨论",
+      "weight": 1
+    },
+    {
+      "id": "arxiv-cl",
+      "name": "arXiv cs.CL（计算语言学）",
+      "url": "https://rss.arxiv.org/rss/cs.CL",
+      "type": "rss",
+      "category": "论文",
+      "weight": 1,
+      "maxItems": 20,
+      "note": "arXiv 的 RSS 只给当天新投稿，噪音大，封顶 20 条。真要读论文别只靠这里。"
+    },
+    {
+      "id": "arxiv-ai",
+      "name": "arXiv cs.AI（人工智能）",
+      "url": "https://rss.arxiv.org/rss/cs.AI",
+      "type": "rss",
+      "category": "论文",
+      "weight": 1,
+      "maxItems": 20
+    },
+    {
+      "id": "arxiv-lg",
+      "name": "arXiv cs.LG（机器学习）",
+      "url": "https://rss.arxiv.org/rss/cs.LG",
+      "type": "rss",
+      "category": "论文",
+      "weight": 1,
+      "maxItems": 20
+    }
+  ],
+  "keywords": {
+    "$comment": "命中「发布词 + 模型词」的条目会被标成 likelyRelease，在草稿里优先排。大小写不敏感。",
+    "release": [
+      "introducing",
+      "announcing",
+      "announces",
+      "launch",
+      "now available",
+      "release",
+      "released",
+      "releasing",
+      "generally available",
+      "open-sourcing",
+      "open sourced",
+      "开源",
+      "发布",
+      "上线",
+      "推出",
+      "亮相"
+    ],
+    "model": [
+      "gpt",
+      "claude",
+      "gemini",
+      "llama",
+      "mistral",
+      "qwen",
+      "deepseek",
+      "kimi",
+      "glm",
+      "grok",
+      "phi",
+      "command",
+      "nova",
+      "minimax",
+      "ernie",
+      "doubao",
+      "hunyuan",
+      "sora",
+      "veo",
+      "model",
+      "模型",
+      "大模型"
+    ]
+  }
+}
