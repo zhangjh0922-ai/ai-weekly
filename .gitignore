@@ -20,3 +20,5 @@ Thumbs.db
 npm-debug.log*
 .vscode/
 .idea/
+.playwright-cli/
+output/

@@ -147,12 +147,59 @@ const items = collected.items.slice(0, MAX_ITEMS).map((i) => ({
   alsoSeenIn: i.alsoSeenIn.length ? i.alsoSeenIn : undefined,
 }));
 
+/**
+ * 往期已经写过的条目。
+ *
+ * 不给模型这份清单，它就会把上期写过的东西再写一遍 —— 采集是按时间窗口滚动的，
+ * 同一条公告很可能连续两周都被抓到（真实案例：Fable 5.1 在第 2 期写过，
+ * 第 3 期采集时官网页面又被改动，于是再次进入候选池）。
+ */
+function previouslyCovered() {
+  if (!fs.existsSync(paths.issues)) return [];
+  const out = [];
+  for (const f of fs.readdirSync(paths.issues).filter((x) => x.endsWith('.md'))) {
+    const text = fs.readFileSync(path.join(paths.issues, f), 'utf8');
+    const issueNo = text.match(/^issue:\s*(\d+)/m)?.[1] ?? '?';
+    for (const m of text.matchAll(/^### \d+\.\s*(.+)$/gm)) {
+      out.push({ issue: Number(issueNo), heading: m[1].trim() });
+    }
+    for (const m of text.matchAll(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g)) {
+      out.push({ issue: Number(issueNo), url: m[1] });
+    }
+  }
+  return out;
+}
+
+const covered = previouslyCovered();
+const coveredUrls = new Set(covered.filter((c) => c.url).map((c) => c.url));
+const coveredHeadings = covered.filter((c) => c.heading);
+
+// 候选里已经写过的，直接标出来，让模型知道不要重复
+const itemsMarked = items.map((i) =>
+  coveredUrls.has(i.url) ? { ...i, alreadyCovered: true } : i,
+);
+const dupCount = itemsMarked.filter((i) => i.alreadyCovered).length;
+
+const COVERED_BLOCK = coveredHeadings.length
+  ? `
+<往期已写过>
+以下条目在往期正文里已经作为独立小节写过。**不要再写成正文条目**；
+只有当本周出现了实质性新进展（新数字、新事实、新阶段）时，才可以再写，
+并且必须明确说明「相比第 N 期新增了什么」。
+
+${coveredHeadings.map((c) => `- 第 ${c.issue} 期：${c.heading}`).join('\n')}
+</往期已写过>
+
+另外，候选条目里带 \`"alreadyCovered": true\` 的，其原始链接在往期已被引用过（共 ${dupCount} 条）。
+`
+  : '';
+
 const USER_PROMPT = `这是 ${collected.rangeLabel} 期间从 ${collected.sourceCount} 个信息源抓到的 ${items.length} 条候选。
 
 排序已经做过初步加权：likelyRelease=true 的排在前面，alsoSeenIn 表示这条被多个源同时收录（热度信号）。
-
+${COVERED_BLOCK}
 <候选条目>
-${JSON.stringify(items, null, 1)}
+${JSON.stringify(itemsMarked, null, 1)}
 </候选条目>
 
 ${RESPONSE_SPEC}`;

@@ -38,6 +38,27 @@
     ]
   },
   {
+    "id": "gpt-6-astra",
+    "name": "GPT-6 Astra",
+    "org": "OpenAI",
+    "date": "2026-09-03",
+    "url": "https://openai.com/index/gpt-6-astra",
+    "note": "OpenAI 新一代旗舰，官方称「最智能、最对齐」。API $10/百万输入、$50/百万输出。值得单独记一笔：官方承认它达到了自家 Preparedness 框架里网络安全的 Critical 阈值 —— 与同期 Fable 5.1「可发现漏洞但不可开发利用代码」的表述形成对照。",
+    "tags": [
+      "闭源 API"
+    ],
+    "prev": "gpt-5-6",
+    "changes": [
+      "官方称 FrontierMath Tier 4 (v2) 得 98%、ARC-AGI-3 得 99.9%、ExploitBench 得 100%，三项均称已饱和",
+      "官方称 Terminal-Bench Science 0.1 得 64.6%，对比 Claude Fable 5.1 的 52.6%，且 API 成本估算低约 31%",
+      "ARC Prize Foundation 的 Greg Kamradt 称 Astra 在 96% 的关卡上超过其人类操作效率基线",
+      "对齐评测（基于此前 Hugging Face 事故新建）：GPT-5.6 Sol 在无生产防护时 48% 的情况越界，Astra 为 0%",
+      "官方承认在网络安全上达到 Preparedness Framework 的 Critical 阈值，具备识别并开发零日漏洞利用的能力",
+      "API 定价 $10/百万输入、$50/百万输出；Fast 模式速度最高 2 倍、价格也是 2 倍",
+      "发布当天先向少量机构开放，随后几天铺向 ChatGPT Plus/Pro/Business/Enterprise、OpenAI API、Azure 与 AWS Bedrock"
+    ]
+  },
+  {
     "id": "deepseek-v4-flash-vision-exp",
     "name": "DeepSeek-V4-Flash-Vision-Exp",
     "org": "DeepSeek",
