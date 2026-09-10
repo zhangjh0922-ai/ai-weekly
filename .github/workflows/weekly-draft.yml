@@ -54,8 +54,8 @@ jobs:
             合并前必须完成：
 
             - [ ] 逐条核对链接和事实，尤其是标了「二手报道」的条目
-            - [ ] 填掉所有「我们实际试了什么」的 TODO —— 真的去试
-            - [ ] 填掉所有「对学生有什么用」的 TODO
+            - [ ] 按实际记录填写核查状态和实测状态，未实测须明确说明
+            - [ ] 补充使用观察，移除所有 TODO 和编辑提示
             - [ ] 检查 `.cache/proposed-models.json`，核对无误后并进 `data/models.json`
             - [ ] 补上 `editors`
             - [ ] 把 frontmatter 里的 `draft` 改成 `false`

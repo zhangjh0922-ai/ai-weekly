@@ -29,9 +29,9 @@ const LatestContent = latest ? (await render(latest)).Content : null;
     </h1>
     <p class="lede" style="margin:0;">{SITE.tagline}。</p>
     <p class="lede" style="margin:0.6rem 0 0;font-size:0.95rem;">
-      每条都尽量回答同样五个问题：发生了什么、为什么重要、我们实际试了什么、对学生有什么用、它仍有哪些边界。
+      收录模型发布、产品更新与研究动态，附来源链接与编辑观察。
       <a href={link('/about')} style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;"
-        >为什么这么写 →</a
+        >了解这份周报 →</a
       >
     </p>
   </section>
@@ -71,7 +71,7 @@ const LatestContent = latest ? (await render(latest)).Content : null;
       </section>
     ) : (
       <p class="empty-note">
-        还没有任何一期。运行 <code>npm run new</code> 创建第 1 期，或 <code>npm run weekly</code> 让脚本先拉一份草稿。
+        第一期周报正在准备中，欢迎稍后回来看看。
       </p>
     )
   }

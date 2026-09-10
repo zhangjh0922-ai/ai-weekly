@@ -1,0 +1,65 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntries, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { link, formatDate, isoDate } from '../../lib/utils';
+
+export const getStaticPaths = (async () => {
+  const concepts = await getCollection('concepts');
+  return concepts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const related = await getEntries(d.related);
+const issues = (await getCollection('issues', ({ data }) => !data.draft))
+  .filter((issue) => issue.body?.includes(`(concept:${entry.id})`))
+  .sort((a, b) => b.data.issue - a.data.issue);
+---
+
+<BaseLayout title={`${d.title}是什么？ · 概念指南`} description={d.summary}>
+  <article>
+    <header class="concept-header">
+      <a class="concept-back" href={link('/concepts')}>← 全部概念</a>
+      <p class="eyebrow">{d.category}</p>
+      <h1>{d.title}</h1>
+      <p class="concept-english" lang="en">{d.english}</p>
+      <p class="lede concept-definition">{d.summary}</p>
+      <p class="concept-updated">更新于 <time datetime={isoDate(d.updated)}>{formatDate(d.updated)}</time></p>
+    </header>
+
+    <div class="prose"><Content /></div>
+
+    <section class="concept-section prose" aria-labelledby="concept-sources">
+      <h2 id="concept-sources">来源与延伸阅读</h2>
+      <ul>
+        {d.sources.map((source: { title: string; url: string }) => (
+          <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>
+        ))}
+      </ul>
+    </section>
+
+    {related.length > 0 && (
+      <section class="concept-section" aria-labelledby="related-concepts">
+        <h2 class="section-title" id="related-concepts">接着了解</h2>
+        <div class="tag-row">
+          {related.map((concept) => (
+            <a class="tag" href={link(`/concepts/${concept.id}`)}>{concept.data.title}</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {issues.length > 0 && (
+      <section class="concept-section prose" aria-labelledby="concept-issues">
+        <h2 id="concept-issues">在周报中读到它</h2>
+        <ul>
+          {issues.map((issue) => (
+            <li><a href={link(`/issues/${issue.id}`)}>第 {issue.data.issue} 期 · {issue.data.title}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</BaseLayout>

@@ -55,7 +55,7 @@
       "对齐评测（基于此前 Hugging Face 事故新建）：GPT-5.6 Sol 在无生产防护时 48% 的情况越界，Astra 为 0%",
       "官方承认在网络安全上达到 Preparedness Framework 的 Critical 阈值，具备识别并开发零日漏洞利用的能力",
       "API 定价 $10/百万输入、$50/百万输出；Fast 模式速度最高 2 倍、价格也是 2 倍",
-      "发布当天先向少量机构开放，随后几天铺向 ChatGPT Plus/Pro/Business/Enterprise、OpenAI API、Azure 与 AWS Bedrock"
+      "发布当天先向少量机构开放，随后几天陆续向 ChatGPT Plus/Pro/Business/Enterprise、OpenAI API、Azure 与 AWS Bedrock 开放"
     ]
   },
   {
@@ -64,7 +64,7 @@
     "org": "DeepSeek",
     "date": "2026-08-31",
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp",
-    "note": "DeepSeek V4 系列的实验性视觉版本，MIT 许可，权重直接上了 Hugging Face。名字里的 Exp 是官方自己打的标签 —— 别拿它当稳定依赖。",
+    "note": "DeepSeek V4 系列的实验性视觉版本，MIT 许可，权重已在 Hugging Face 发布。名称中的 Exp 表明它仍处于实验阶段。",
     "tags": [
       "开源权重",
       "多模态",
@@ -126,7 +126,7 @@
     "org": "腾讯",
     "date": "2026-08-27",
     "url": "https://huggingface.co/tencent/Hy4-preview",
-    "note": "混元 Hy4 预览版：770B 总参 / 49B 激活的 MoE，1M 上下文，纯文本不带视觉，权重 1.56TB。对比 7 月的 Hy3（295B / 21B 激活 / 25.6 万上下文 / 598GB）是一次全面加大 —— 但 1.56TB 这个体积基本排除了个人设备本地跑的可能。",
+    "note": "混元 Hy4 预览版：770B 总参 / 49B 激活的 MoE，1M 上下文，纯文本不带视觉，权重 1.56TB。相比 7 月的 Hy3（295B / 21B 激活 / 25.6 万上下文 / 598GB），参数规模、上下文和权重体积均有增加，本地部署的硬件门槛较高。",
     "tags": [
       "开源权重",
       "MoE",
@@ -154,7 +154,7 @@
       "腾讯开源新一代 MoE 旗舰 Hy4 preview，总参数 770B、每 token 激活 49B，上下文 1M",
       "注意力采用 Gated DSA 配 IndexCache 跨层索引复用，残差路径使用 iHC",
       "内置 10B 参数原生 MTP 层用于投机解码，提供 vLLM 与 SGLang 官方部署镜像",
-      "官方称 163 名专家盲评 203 项工程任务，均分 2.99 小胜 GLM 5.3 与 Kimi K3",
+      "官方称 163 名专家盲评 203 项工程任务，均分 2.99，略高于 GLM 5.3 与 Kimi K3",
       "权重以 Apache 2.0 协议开源，同步发布 FP8 量化版 Hy4 preview-FP8",
       "推理默认 high 深度思维链，可切 no_think 模式直接作答"
     ]
@@ -165,7 +165,7 @@
     "org": "Google DeepMind",
     "date": "2026-08-26",
     "url": "https://deepmind.google/blog/intelligent-transcription-with-gemini-3-5-transcribe",
-    "note": "专做语音转文字。对学生最直接的用途是课堂录音和访谈转录 —— 但「转录准确」和「它顺手替你把话改通顺」是两回事，用于研究访谈时必须核对原音。",
+    "note": "专做语音转文字，可用于课堂录音和访谈转录。阅读结果时需要区分逐字转录与自动整理后的表达；引用访谈内容前，建议核对原音。",
     "tags": [
       "闭源 API",
       "语音"
@@ -228,7 +228,7 @@
     "org": "Z.ai（智谱）",
     "date": "2026-08-25",
     "url": "https://huggingface.co/zai-org/GLM-5.3-Flash",
-    "note": "GLM-5.3 的多模态 Flash 版，一周 38 万次下载，是主力版的近 6 倍。Together 用 900 次 DeepSWE rollout 实测：相比正式版，Flash 的 pass@1 低 5.6 分，但成本只有 1/17（pass@4 差距缩到 2.6 分）—— 这个「便宜 17 倍、差 5.6 分」的取舍比任何跑分榜都实用。",
+    "note": "GLM-5.3 的多模态 Flash 版，一周 38 万次下载，是主力版的近 6 倍。Together 用 900 次 DeepSWE rollout 实测：相比正式版，Flash 的 pass@1 低 5.6 分，但成本只有 1/17（pass@4 差距缩到 2.6 分）。这组结果可用于比较该测试条件下的成本与表现。",
     "tags": [
       "开源权重",
       "多模态",
@@ -270,7 +270,7 @@
     "org": "阿里通义",
     "date": "2026-08-24",
     "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
-    "note": "多模态 MoE：125B 总参但只激活 6B，官方称它同时是 Qwen4 架构的早期预览。上线一周登上 Hugging Face 热度榜第一（4500+ likes / 15.8 万下载）。激活只有 6B 意味着推理开销接近小模型 —— 这是它能被社区大量量化和试用的关键。",
+    "note": "多模态 MoE：125B 总参、6B 激活，官方称它同时是 Qwen4 架构的早期预览。上线一周登上 Hugging Face 热度榜第一（4500+ likes / 15.8 万下载）。",
     "tags": [
       "开源权重",
       "多模态",
@@ -367,7 +367,7 @@
     "org": "阿里通义",
     "date": "2026-08-08",
     "url": "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B",
-    "note": "2.4 万亿总参数、950 亿激活的 MoE —— 是这份时间线里参数量最大的开放权重模型。个人无法部署，意义在于它把「开放权重」的规模上限又推高了一档。",
+    "note": "2.4 万亿总参数、950 亿激活的 MoE，是这份时间线里参数量最大的开放权重模型，部署的硬件门槛较高。",
     "tags": [
       "开源权重",
       "MoE"
@@ -403,7 +403,7 @@
     "org": "MiniMax",
     "date": "2026-08-07",
     "url": "https://huggingface.co/MiniMaxAI/MiniMax-Music3",
-    "note": "音乐生成模型。正好撞上 Sony、Warner 起诉 Anthropic 的档口 —— 音乐生成的训练数据版权问题目前没有定论，做社团项目要特别当心。",
+    "note": "音乐生成模型。发布时正值 Sony、Warner 起诉 Anthropic，音乐生成的训练数据版权问题仍值得关注。",
     "tags": [
       "开源权重",
       "音乐生成"
@@ -439,7 +439,7 @@
     "org": "阿里通义",
     "date": "2026-08-05",
     "url": "https://huggingface.co/Qwen/Qwen3.8-27B",
-    "note": "Apache 许可，多模态，472 万次下载、1.3 万 likes —— 本时间线里社区热度最高的一条。27B 这个尺寸是「单张高端显卡勉强跑得动」的甜点位，这大概是它下载量爆炸的原因。",
+    "note": "Apache 许可，多模态，27B 参数，472 万次下载、1.3 万 likes。",
     "tags": [
       "开源权重",
       "多模态",
@@ -499,7 +499,7 @@
     "org": "DeepSeek",
     "date": "2026-07-31",
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731",
-    "note": "V4-Flash 的 7 月迭代版，MIT 许可，456 万次下载 —— 下载量和 Qwen3.8-27B 一个量级。MIT 意味着商用和二次分发几乎没有限制。",
+    "note": "V4-Flash 的 7 月迭代版，MIT 许可，456 万次下载，下载量和 Qwen3.8-27B 一个量级。",
     "tags": [
       "开源权重",
       "MIT"
@@ -557,7 +557,7 @@
     "org": "NVIDIA",
     "date": "2026-07-29",
     "url": "https://huggingface.co/nvidia/NVIDIA-NemotronLabs-VoiceChat-11B",
-    "note": "语音对话模型，11B。下载量只有 3400 —— 语音这条线的社区规模比文本小得多，遇到问题能搜到的资料也少。",
+    "note": "11B 语音对话模型，记录时的下载量为 3400。",
     "tags": [
       "开源权重",
       "语音"
@@ -595,7 +595,7 @@
     "org": "Liquid AI",
     "date": "2026-07-28",
     "url": "https://huggingface.co/LiquidAI/LFM2.5-2.6B",
-    "note": "2.6B 的小模型，19.8 万次下载。这个尺寸的意义是能在普通笔记本甚至手机上离线跑 —— 对没有 API 预算、或者需要处理不能上传的材料的人，小模型是唯一的选项。",
+    "note": "2.6B 的小模型，19.8 万次下载。对于 API 预算有限或需要离线处理材料的任务，可以考虑这类本地模型，并结合设备条件评估可用性。",
     "tags": [
       "开源权重",
       "小模型",
@@ -685,7 +685,7 @@
     "org": "Anthropic",
     "date": "2026-07-24",
     "url": "https://www.anthropic.com/news/claude-opus-5",
-    "note": "Anthropic 当前的主力模型。Opus 档是能力优先、价格也最高的一档；4.5→4.6→4.7→4.8→5 这条线在 2025-11 到 2026-07 之间迭代了五次，节奏比任何一家都快。",
+    "note": "Anthropic 的 Opus 产品线，定位偏重能力。4.5→4.6→4.7→4.8→5 这五个版本集中在 2025-11 到 2026-07 之间发布。",
     "tags": [
       "闭源 API"
     ],
@@ -746,7 +746,7 @@
     "org": "Microsoft",
     "date": "2026-07-17",
     "url": "https://huggingface.co/microsoft/Fara1.5-27B",
-    "note": "27B 多模态，MIT 许可。下载量 2188，属于「发布了但社区还没用起来」的状态。",
+    "note": "27B 多模态，MIT 许可，记录时的下载量为 2188。",
     "tags": [
       "开源权重",
       "多模态",
@@ -785,7 +785,7 @@
     "org": "Mistral AI",
     "date": "2026-07-16",
     "url": "https://huggingface.co/mistralai/Shieldstral-1.0-3B",
-    "note": "3B 的安全护栏模型，Apache 许可 —— 不是用来聊天的，是用来给别的模型的输入输出做审查的。做面向同学的 AI 工具时，这类模型是绕不开的一环。",
+    "note": "3B 安全护栏模型，Apache 许可，用于审查其他模型的输入与输出，可作为 AI 应用内容审核的一种方案。",
     "tags": [
       "开源权重",
       "小模型",
@@ -951,7 +951,7 @@
     "org": "Anthropic",
     "date": "2026-06-30",
     "url": "https://www.anthropic.com/news/claude-sonnet-5",
-    "note": "Sonnet 档是能力与成本的平衡位，通常也是各家 API 里性价比最合适的默认选择。",
+    "note": "Sonnet 档定位于兼顾能力与成本，是否适合具体任务仍需结合使用效果和调用费用判断。",
     "tags": [
       "闭源 API"
     ],
@@ -971,7 +971,7 @@
     "org": "Google DeepMind",
     "date": "2026-06-29",
     "url": "https://huggingface.co/google/tabfm-1.0.0-pytorch",
-    "note": "表格数据的基础模型 —— 不是聊天模型。做数据分析类项目时，这类专门模型往往比让通用大模型硬算靠谱。",
+    "note": "面向表格数据的基础模型。做数据分析项目时，可以将这类专用模型纳入比较，检查它在具体任务上的表现。",
     "tags": [
       "开源权重",
       "数据分析"
@@ -1062,7 +1062,7 @@
     "org": "Mistral AI",
     "date": "2026-06-23",
     "url": "https://mistral.ai/news/ocr-4/",
-    "note": "专做文档识别。把 PDF 扫描件、拍照的讲义转成可搜索文字，是学生高频需求 —— 这条线值得和百度的 Unlimited-OCR、Qianfan-OCR 一起横评。",
+    "note": "专做文档识别，可将 PDF 扫描件、拍照的讲义转成可搜索文字。可以与百度的 Unlimited-OCR、Qianfan-OCR 比较识别效果。",
     "tags": [
       "闭源 API",
       "OCR"
@@ -1102,7 +1102,7 @@
     "org": "阿里通义",
     "date": "2026-06-22",
     "url": "https://huggingface.co/Qwen/Qwen-AgentWorld-35B-A3B",
-    "note": "面向智能体场景的 MoE（35B 总参 / 3B 激活），Apache 许可。3B 激活意味着推理开销接近小模型。",
+    "note": "面向智能体场景的 MoE（35B 总参 / 3B 激活），Apache 许可。",
     "tags": [
       "开源权重",
       "智能体",
@@ -1140,7 +1140,7 @@
     "org": "百度",
     "date": "2026-06-19",
     "url": "https://huggingface.co/baidu/Unlimited-OCR",
-    "note": "MIT 许可的 OCR 模型，310 万次下载、4163 likes —— 是这份时间线里最受欢迎的专用模型。对要处理大量中文扫描材料的人，这类专用模型比通用多模态模型更值得先试。",
+    "note": "MIT 许可的 OCR 模型，310 万次下载、4163 likes。处理大量中文扫描材料时，可以将它与通用多模态模型比较识别效果。",
     "tags": [
       "开源权重",
       "OCR",
@@ -1222,7 +1222,7 @@
     "org": "Moonshot AI（月之暗面）",
     "date": "2026-06-13",
     "url": "https://huggingface.co/moonshotai/Kimi-K3",
-    "note": "多模态，279 万次下载、1.1 万 likes —— 中文开放权重模型里社区反响最强的一条之一。",
+    "note": "多模态，279 万次下载、1.1 万 likes，在 Hugging Face 上受到较多关注。",
     "tags": [
       "开源权重",
       "多模态",
@@ -1298,7 +1298,7 @@
     "org": "Google DeepMind",
     "date": "2026-06-09",
     "url": "https://deepmind.google/blog/introducing-gemma-4-12b-a-unified-encoder-free-multimodal-model/",
-    "note": "官方描述为「统一的、无编码器的多模态模型」（unified, encoder-free）。12B 尺寸配合 Gemma 一贯的开放许可，是学生能实际跑起来的多模态选项之一。",
+    "note": "官方描述为「统一的、无编码器的多模态模型」（unified, encoder-free）。12B 尺寸、开放许可，可作为本地多模态实验的候选模型。",
     "tags": [
       "开源权重",
       "多模态",
@@ -1319,7 +1319,7 @@
     "org": "Google DeepMind",
     "date": "2026-06-09",
     "url": "https://huggingface.co/google/diffusiongemma-26B-A4B-it",
-    "note": "扩散式语言模型（不是常见的自回归架构），Apache 许可，134 万次下载。架构路线上的分叉，值得当作「模型不只有一种做法」的教学案例。",
+    "note": "扩散式语言模型，采用与常见自回归模型不同的架构，Apache 许可，134 万次下载。适合用来了解语言模型的另一种技术路线。",
     "tags": [
       "开源权重",
       "多模态",
@@ -1356,7 +1356,7 @@
     "org": "Z.ai（智谱）",
     "date": "2026-06-09",
     "url": "https://huggingface.co/zai-org/SCAIL-2",
-    "note": "视频生成方向，MIT 许可。下载量 4243，还处在早期。",
+    "note": "视频生成方向，MIT 许可，记录时的下载量为 4243。",
     "tags": [
       "开源权重",
       "视频生成",
@@ -1470,7 +1470,7 @@
     "org": "Liquid AI",
     "date": "2026-05-28",
     "url": "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B",
-    "note": "8B 总参 / 1B 激活的 MoE。这种「参数不小但激活很少」的设计是让小设备跑得动大模型的主流思路之一。",
+    "note": "8B 总参 / 1B 激活的 MoE，每次推理仅激活部分参数。",
     "tags": [
       "开源权重",
       "小模型",
@@ -1578,7 +1578,7 @@
     "org": "OpenBMB（面壁智能）",
     "date": "2026-05-21",
     "url": "https://huggingface.co/openbmb/MiniCPM5-1B",
-    "note": "1B 参数，79 万次下载，Apache 许可。面壁一直做端侧小模型 —— 这个体量真的能塞进手机，适合做「离线可用」的社团项目。",
+    "note": "1B 参数，79 万次下载，Apache 许可。面壁持续关注端侧小模型，这一版本可作为离线应用的候选模型。",
     "tags": [
       "开源权重",
       "小模型",
@@ -1715,7 +1715,7 @@
     "org": "Google DeepMind",
     "date": "2026-05-15",
     "url": "https://deepmind.google/blog/gemini-3-5-frontier-intelligence-with-action/",
-    "note": "Gemini 3.5 主版本。之后衍生出 Flash、Flash-Lite、Flash Cyber、Transcribe 等一大堆变体 —— Google 的命名细分程度是各家里最高的，写作时必须写全。",
+    "note": "Gemini 3.5 主版本，之后衍生出 Flash、Flash-Lite、Flash Cyber、Transcribe 等变体。引用时写明完整型号，有助于区分用途和版本。",
     "tags": [
       "闭源 API",
       "多模态"
@@ -1736,7 +1736,7 @@
     "org": "腾讯",
     "date": "2026-05-11",
     "url": "https://huggingface.co/tencent/Hy-MT2-30B-A3B",
-    "note": "专做翻译的 MoE（30B 总参 / 3B 激活），Apache 许可，同期还发了 1.8B 的小版本。翻译是专用模型仍然常常打得过通用模型的领域之一。",
+    "note": "专做翻译的 MoE（30B 总参 / 3B 激活），Apache 许可，同期还发了 1.8B 的小版本。可以与通用模型比较不同语言和文本类型下的翻译效果。",
     "tags": [
       "开源权重",
       "翻译",
@@ -1832,7 +1832,7 @@
     "org": "小米",
     "date": "2026-04-27",
     "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro",
-    "note": "MIT 许可，4.8 万次下载。手机厂商下场做开放权重模型，方向多半是端侧。",
+    "note": "MIT 许可，4.8 万次下载，是小米发布的开放权重模型。",
     "tags": [
       "开源权重",
       "中文",
@@ -1892,7 +1892,7 @@
     "org": "字节跳动 Seed",
     "date": "2026-04-23",
     "url": "https://seed.bytedance.com/blog/seed3d-2-0-released-higher-precision-and-greater-usability",
-    "note": "3D 生成模型，官方称精度和可用性都有提升。3D 这条线目前各家都还在早期。",
+    "note": "3D 生成模型，官方称精度和可用性都有提升。",
     "tags": [
       "闭源 API",
       "3D 生成"
@@ -1912,7 +1912,7 @@
     "org": "DeepSeek",
     "date": "2026-04-22",
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro",
-    "note": "V4 世代的首发主力版，MIT 许可，80.9 万次下载、5492 likes。同日还发了 Base（未经指令微调）版本 —— 一般人要的是这个非 Base 版。",
+    "note": "V4 世代的首发主力版，MIT 许可，80.9 万次下载、5492 likes。同日还发布了 Base（未经指令微调）版本，使用时需区分两者。",
     "tags": [
       "开源权重",
       "MIT"
@@ -1948,7 +1948,7 @@
     "org": "DeepSeek",
     "date": "2026-04-22",
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash",
-    "note": "和 Pro 同日发布的轻量档，MIT 许可，170 万次下载 —— 比 Pro 还高，又一次印证「大多数人要的是跑得动，不是最强」。",
+    "note": "和 Pro 同日发布的轻量档，MIT 许可，170 万次下载，记录时的下载量高于 Pro 版。",
     "tags": [
       "开源权重",
       "MIT"
@@ -2061,7 +2061,7 @@
     "org": "阿里通义",
     "date": "2026-04-15",
     "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
-    "note": "35B 总参 / 3B 激活的 MoE，Apache 许可，491 万次下载。激活参数只有 3B，推理成本接近小模型。",
+    "note": "35B 总参 / 3B 激活的 MoE，Apache 许可，491 万次下载。",
     "tags": [
       "开源权重",
       "多模态",
@@ -2137,7 +2137,7 @@
     "org": "OpenBMB（面壁智能）",
     "date": "2026-04-13",
     "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6",
-    "note": "端侧多模态，Apache 许可，54 万次下载。「能看图的小模型」这条线里社区基础最好的一支。",
+    "note": "端侧多模态模型，Apache 许可，54 万次下载。",
     "tags": [
       "开源权重",
       "多模态",
@@ -2248,7 +2248,7 @@
     "org": "IBM",
     "date": "2026-04-06",
     "url": "https://huggingface.co/ibm-granite/granite-4.1-8b",
-    "note": "Apache 许可，118 万次下载。likes 只有 254 但下载量过百万 —— 典型的「企业在用、社区不聊」的模型。",
+    "note": "Apache 许可，118 万次下载、254 likes。",
     "tags": [
       "开源权重",
       "Apache"
@@ -2393,7 +2393,7 @@
     "org": "腾讯",
     "date": "2026-04-02",
     "url": "https://huggingface.co/tencent/HY-Embodied-0.5",
-    "note": "具身智能方向（机器人控制）的多模态模型。912 likes 但只有 241 次下载 —— 关注的人多、真正能跑的人少，因为它需要硬件。",
+    "note": "具身智能方向（机器人控制）的多模态模型，记录时有 912 likes、241 次下载。",
     "tags": [
       "开源权重",
       "多模态",
@@ -2566,7 +2566,7 @@
     "org": "OpenAI",
     "date": "2026-03-17",
     "url": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano",
-    "note": "GPT-5.4 的小尺寸档。厂商同代出多个尺寸已是常态，选型时先想清楚任务需要多强，别默认用最贵的。",
+    "note": "GPT-5.4 的小尺寸档。选型时可以结合任务难度、调用频率和预算比较不同档位。",
     "tags": [
       "闭源 API"
     ],
@@ -2604,7 +2604,7 @@
     "org": "Google DeepMind",
     "date": "2026-03-11",
     "url": "https://huggingface.co/google/gemma-4-31B-it",
-    "note": "Apache 许可，多模态，832 万次下载 —— 全时间线下载量第一。同期还有 26B-A4B 的 MoE 版本（814 万次下载）。Gemma 系列的开放许可和 Google 的模型质量组合，是它下载量长期居高的原因。",
+    "note": "Apache 许可，多模态，832 万次下载，是这份时间线里下载量最高的模型。同期还有 26B-A4B 的 MoE 版本（814 万次下载）。",
     "tags": [
       "开源权重",
       "多模态",
@@ -2858,7 +2858,7 @@
     "org": "Anthropic",
     "date": "2025-10-15",
     "url": "https://www.anthropic.com/news/claude-haiku-4-5",
-    "note": "Haiku 是最小最快的一档，适合高频、低难度的批量任务。对预算有限的学生项目，先试 Haiku 档往往比默认上 Opus 划算得多。",
+    "note": "Haiku 定位于小型、快速的模型，面向高频、低难度的批量任务。预算有限的项目可以将它与 Opus 比较，结合实际效果和费用选择。",
     "tags": [
       "闭源 API"
     ],

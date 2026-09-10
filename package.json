@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Emergence AI Lab · AI 周报 —— 每周追踪模型发布与 AI 变化，并给出学生视角的判断",
+  "description": "Emergence AI Lab · AI 周报：每周整理 AI 新动态，关注它们对学习、工作和日常使用的影响",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -20,6 +20,7 @@
     "changes": "node scripts/extract-changes.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.2.10"

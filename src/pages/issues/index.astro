@@ -40,7 +40,7 @@ const allTags = [...new Set(issues.flatMap((i) => i.data.tags))].sort((a, b) =>
     {issues.map((issue) => <IssueCard issue={issue} filterable />)}
   </div>
 
-  <p class="empty-note" id="empty" hidden>没有匹配的期号。换个词试试。</p>
+  <p class="empty-note" id="empty" hidden>没有找到匹配的周报，可以换个关键词或标签。</p>
 </BaseLayout>
 
 <script>

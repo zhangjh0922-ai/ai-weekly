@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { link } from '../../lib/utils';
+
+const categories = ['基础概念', '模型与使用', '评测与指标'];
+const concepts = (await getCollection('concepts')).sort((a, b) =>
+  categories.indexOf(a.data.category) - categories.indexOf(b.data.category)
+  || a.data.title.localeCompare(b.data.title, 'zh-CN'),
+);
+---
+
+<BaseLayout title="概念指南" description="用简短解释、具体例子和原始来源，读懂 AI 新闻中的概念与评测指标。">
+  <header class="concept-header">
+    <p class="eyebrow">读懂 AI 新闻</p>
+    <h1>概念指南</h1>
+    <p class="lede">从一个陌生的词开始，了解它的含义、用途，以及容易混淆的地方。模型规格、工具用法和评测名称，都可以在这里查。</p>
+  </header>
+
+  <div class="filters concept-filters" role="search" aria-label="查找概念">
+    <input type="search" id="concept-query" placeholder="搜索 AGI、BF16、MCP、数学评测…" aria-label="搜索概念的中英文名称或解释" autocomplete="off" />
+    <button class="chip" data-category="" aria-pressed="true">全部</button>
+    {categories.map((category) => (
+      <button class="chip" data-category={category} aria-pressed="false">{category}</button>
+    ))}
+    <button type="button" class="concept-reset" id="concept-reset" hidden>清空筛选</button>
+  </div>
+
+  <p class="concept-count" id="concept-count" role="status" aria-live="polite">共 {concepts.length} 个概念</p>
+  <ul class="concept-list">
+    {concepts.map(({ id, data }) => (
+      <li data-concept-card data-category={data.category} data-search={[data.title, data.english, ...data.aliases, data.summary, data.category].join(' ').normalize('NFKC').toLowerCase()}>
+        <a class="concept-card" href={link(`/concepts/${id}`)}>
+          <span class="tag">{data.category}</span>
+          <h2>{data.title}<span aria-hidden="true">→</span></h2>
+          <p class="concept-english" lang="en">{data.english}</p>
+          <p>{data.summary}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="empty-note" id="concept-empty" hidden>没有找到匹配的概念，可以换个关键词，或清空筛选。</p>
+</BaseLayout>
+
+<script>
+  const query = document.querySelector<HTMLInputElement>('#concept-query')!;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-category]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-concept-card]')];
+  const count = document.getElementById('concept-count')!;
+  const empty = document.getElementById('concept-empty')!;
+  const reset = document.getElementById('concept-reset')!;
+  let category = '';
+
+  function apply() {
+    const words = query.value.normalize('NFKC').trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    for (const card of cards) {
+      card.hidden = !((!category || card.dataset.category === category)
+        && words.every((word) => card.dataset.search?.includes(word)));
+      if (!card.hidden) shown++;
+    }
+    for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.category === category));
+    count.textContent = words.length || category ? `找到 ${shown} 个概念` : `共 ${shown} 个概念`;
+    empty.hidden = shown > 0;
+    reset.hidden = !query.value && !category;
+  }
+
+  query.addEventListener('input', apply);
+  for (const chip of chips) chip.addEventListener('click', () => {
+    category = chip.dataset.category ?? '';
+    apply();
+  });
+  reset.addEventListener('click', () => {
+    query.value = '';
+    category = '';
+    apply();
+    query.focus();
+  });
+  apply();
+</script>

@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
 import { SITE } from '../consts';
+import { link } from '../lib/utils';
 
 export async function GET(context: APIContext) {
   const issues = (await getCollection('issues', ({ data }) => !data.draft)).sort(
@@ -11,13 +12,13 @@ export async function GET(context: APIContext) {
   return rss({
     title: `${SITE.title} · ${SITE.org}`,
     description: SITE.description,
-    site: context.site!,
+    site: new URL(link('/'), context.site!),
     trailingSlash: false,
     items: issues.map((issue) => ({
       title: `第 ${issue.data.issue} 期 · ${issue.data.title}`,
       pubDate: issue.data.date,
       description: issue.data.summary,
-      link: `/issues/${issue.id}`,
+      link: link(`/issues/${issue.id}`),
       categories: issue.data.tags,
       content: [
         `<p>${escapeHtml(issue.data.summary)}</p>`,

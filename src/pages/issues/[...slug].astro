@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { link, formatDate } from '../../lib/utils';
 
 export const getStaticPaths = (async () => {
-  const issues = await getCollection('issues');
+  const issues = await getCollection('issues', ({ data }) => import.meta.env.DEV || !data.draft);
   const sorted = issues.sort((a, b) => a.data.issue - b.data.issue);
 
   return sorted.map((entry, i) => ({

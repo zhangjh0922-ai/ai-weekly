@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob, file } from 'astro/loaders';
 
@@ -47,7 +47,7 @@ const models = defineCollection({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     /** 官方公告 / 模型卡链接 */
     url: z.url(),
-    /** 一两句话：它变了什么，对学生意味着什么 */
+    /** 一两句话：主要变化及其适用场景 */
     note: z.string(),
     /** 例如 ["开源", "多模态", "推理"] */
     tags: z.array(z.string()).default([]),
@@ -100,4 +100,18 @@ const models = defineCollection({
   }),
 });
 
-export const collections = { issues, models };
+const concepts = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/concepts' }),
+  schema: z.object({
+    title: z.string(),
+    english: z.string(),
+    aliases: z.array(z.string()).default([]),
+    category: z.enum(['基础概念', '模型与使用', '评测与指标']),
+    summary: z.string(),
+    updated: z.coerce.date(),
+    sources: z.array(z.object({ title: z.string(), url: z.url() })).min(1),
+    related: z.array(reference('concepts')).default([]),
+  }),
+});
+
+export const collections = { issues, models, concepts };

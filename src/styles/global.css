@@ -153,6 +153,7 @@ main {
 
 .site-nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.1rem;
   font-size: 0.9rem;
 }
@@ -387,6 +388,32 @@ a.tag:hover {
 .prose a:hover {
   text-decoration-color: var(--accent);
 }
+
+a[data-concept] {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- 概念指南 ---------- */
+
+.concept-header { margin-bottom: 2.5rem; }
+.concept-header h1 { font-size: 1.9rem; line-height: 1.4; margin: 0.4rem 0 0.6rem; text-wrap: balance; }
+.concept-back { display: inline-block; color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; }
+.concept-english { color: var(--text-muted); font-size: 0.85rem; overflow-wrap: anywhere; }
+.concept-definition { padding: 1rem 1.2rem; border-left: 3px solid var(--accent); background: var(--bg-sunken); }
+.concept-updated, .concept-count { color: var(--text-muted); font-size: 0.82rem; }
+.concept-filters { margin-bottom: 0.7rem; }
+.concept-reset { border: 0; padding: 0.3rem; background: none; color: var(--accent); font: inherit; font-size: 0.82rem; text-decoration: underline; cursor: pointer; }
+.concept-list { list-style: none; margin: 0; padding: 0; }
+.concept-card { display: block; padding: 1.4rem 0; border-bottom: 1px solid var(--border); }
+.concept-card h2 { display: flex; justify-content: space-between; gap: 1rem; font-size: 1.2rem; margin: 0.5rem 0 0; line-height: 1.5; }
+.concept-card h2 span { color: var(--text-muted); font-weight: 400; }
+.concept-card p { margin: 0.35rem 0 0; color: var(--text-muted); font-size: 0.95rem; }
+.concept-card .concept-english { font-size: 0.82rem; }
+.concept-card:hover h2 { color: var(--accent); }
+.concept-section { margin-top: 2.5rem; }
 
 .prose ul,
 .prose ol {

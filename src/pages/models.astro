@@ -25,15 +25,15 @@ const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
 
 <BaseLayout
   title="模型时间线"
-  description="按时间倒序记录各家发布的模型：什么时候发的、变了什么、对学生意味着什么。"
+  description="按发布日期整理模型更新，附主要变化、已收录的规格与来源链接。"
   wide
 >
   <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 0.5rem;">模型时间线</h1>
   <p class="lede" style="margin:0 0 0.5rem;">
-    共 {models.length} 条记录。每条都带官方来源链接和发布日期 —— 模型信息过期很快，日期比结论重要。
+    共 {models.length} 条记录，按发布日期排序，附主要变化和来源链接。
   </p>
   <p class="meta" style="margin:0 0 2rem;">
-    数据维护在仓库的 <code>data/models.json</code>，欢迎提 PR 补充或纠错。
+    展开条目可查看规格与版本变化，带点线的术语可点击查看解释。更多缩写可查<a href={link('/concepts')}>概念指南</a>；需要补充或纠错，欢迎<a href={link('/about#纠错与共建')}>联系我们</a>。
   </p>
 
   <div class="filters">

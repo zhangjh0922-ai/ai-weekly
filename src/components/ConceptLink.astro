@@ -1,0 +1,11 @@
+---
+import { getEntry } from 'astro:content';
+import { link } from '../lib/utils';
+
+interface Props { id: string; }
+const { id } = Astro.props;
+const concept = await getEntry('concepts', id);
+if (!concept) throw new Error(`Unknown concept link: ${id}`);
+---
+
+<a href={link(`/concepts/${id}`)} data-concept={id} title={concept.data.summary}><slot /></a>

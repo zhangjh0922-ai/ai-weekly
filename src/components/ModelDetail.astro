@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import ConceptLink from './ConceptLink.astro';
 import {
   formatParams,
   formatBytes,
@@ -42,9 +43,20 @@ push('下载量', formatCount(s?.downloads));
 push('社区收藏', formatCount(s?.likes));
 
 const diffs = prev ? diffSpecs(s, prev.data.specs) : [];
+const specConcepts: Record<string, string> = {
+  '参数量': 'parameters',
+  '上下文窗口': 'context-window',
+  '上下文': 'context-window',
+  '权重体积': 'parameters',
+  'MoE 结构': 'moe',
+  'MoE 专家数': 'moe',
+  '每 token 激活专家': 'moe',
+  '权重精度': 'quantization',
+  '许可': 'model-license',
+  '模态': 'multimodal',
+};
 
-// 闭源模型没有公开权重，规格和差异都算不出来 —— 但「上一代是谁、隔了多久」
-// 仍然是有用的更新信息，不该让这一半条目什么都不显示。
+// 缺少结构化规格时，仍然显示上一代与发布日期间隔。
 const gapDays =
   prev
     ? Math.round(
@@ -90,11 +102,11 @@ const hasContent = rows.length > 0 || diffs.length > 0 || d.changes.length > 0 |
             </p>
             {!s && (
               <p class="md__hint">
-                闭源模型没有公开权重，参数量、上下文这些硬指标无法自动核实 —— 具体变化以
+                尚未收录结构化规格，具体信息以
                 <a href={d.url} target="_blank" rel="noopener noreferrer">
                   官方公告
                 </a>
-                为准。
+                或模型卡为准。
               </p>
             )}
           </div>
@@ -109,7 +121,9 @@ const hasContent = rows.length > 0 || diffs.length > 0 || d.changes.length > 0 |
             <ul>
               {diffs.map((x) => (
                 <li>
-                  <span class="md__diff-key">{x.label}</span>
+                  <span class="md__diff-key">
+                    {specConcepts[x.label] ? <ConceptLink id={specConcepts[x.label]}>{x.label}</ConceptLink> : x.label}
+                  </span>
                   <span class="md__from">{x.from}</span>
                   <span class="md__arrow" data-dir={x.direction}>
                     →
@@ -132,7 +146,7 @@ const hasContent = rows.length > 0 || diffs.length > 0 || d.changes.length > 0 |
             <dl class="md__specs">
               {rows.map(([k, v]) => (
                 <>
-                  <dt>{k}</dt>
+                  <dt>{specConcepts[k] ? <ConceptLink id={specConcepts[k]}>{k}</ConceptLink> : k}</dt>
                   <dd>{v}</dd>
                 </>
               ))}
@@ -152,11 +166,11 @@ const hasContent = rows.length > 0 || diffs.length > 0 || d.changes.length > 0 |
           )}
           {s?.fetchedAt && (
             <span>
-              规格抓取于 {s.fetchedAt}，来自 Hugging Face API 与模型 config.json。下载量会变，引用请带日期。
+              规格抓取于 {s.fetchedAt}，来自 <ConceptLink id="local-deployment">Hugging Face</ConceptLink> <ConceptLink id="api">API</ConceptLink> 与模型配置文件（config.json）。下载量会变，引用请带日期。
             </span>
           )}
-          {/* 沿革区已经说过闭源的事，这里不重复 */}
-          {!s && !prev && <span>闭源模型没有公开权重，规格以官方公告为准。</span>}
+          {/* 沿革区已有规格缺失说明时，不再重复 */}
+          {!s && !prev && <span>尚未收录结构化规格，具体信息以官方公告或模型卡为准。</span>}
         </p>
       </div>
     </details>
