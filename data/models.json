@@ -1,5 +1,92 @@
 [
   {
+    "id": "deepseek-v4-1-flash-1017",
+    "name": "DeepSeek-V4.1-Flash-1017",
+    "org": "DeepSeek",
+    "date": "2026-10-17",
+    "url": "https://api-docs.deepseek.com/news/news261017/",
+    "note": "V4.1-Flash 的更新版，已上线官网、App 与 API，并开放权重。官方重点展示完整项目开发，称任务完成更快、输出更短；这些效果尚未经本站实测。",
+    "tags": ["开放权重", "多模态", "编程"],
+    "issue": 4,
+    "prev": "deepseek-v4-1-flash",
+    "changes": [
+      "官方展示网页游戏与 3D 场景开发；结果受到提示词、工具框架和执行环境影响",
+      "同期开放 Search / Fetch API；搜索与抓取接口不等于完整浏览器操作能力"
+    ]
+  },
+  {
+    "id": "qwen-image-2-1-turbo",
+    "name": "Qwen-Image-2.1-Turbo",
+    "org": "Qwen",
+    "date": "2026-10-09",
+    "url": "https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo",
+    "note": "Qwen-Image-2.1 的加速版本，以 8 步去噪完成生图和编辑。开放权重采用研究许可，非商业研究与评估以外的用途需另行确认授权。",
+    "tags": ["开放权重", "图像生成", "研究许可"],
+    "issue": 4,
+    "prev": "qwen-image-2-1",
+    "changes": [
+      "官方仓库记录 10 月 9 日发布；步数不能直接换算成固定的速度提升倍数",
+      "使用权重附带的推荐采样方案，其他采样方案的效果官方尚未评估"
+    ]
+  },
+  {
+    "id": "gemini-4-argon",
+    "name": "Gemini 4 Argon",
+    "org": "Google",
+    "date": "2026-09-30",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+    "note": "9 月 30 日首次公布，10 月 13 日开放 API 及面向 Google AI Pro、Ultra 用户的 Gemini App 和 AI Mode 入口。官方强调复杂编程和多步骤资料处理能力，本站未做统一实测。",
+    "tags": ["闭源 API", "多模态"],
+    "issue": 4,
+    "changes": [
+      "时间线按首次公布日期收录；具体产品的开放日期与订阅条件需分开看",
+      "官方工程和文档案例结合了工具与工作流程，不能只按模型名称推断任务完成效果"
+    ]
+  },
+  {
+    "id": "claude-opus-5-5",
+    "name": "Claude Opus 5.5",
+    "org": "Anthropic",
+    "date": "2026-09-22",
+    "url": "https://www.anthropic.com/claude-opus-5-5",
+    "note": "Opus 系列更新。模型于 9 月 22 日发布；其 API fast mode 于 10 月 15 日结束研究预览，使用同一个模型的更快推理配置，费用与调用限额需单独确认。",
+    "tags": ["闭源 API"],
+    "issue": 4,
+    "prev": "claude-opus-5",
+    "changes": [
+      "fast mode 是推理配置的变化，不代表再次发布了一个新模型",
+      "官方输出速率提升不能直接换算为整项任务的耗时改善，本站未做速度复现"
+    ]
+  },
+  {
+    "id": "qwen-image-2-1",
+    "name": "Qwen-Image-2.1",
+    "org": "Qwen",
+    "date": "2026-09-20",
+    "url": "https://huggingface.co/Qwen/Qwen-Image-2.1",
+    "note": "统一生图与图像编辑的模型，支持透明背景、多参考图和局部修改。权重采用 Qwen Research License，仅限非商业研究与评估，商业使用需另行取得许可。",
+    "tags": ["开放权重", "图像生成", "研究许可"],
+    "issue": 4,
+    "changes": [
+      "官方仓库记录 9 月 20 日开放权重；可用于研究海报、文档插图与网站素材生成",
+      "7B 是视觉生成组件的参数量，完整管线还包括文本编码器，不能按 7B 估算整套部署资源"
+    ]
+  },
+  {
+    "id": "deepseek-v4-1-flash",
+    "name": "DeepSeek-V4.1-Flash",
+    "org": "DeepSeek",
+    "date": "2026-09-10",
+    "url": "https://api-docs.deepseek.com/news/news260910/",
+    "note": "V4.1 系列模型，原生支持视觉理解，适合结合图片与文字处理任务。API 调用名为 deepseek-flash，权重已开放；本期未进行实际部署测试。",
+    "tags": ["开放权重", "多模态"],
+    "prev": "deepseek-v4-flash-0731",
+    "changes": [
+      "采用新的 Causal Encoder–Decoder 架构，输入与输出激活的参数规模不同",
+      "官方公告介绍了缓存资源与推理效率的变化，实际资源需求需结合部署配置核对"
+    ]
+  },
+  {
     "id": "claude-fable-5-1",
     "name": "Claude Fable 5.1",
     "org": "Anthropic",

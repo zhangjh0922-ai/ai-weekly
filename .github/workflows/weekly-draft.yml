@@ -18,6 +18,7 @@ permissions:
 jobs:
   draft:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -28,19 +29,54 @@ jobs:
 
       - run: npm ci
 
+      - name: 检查本周是否已有稿件
+        id: target
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { paths, isoWeekSlug } from './scripts/lib/util.mjs';
+          const slug = isoWeekSlug();
+          const exists = fs.existsSync(path.join(paths.issues, `${slug}.md`));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `exists=${exists}\n`);
+          if (exists) {
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              `本周稿件 ${slug}.md 已存在，保留原稿并跳过成稿与 PR。新采集的候选仍保存在本次运行附件中。\n`);
+          }
+          NODE
+
       - name: 采集
-        run: node scripts/collect.mjs --days=${{ github.event.inputs.days || '7' }}
+        timeout-minutes: 12
+        env:
+          COLLECT_DAYS: ${{ github.event.inputs.days || '7' }}
+        run: node scripts/collect.mjs --days="$COLLECT_DAYS"
 
       - name: 生成草稿
+        if: steps.target.outputs.exists != 'true'
+        timeout-minutes: 12
         env:
           # 在仓库的 Settings → Secrets and variables → Actions 里配置。
-          # 换厂商只需要改这两个 secret，工作流本身不用动。
+          # 未设置 API key 时生成来源候选稿，不调用付费 API。
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'deepseek' }}
           LLM_MODEL: ${{ vars.LLM_MODEL }}
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
         run: node scripts/draft.mjs
 
+      - name: 保存候选和草稿附件
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-draft-${{ github.run_id }}
+          retention-days: 30
+          include-hidden-files: true
+          path: |
+            .cache/collected.json
+            .cache/proposed-models.json
+            src/content/issues/**
+
       - name: 开一个 PR
+        if: steps.target.outputs.exists != 'true'
+        id: pull_request
         uses: peter-evans/create-pull-request@v7
         with:
           branch: weekly-draft
@@ -49,17 +85,23 @@ jobs:
           commit-message: 'chore: 本周周报草稿（自动生成）'
           title: '📡 本周周报草稿'
           body: |
-            脚本自动生成的草稿，**没有经过任何人工核对**。
+            自动生成的草稿或来源候选，**没有经过任何人工核对**。
+            未配置 API key 时只整理原始候选，需要编辑筛选和撰写正文。
 
             合并前必须完成：
 
             - [ ] 逐条核对链接和事实，尤其是标了「二手报道」的条目
             - [ ] 按实际记录填写核查状态和实测状态，未实测须明确说明
             - [ ] 补充使用观察，移除所有 TODO 和编辑提示
-            - [ ] 检查 `.cache/proposed-models.json`，核对无误后并进 `data/models.json`
+            - [ ] 下载本次 Actions 的 `weekly-draft` 附件，检查候选与 `proposed-models.json`，核对无误后再补充时间线
             - [ ] 补上 `editors`
             - [ ] 把 frontmatter 里的 `draft` 改成 `false`
 
             > `draft: true` 的期不会出现在线上，所以误合并不会直接把未核对的内容发出去。
           add-paths: |
             src/content/issues/**
+
+      - name: 提示手动取稿
+        if: ${{ failure() && steps.pull_request.outcome == 'failure' }}
+        run: |
+          echo '自动创建 PR 失败。候选和草稿已保存为本次运行的附件，可下载后人工编辑；检查仓库是否允许 Actions 创建拉取请求。' >> "$GITHUB_STEP_SUMMARY"

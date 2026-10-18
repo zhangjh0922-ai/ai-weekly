@@ -146,10 +146,12 @@ export function resolveProvider(env = process.env) {
   const apiKey = env.LLM_API_KEY || (preset.keyEnv ? env[preset.keyEnv] : null);
 
   if (preset.keyEnv && !apiKey) {
-    throw new Error(
+    const error = new Error(
       `缺少 API key。在 .env 里设置 ${preset.keyEnv}=…（或用通用的 LLM_API_KEY）。\n` +
         `  当前 provider：${name}（${preset.label}）`,
     );
+    error.code = 'MISSING_API_KEY';
+    throw error;
   }
   if (preset.kind === 'openai' && !baseURL) {
     throw new Error(`provider="${name}" 需要显式设置 LLM_BASE_URL`);

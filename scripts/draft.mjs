@@ -5,6 +5,7 @@
  *   node scripts/draft.mjs
  *   node scripts/draft.mjs --provider=deepseek --model=deepseek-chat
  *   node scripts/draft.mjs --dry-run          # 只打印会发出去的提示词，不调 API
+ *   node scripts/draft.mjs --sources-only     # 只整理来源候选，不调 API
  *   node scripts/draft.mjs --issue=7          # 手动指定期号
  *
  * 明确的设计取舍：模型负责**筛选、归类、去重、列事实和列疑问**，
@@ -25,6 +26,7 @@ import {
   log,
 } from './lib/util.mjs';
 import { resolveProvider, complete, describeProvider, reportUsage } from './lib/llm.mjs';
+import { createSourceDraft } from './lib/source-draft.mjs';
 
 loadEnv();
 
@@ -219,11 +221,20 @@ if (args['dry-run']) {
 
 let provider;
 try {
-  provider = resolveProvider();
+  if (!args['sources-only']) provider = resolveProvider();
 } catch (err) {
-  log.err(err.message);
-  console.log('\n把 .env.example 复制成 .env 并填好 key，再重试。');
-  process.exit(1);
+  if (err.code !== 'MISSING_API_KEY') {
+    log.err(err.message);
+    process.exit(1);
+  }
+  log.warn('未配置 API key，改为整理来源候选，不调用大模型。');
+}
+
+if (!provider) {
+  writeText(outFile, createSourceDraft({ issueNo, date: isoDay(), collected, maxItems: MAX_ITEMS }));
+  writeJson(paths.proposedModels, []);
+  log.ok(`来源候选稿写入 ${path.relative(process.cwd(), outFile)}（draft: true，未经核查）`);
+  process.exit(0);
 }
 
 log.step(`生成第 ${issueNo} 期草稿`);

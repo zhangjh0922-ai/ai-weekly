@@ -2,7 +2,7 @@
 
 每周整理 AI 新动态，关注它们对学习、工作和日常使用的影响。
 
-站点用 [Astro](https://astro.build) 构建，内容是 Markdown，部署在 GitHub Pages。
+站点用 [Astro](https://astro.build) 构建，内容是 Markdown，同时部署在 GitHub Pages 和腾讯云 EdgeOne Pages。
 附带一套「采集 → AI 成稿 → 人工核对」的流水线，**AI 只做筛选和整理，判断和实测由人来写**。
 
 ---
@@ -54,7 +54,7 @@ npm run dev
 npm run collect
 ```
 
-从 `scripts/sources.json` 里的 22 个源抓最近 7 天的条目，去重、按「疑似模型发布」加权排序，写到 `.cache/collected.json`。**这一步不调用任何大模型，不花钱。**
+从 `scripts/sources.json` 里的信息源抓最近 7 天的条目，去重、按「疑似模型发布」加权排序，写到 `.cache/collected.json`。**这一步不调用任何大模型，不花钱。** 每个源最多尝试 3 次；单个源失败会写进采集结果，不影响其他来源。
 
 ```bash
 npm run collect -- --days=14      # 换时间窗口
@@ -74,11 +74,14 @@ npm run draft
 
 ```bash
 npm run draft -- --dry-run                    # 只看会发出去什么，不调 API
+npm run draft -- --sources-only               # 只整理来源候选，不调用模型
 npm run draft -- --provider=deepseek          # 临时换厂商
 npm run draft -- --issue=7 --slug=2026-w40    # 手动指定期号和文件名
 ```
 
-同时会把识别到的新模型发布写到 `.cache/proposed-models.json`，**不会自动并进 `data/models.json`** —— 日期和链接必须人工核对过再合并。
+未配置 API 密钥时，会自动生成一份 `draft: true` 的来源候选稿，包含原始标题、链接、摘要与日期，供编辑筛选和撰写；它不是已核查的周报正文。配置了密钥时保留模型成稿流程，API 调用失败不会被伪装成成功。
+
+模型成稿时会把识别到的新模型发布写到 `.cache/proposed-models.json`，**不会自动并进 `data/models.json`** —— 日期和链接必须人工核对过再合并。来源候选模式不生成模型提案。
 
 ### 3. 编辑与核查
 
@@ -232,7 +235,17 @@ npm run draft -- --max-items=80
 - Variables：`LLM_PROVIDER`、`LLM_MODEL`
 - Secrets：`LLM_API_KEY`
 
-之后每周一北京时间早 9 点会自动跑一遍并开一个 PR。因为草稿是 `draft: true`，即使误合并也不会把未核对的内容发到线上。
+每周一北京时间早 9 点会运行采集、生成草稿并尝试开一个 PR。上述配置是可选的：未配置密钥时生成来源候选稿。工作流总限时 30 分钟，采集与成稿各限时 12 分钟。
+
+候选 JSON 和草稿会先保存到本次 Actions 运行的 `weekly-draft-<运行编号>` 附件。若仓库不允许 Actions 创建拉取请求，PR 步骤会明确报错，仍可从附件取稿，不会丢掉已采集的内容。`draft: true` 的文件不会出现在线上，发布前仍需按上述清单编辑和核查。
+
+本周文件已存在时，自动任务会保留原稿，跳过成稿与 PR，继续采集并保存候选附件；重复运行不会覆盖已发布内容或正在编辑的稿件。
+
+维护自动化后可运行以下回归检查，不需要 API 密钥，也不会调用模型：
+
+```bash
+node --test scripts/lib/weekly-pipeline.test.mjs scripts/concept-links.test.mjs
+```
 
 ---
 

@@ -217,7 +217,8 @@ function normalizeUrl(u) {
   }
 }
 
-const results = await Promise.all(sources.map(fetchSource));
+// map 会传入下标作为第二个参数，不能让它覆盖 fetchSource 的重试次数。
+const results = await Promise.all(sources.map((source) => fetchSource(source)));
 
 // ---- 体检模式 ----
 if (CHECK_ONLY) {

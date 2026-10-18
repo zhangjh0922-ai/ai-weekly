@@ -46,8 +46,8 @@ if (ONLY !== 'issues') {
 if (ONLY !== 'models' && fs.existsSync(paths.issues)) {
   for (const file of fs.readdirSync(paths.issues).filter((f) => f.endsWith('.md'))) {
     const text = fs.readFileSync(path.join(paths.issues, file), 'utf8');
-    for (const m of text.matchAll(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g)) {
-      targets.push({ url: m[1], where: `${file}` });
+    for (const m of text.matchAll(/\[[^\]]*\]\((?:<(https?:\/\/[^<>\s]+)>|(https?:\/\/[^)\s]+))\)/g)) {
+      targets.push({ url: m[1] ?? m[2], where: `${file}` });
     }
   }
 }
@@ -119,8 +119,9 @@ await Promise.all(
 console.log('\n');
 
 const broken = results.filter((r) => !r.ok);
-const forbidden = broken.filter((r) => r.status === 403);
-const dead = broken.filter((r) => r.status !== 403);
+// HN 等站点可能返回 419；它只说明当前检查请求受限，不能判成页面已删除。
+const forbidden = broken.filter((r) => r.status === 403 || r.status === 419);
+const dead = broken.filter((r) => r.status !== 403 && r.status !== 419);
 
 for (const r of dead) {
   log.err(`${String(r.status || 'ERR').padEnd(4)} ${r.url}`);
@@ -129,15 +130,15 @@ for (const r of dead) {
 }
 
 for (const r of forbidden) {
-  log.warn(`403  ${r.url}`);
+  log.warn(`${r.status}  ${r.url}`);
   log.dim(`     出现在：${r.where.join('、')}（多半是反爬，手动打开确认一下）`);
 }
 
 console.log();
 if (dead.length === 0) {
-  log.ok(`${results.length - broken.length}/${results.length} 个链接正常${forbidden.length ? `，${forbidden.length} 个 403 待人工确认` : ''}`);
+  log.ok(`${results.length - broken.length}/${results.length} 个链接正常${forbidden.length ? `，${forbidden.length} 个访问受限，待人工确认` : ''}`);
 } else {
-  log.err(`${dead.length} 个链接失效，${forbidden.length} 个 403 待确认`);
+  log.err(`${dead.length} 个链接检查失败，${forbidden.length} 个访问受限，待确认`);
 }
 
 process.exit(dead.length > 0 ? 1 : 0);
