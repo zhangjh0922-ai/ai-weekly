@@ -15,6 +15,26 @@
     ]
   },
   {
+    "id": "timestral",
+    "name": "Timestral",
+    "org": "Mistral AI",
+    "date": "2026-10-15",
+    "url": "https://mistral.ai/news/timestral/",
+    "note": "Mistral 首个时间序列基础模型系列，用已有数值序列预测后续变化，输出包含不确定性的概率预测。它处理的是时间序列，不是通用聊天；官方提供 5M、28M、123M、209M 四种规模，支持 CPU 推理。",
+    "tags": [
+      "时间序列",
+      "本地部署",
+      "专项模型"
+    ],
+    "issue": 4,
+    "changes": [
+      "首个 Timestral 系列，提供 5M、28M、123M、209M 四种参数规模",
+      "支持多变量预测，以及只在历史中可得或事先已知的辅助变量",
+      "输出 21 个分位数，可用来表达预测范围，而非只给单一数值",
+      "官方已发布运行仓库，并将许可标为 Modified MIT；不能直接等同于标准 MIT"
+    ]
+  },
+  {
     "id": "qwen-image-2-1-turbo",
     "name": "Qwen-Image-2.1-Turbo",
     "org": "Qwen",
@@ -30,6 +50,66 @@
     ]
   },
   {
+    "id": "claude-haiku-5-5",
+    "name": "Claude Haiku 5.5",
+    "org": "Anthropic",
+    "date": "2026-10-07",
+    "url": "https://platform.claude.com/docs/en/models/haiku-5-5",
+    "note": "面向大量、低延迟任务的 Haiku 新版，官方列举了分类、信息抽取、任务分发和子智能体等用途。支持文本与图像输入、文本输出，默认启用自适应思考；升级旧应用时需要检查接口兼容性。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "issue": 4,
+    "prev": "claude-haiku-4-5",
+    "changes": [
+      "支持 100 万 token 上下文；常规请求支持最多 12.8 万 token 输出",
+      "支持自适应思考，通过 effort 设置调整思考投入",
+      "使用更新的分词器；官方称同一段文本相对 Haiku 4.5 约多计 30% token",
+      "原 Haiku 4.5 请求中的手动思考预算、部分采样设置和助手预填等配置需要迁移，不能只替换模型名"
+    ]
+  },
+  {
+    "id": "gemini-nano-banana-2-1",
+    "name": "Gemini Nano Banana 2.1",
+    "org": "Google DeepMind",
+    "date": "2026-10-06",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-nano-banana-2.1",
+    "note": "Nano Banana 2 的图像生成与对话式编辑更新，官方重点改善画面质量、指令遵循、多轮人物一致性和文字渲染。适合作为海报、信息图和图片修改的对比候选，具体审美与完成度仍需看实际结果。",
+    "tags": [
+      "闭源 API",
+      "图像生成",
+      "图像编辑"
+    ],
+    "issue": 4,
+    "changes": [
+      "官方明确是 Nano Banana 2（Gemini 3.1 Flash Image）的更新",
+      "支持 1K、2K、4K 图像输出，默认 1K",
+      "修复宽幅与全景比例在 2K、4K 输出中的拼接伪影问题",
+      "支持最多 14 张参考图融合，以及借助 Google 网页与图片搜索为生成提供依据"
+    ]
+  },
+  {
+    "id": "mistral-large-4-preview",
+    "name": "Mistral Large 4 Preview",
+    "org": "Mistral AI",
+    "date": "2026-10-06",
+    "url": "https://mistral.ai/news/mistral-large-4/",
+    "note": "Mistral Large 4 的公开 API 预览，原生多模态，面向编程、工具工作流及复杂文档理解。官方公布约 1 万亿总参数、520 亿激活参数；截至本次核查，公告仍将权重开放列为 10 月底的计划，不能视为权重已经可下载。",
+    "tags": [
+      "API 预览",
+      "多模态",
+      "权重待发布"
+    ],
+    "issue": 4,
+    "changes": [
+      "2026 年 10 月 6 日开放 Mistral Studio 预览 API",
+      "原生多模态 MoE，官方公布约 1 万亿总参数、520 亿激活参数",
+      "官方展示文档、图表理解以及创建和修改电子表格等工作流",
+      "训练与后续改进仍在进行，官方计划月底开放权重并补充架构与训练细节"
+    ]
+  },
+  {
     "id": "gemini-4-argon",
     "name": "Gemini 4 Argon",
     "org": "Google",
@@ -41,6 +121,46 @@
     "changes": [
       "时间线按首次公布日期收录；具体产品的开放日期与订阅条件需分开看",
       "官方工程和文档案例结合了工具与工作流程，不能只按模型名称推断任务完成效果"
+    ]
+  },
+  {
+    "id": "gpt-6-1-sol",
+    "name": "GPT-6.1 Sol",
+    "org": "OpenAI",
+    "date": "2026-09-29",
+    "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+    "note": "Sol 系列更新，官方定位为以低于 Astra 的成本处理复杂编程、计算机操作与专业工作。9 月 29 日发布；本站未做统一实测，接近 Astra 的表现是官方定位，不是本站评测结论。",
+    "tags": [
+      "闭源 API",
+      "多模态",
+      "编程"
+    ],
+    "issue": 4,
+    "prev": "gpt-6-sol",
+    "changes": [
+      "官方 API 更新日志明确记录 9 月 29 日发布；这次是补录，不是 10 月第三周的新发布",
+      "支持文本与图像输入、文本输出；调用工具需使用 Responses API",
+      "10 月 8 日新增 API Ultrafast 模式，这是后续推理服务更新，不改变模型首发日期"
+    ]
+  },
+  {
+    "id": "claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5",
+    "org": "Anthropic",
+    "date": "2026-09-28",
+    "url": "https://platform.claude.com/docs/en/models/sonnet-5-5",
+    "note": "Sonnet 5 的后续版本，定位于速度与能力之间的平衡，支持文本与图像输入、文本输出。默认启用自适应思考，提供 100 万 token 上下文；已有基于 Sonnet 5 的工具应用需要检查迁移要求。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "issue": 4,
+    "prev": "claude-sonnet-5",
+    "changes": [
+      "支持 100 万 token 上下文；常规请求支持最多 12.8 万 token 输出",
+      "官方基础 API 价格为每百万输入 token 2 美元、输出 token 10 美元",
+      "关闭回答前思考需要使用 between_tools 设置，旧的 disabled 设置不适用",
+      "强制指定工具调用及部分旧版 computer use 接口存在兼容性变化，官方提供 Sonnet 5 到 5.5 的迁移指南"
     ]
   },
   {
@@ -59,6 +179,79 @@
     ]
   },
   {
+    "id": "gpt-6-sol",
+    "name": "GPT-6 Sol",
+    "org": "OpenAI",
+    "date": "2026-09-22",
+    "url": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+    "note": "与 GPT-6 Luna 同日发布，面向复杂编程与智能体工作流程。支持文本和图像输入、文本输出；后续 Sol 版本为 GPT-6.1 Sol。",
+    "tags": [
+      "闭源 API",
+      "多模态",
+      "编程"
+    ],
+    "issue": 4,
+    "changes": [
+      "发布日期由官方 API 更新日志核对，不按客户案例或本站补录日期计算",
+      "官方于 9 月 25 日修复影响 Sol 和 Luna 图像理解的编码问题；涉及图像的旧评测需注意测试时间"
+    ]
+  },
+  {
+    "id": "gpt-6-luna",
+    "name": "GPT-6 Luna",
+    "org": "OpenAI",
+    "date": "2026-09-22",
+    "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+    "note": "与 GPT-6 Sol 同日发布，官方定位为处理聚焦任务和大量请求的高效率模型。支持文本和图像输入、文本输出，实际速度与任务质量仍需按使用场景比较。",
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
+    "issue": 4,
+    "changes": [
+      "官方 API 更新日志明确记录 9 月 22 日发布",
+      "10 月 6 日开放支持该模型的 Decisions API 测试版；这是新接口的开放日期，并非模型首发日期"
+    ]
+  },
+  {
+    "id": "gemini-3-8-flash-tts",
+    "name": "Gemini 3.8 Flash TTS",
+    "org": "Google DeepMind",
+    "date": "2026-09-22",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts",
+    "note": "Google 新一代偏创作的文字转语音模型，官方重点是声音表现、方言与口音、多角色对话和长段旁白的稳定性。它生成语音，不应与同名 Flash 通用对话模型混为一谈。",
+    "tags": [
+      "闭源 API",
+      "语音合成"
+    ],
+    "issue": 4,
+    "changes": [
+      "2026 年 9 月 22 日正式开放，与 Flash-Lite TTS 采用同一套接口结构",
+      "支持声音设计、经同意验证的声音复刻及扩展声音库",
+      "风格和说话者信息使用结构化 speech_metadata，放进正文的提示可能被直接读出",
+      "官方定位为新的创作级 TTS 档位，适合旁白及多角色声音生成"
+    ]
+  },
+  {
+    "id": "gemini-3-8-flash-lite-tts",
+    "name": "Gemini 3.8 Flash-Lite TTS",
+    "org": "Google DeepMind",
+    "date": "2026-09-22",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-lite-tts",
+    "note": "与 Gemini 3.8 Flash TTS 同期推出的低延迟文字转语音模型，面向批量生成、朗读和实时语音系统中的语音输出环节。官方将它列为 Gemini 3.1 Flash TTS Preview 的替代版本。",
+    "tags": [
+      "闭源 API",
+      "语音合成"
+    ],
+    "issue": 4,
+    "changes": [
+      "2026 年 9 月 22 日正式开放，官方推荐从 gemini-3.1-flash-tts-preview 迁移",
+      "与 3.8 Flash TTS 共享接口和结构化提示格式，可按工作负载选择",
+      "支持声音设计、声音复刻和扩展声音库",
+      "单次非流式请求默认输出 WAV，旧应用若自行包装原始 PCM，需要调整处理方式"
+    ]
+  },
+  {
     "id": "qwen-image-2-1",
     "name": "Qwen-Image-2.1",
     "org": "Qwen",
@@ -73,6 +266,46 @@
     ]
   },
   {
+    "id": "gemini-3-8-live",
+    "name": "Gemini 3.8 Live",
+    "org": "Google DeepMind",
+    "date": "2026-09-15",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live",
+    "note": "面向低延迟实时语音交互的新 Live 模型，支持文字、图像、音频和视频输入，并可在对话中调用工具。官方将其作为多数低延迟语音助手场景的默认选择，与文字转语音 TTS 的用途不同。",
+    "tags": [
+      "闭源 API",
+      "实时语音",
+      "多模态"
+    ],
+    "issue": 4,
+    "changes": [
+      "2026 年 9 月 15 日正式开放，官方给出从 Gemini 3.1 Flash Live Preview 迁移的说明",
+      "支持交错推理、异步工具调用及整个会话期间的内容更新",
+      "异步非阻塞工具调用成为默认方式，也可配置阻塞调用",
+      "主动音频行为始终开启，旧版关闭该功能的配置需要移除"
+    ]
+  },
+  {
+    "id": "gemini-3-8-live-extended-thinking",
+    "name": "Gemini 3.8 Live Extended Thinking",
+    "org": "Google DeepMind",
+    "date": "2026-09-15",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live-extended-thinking",
+    "note": "同期推出的实时语音思考版本，在持续音频交互时进行后台推理和异步工具调用，面向较复杂的多步骤问题。它与 Gemini 3.8 Live 是同日提供的不同选择，不是后来取代前者的版本。",
+    "tags": [
+      "闭源 API",
+      "实时语音",
+      "推理"
+    ],
+    "issue": 4,
+    "changes": [
+      "2026 年 9 月 15 日与 Gemini 3.8 Live 同期正式开放",
+      "支持后台推理，思考强度可设 low、medium 或 high",
+      "工具调用仅支持异步非阻塞方式",
+      "客户端不能只凭 turnComplete 判断整项处理已结束，还需继续监听后台推理与工具结果"
+    ]
+  },
+  {
     "id": "deepseek-v4-1-flash",
     "name": "DeepSeek-V4.1-Flash",
     "org": "DeepSeek",
@@ -84,6 +317,40 @@
     "changes": [
       "采用新的 Causal Encoder–Decoder 架构，输入与输出激活的参数规模不同",
       "官方公告介绍了缓存资源与推理效率的变化，实际资源需求需结合部署配置核对"
+    ]
+  },
+  {
+    "id": "gpt-image-2-5-sunburst",
+    "name": "GPT Image 2.5 Sunburst",
+    "org": "OpenAI",
+    "date": "2026-09-08",
+    "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst",
+    "note": "图像生成与编辑模型，官方重点强调编辑精度。与 Flare 同日发布，支持文本和图像输入、图像输出，可用于后续同提示词的生图与修改对比。",
+    "tags": [
+      "闭源 API",
+      "图像生成"
+    ],
+    "issue": 4,
+    "changes": [
+      "官方 API 日志与模型快照均标明 9 月 8 日发布",
+      "支持 xhigh、max 等质量设置；质量档位与生成效果需在相同任务条件下比较，本站未实测"
+    ]
+  },
+  {
+    "id": "gpt-image-2-5-flare",
+    "name": "GPT Image 2.5 Flare",
+    "org": "OpenAI",
+    "date": "2026-09-08",
+    "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare",
+    "note": "与 Sunburst 同日发布，官方定位为更快的日常高质量生图模型。支持文本和图像输入、图像输出；不能只按产品定位判断它与其他模型的审美差异。",
+    "tags": [
+      "闭源 API",
+      "图像生成"
+    ],
+    "issue": 4,
+    "changes": [
+      "官方 API 日志与模型快照均标明 9 月 8 日发布",
+      "支持多档质量设置；同一提示词的对比还应记录尺寸、质量档位、尝试次数与生成时间"
     ]
   },
   {
@@ -143,6 +410,27 @@
       "官方承认在网络安全上达到 Preparedness Framework 的 Critical 阈值，具备识别并开发零日漏洞利用的能力",
       "API 定价 $10/百万输入、$50/百万输出；Fast 模式速度最高 2 倍、价格也是 2 倍",
       "发布当天先向少量机构开放，随后几天陆续向 ChatGPT Plus/Pro/Business/Enterprise、OpenAI API、Azure 与 AWS Bedrock 开放"
+    ]
+  },
+  {
+    "id": "gemini-3-8-flash",
+    "name": "Gemini 3.8 Flash",
+    "org": "Google DeepMind",
+    "date": "2026-09-02",
+    "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+    "note": "补录 9 月 2 日已发布的 Flash 通用模型，面向持续编程、智能体和复杂工作流。支持文字、图像、视频、音频与 PDF 输入、文字输出；官方在 10 月 8 日宣布 3.7 Flash 弃用，并将旧 API 请求转向本版本。",
+    "tags": [
+      "闭源 API",
+      "多模态",
+      "智能体"
+    ],
+    "issue": 4,
+    "prev": "gemini-3-7-flash",
+    "changes": [
+      "2026 年 9 月 2 日正式开放，不能作为 10 月的新发布报道",
+      "支持约 100 万 token 输入、65,536 token 输出",
+      "模型卡列出工具调用、搜索依据、代码执行与预览版 computer use 支持",
+      "官方 10 月 8 日更新说明：3.7 Flash 不再可选，其 API 请求自动路由至 3.8 Flash"
     ]
   },
   {

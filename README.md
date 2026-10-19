@@ -54,15 +54,18 @@ npm run dev
 npm run collect
 ```
 
-从 `scripts/sources.json` 里的信息源抓最近 7 天的条目，去重、按「疑似模型发布」加权排序，写到 `.cache/collected.json`。**这一步不调用任何大模型，不花钱。** 每个源最多尝试 3 次；单个源失败会写进采集结果，不影响其他来源。
+从 `scripts/sources.json` 里的信息源抓候选，去重、按「疑似模型发布」加权排序，写到 `.cache/collected.json`。默认至少覆盖最近 7 天；如果上一期已发布周报更早，会从该期日期继续回溯，避免停更后只看到最后一周。未发布草稿不作为回溯基准。**这一步不调用任何大模型，不花钱。** 每个源最多尝试 3 次；单个源失败会写进采集结果，不影响其他来源。
 
 ```bash
-npm run collect -- --days=14      # 换时间窗口
+npm run collect -- --days=14      # 明确指定天数，覆盖自动回溯
+npm run collect -- --since=2026-09-08 # 指定补采起点（包含当天，UTC）
 npm run collect -- --check        # 体检所有源是否还活着
 npm run collect -- --only=openai,qwen
 ```
 
 源会失效。每隔一阵跑一次 `--check`，挂掉的直接从 `sources.json` 里删或换地址。
+
+`--since` 与数值 `--days` 不同时使用。来源可能只保留近期条目，因此扩大窗口不等于补齐历史：恢复更新时，还要按停更区间逐家核对官方发布记录。`collected.json` 的 `windowStart`、`windowEnd` 和 `rangeLabel` 记录本次实际检索范围。
 
 ### 2. 生成草稿
 
@@ -119,6 +122,16 @@ npm run harvest -- --merge                       # 核对后直接并进 data/mo
 - **闭源模型（没 RSS 的）** —— Anthropic 和字节跳动 Seed 走 `sitemap.xml`（两家 robots.txt 都是 `Allow: /`）。⚠️ **不能用 sitemap 的 `lastmod` 当发布日**，那是最后修改时间 —— Anthropic 有四个模型页的 lastmod 全是同一天，那是一次站点重渲染。必须回页面里取标注的日期。要加新厂商，往 `SITEMAP_VENDORS` 里加一条配置即可。
 
 默认只写 `.cache/harvested-models.json` 供人工核对。**发布前需要编辑 `note` 字段**：将自动整理的元数据写成简洁说明，保留有依据的变化与用途。不要用下载量推断用户身份或使用效果；涉及部署条件时，需要说明配置和来源。
+
+发布标题中的 Sol、Luna、Astra 等型号后缀必须保留；一条公告明确列出多个型号时分别生成候选。若标题只写产品名而没有具体型号，仍需阅读官方正文或模型目录，不能凭标题猜出型号。
+
+**模型覆盖核查不能只看采集是否成功。** 每次恢复更新，记录上次覆盖日期与本次核查日期，对照时间线检查主要厂商的博客、模型卡和 API 日志。以下日志可补充新闻 RSS 中不明显的发布与开放范围变化：
+
+- [OpenAI API 更新日志](https://developers.openai.com/api/docs/changelog)
+- [Claude API 更新日志](https://platform.claude.com/docs/en/release-notes/overview)
+- [Gemini API 更新日志](https://ai.google.dev/gemini-api/docs/changelog)
+
+区分首次发布、API 上架、正式开放与加速模式更新。停更期间补录的模型按真实日期进入时间线，并在周报里单列补录；无法确认首次发布日期的条目留在候选中。测试通过、候选数量增加，都不代表已经完整覆盖所有模型。
 
 ### 补硬规格与「更新详情」
 
@@ -235,7 +248,7 @@ npm run draft -- --max-items=80
 - Variables：`LLM_PROVIDER`、`LLM_MODEL`
 - Secrets：`LLM_API_KEY`
 
-每周一北京时间早 9 点会运行采集、生成草稿并尝试开一个 PR。上述配置是可选的：未配置密钥时生成来源候选稿。工作流总限时 30 分钟，采集与成稿各限时 12 分钟。
+每周一北京时间早 9 点会运行采集、生成草稿并尝试开一个 PR。默认采集窗口为 `auto`，停更后从上一期已发布周报回溯；手动运行可填 `since` 补采指定日期起的内容，或填数字 `days` 限定天数。上述密钥配置是可选的：未配置密钥时生成来源候选稿。工作流总限时 30 分钟，采集与成稿各限时 12 分钟。
 
 候选 JSON 和草稿会先保存到本次 Actions 运行的 `weekly-draft-<运行编号>` 附件。若仓库不允许 Actions 创建拉取请求，PR 步骤会明确报错，仍可从附件取稿，不会丢掉已采集的内容。`draft: true` 的文件不会出现在线上，发布前仍需按上述清单编辑和核查。
 
@@ -244,7 +257,7 @@ npm run draft -- --max-items=80
 维护自动化后可运行以下回归检查，不需要 API 密钥，也不会调用模型：
 
 ```bash
-node --test scripts/lib/weekly-pipeline.test.mjs scripts/concept-links.test.mjs
+node --test scripts/*.test.mjs scripts/lib/*.test.mjs
 ```
 
 ---

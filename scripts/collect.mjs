@@ -3,8 +3,9 @@
  * 从 scripts/sources.json 里的各家官方博客 / 论文源 / 社区源抓取最近的条目，
  * 去重、打标、按时间窗口过滤，写到 .cache/collected.json。
  *
- *   node scripts/collect.mjs                # 抓最近 7 天
+ *   node scripts/collect.mjs                # 至少最近 7 天，停更后从最近已发布稿补采
  *   node scripts/collect.mjs --days=14      # 抓最近 14 天
+ *   node scripts/collect.mjs --since=2026-09-08 # 包含指定 UTC 日期起的条目
  *   node scripts/collect.mjs --check        # 只体检各个源是否还活着，不写文件
  *   node scripts/collect.mjs --only=openai,anthropic
  *
@@ -12,11 +13,11 @@
  */
 import Parser from 'rss-parser';
 import {
-  paths, readJson, writeJson, stripHtml, parseArgs, isoDay, extractPublishDate, log,
+  paths, readJson, writeJson, stripHtml, parseArgs, extractPublishDate, log,
 } from './lib/util.mjs';
+import { collectionWindow, publishedIssueDates } from './lib/collection-window.mjs';
 
 const args = parseArgs();
-const DAYS = Number(args.days ?? 7);
 const CHECK_ONLY = Boolean(args.check);
 const ONLY = args.only ? String(args.only).split(',').map((s) => s.trim()) : null;
 const TIMEOUT_MS = Number(args.timeout ?? 20000);
@@ -54,7 +55,14 @@ const sources = config.sources.filter((s) => !ONLY || ONLY.includes(s.id));
 const kwRelease = config.keywords.release.map((k) => k.toLowerCase());
 const kwModel = config.keywords.model.map((k) => k.toLowerCase());
 
-const cutoff = Date.now() - DAYS * 86_400_000;
+let window;
+try {
+  window = collectionWindow(args, { publishedDates: publishedIssueDates(paths.issues) });
+} catch (error) {
+  log.err(error.message);
+  process.exit(1);
+}
+const { cutoff } = window;
 
 /**
  * Hugging Face 热门模型榜。它不是 RSS，但它是捕捉开源权重发布最快的一条线 ——
@@ -253,7 +261,7 @@ if (CHECK_ONLY) {
 }
 
 // ---- 正常采集 ----
-log.step(`采集最近 ${DAYS} 天`);
+log.step(`采集 ${window.rangeLabel}`);
 
 const seen = new Map();
 const failures = [];
@@ -318,8 +326,11 @@ const items = [...seen.values()].sort((a, b) => {
 
 const payload = {
   collectedAt: new Date().toISOString(),
-  windowDays: DAYS,
-  rangeLabel: `${isoDay(Date.now() - DAYS * 86_400_000)} ~ ${isoDay()}`,
+  windowDays: window.windowDays,
+  windowStart: window.windowStart,
+  windowEnd: window.windowEnd,
+  windowMode: window.windowMode,
+  rangeLabel: window.rangeLabel,
   sourceCount: sources.length,
   failures,
   stats: {

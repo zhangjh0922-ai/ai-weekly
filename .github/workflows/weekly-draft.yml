@@ -7,9 +7,13 @@ on:
   workflow_dispatch:
     inputs:
       days:
-        description: 采集时间窗口（天）
+        description: 采集天数，auto 会在停更后从最近已发布稿补采
         required: false
-        default: '7'
+        default: 'auto'
+      since:
+        description: 可选起始日期（YYYY-MM-DD）；使用时 days 保持 auto
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -48,8 +52,14 @@ jobs:
       - name: 采集
         timeout-minutes: 12
         env:
-          COLLECT_DAYS: ${{ github.event.inputs.days || '7' }}
-        run: node scripts/collect.mjs --days="$COLLECT_DAYS"
+          COLLECT_DAYS: ${{ github.event.inputs.days || 'auto' }}
+          COLLECT_SINCE: ${{ github.event.inputs.since }}
+        run: |
+          args=(--days="$COLLECT_DAYS")
+          if [ -n "$COLLECT_SINCE" ]; then
+            args+=(--since="$COLLECT_SINCE")
+          fi
+          node scripts/collect.mjs "${args[@]}"
 
       - name: 生成草稿
         if: steps.target.outputs.exists != 'true'

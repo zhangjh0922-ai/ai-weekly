@@ -10,6 +10,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createSourceDraft } from './source-draft.mjs';
 import { resolveProvider } from './llm.mjs';
+import { collectionWindow, publishedIssueDates } from './collection-window.mjs';
 
 const scripts = fileURLToPath(new URL('../', import.meta.url));
 
@@ -36,6 +37,7 @@ test('collection exits when rejected or stalled feeds leave their response body 
     fs.writeFileSync(path.join(temporary, 'scripts', 'collect.mjs'),
       fs.readFileSync(path.join(scripts, 'collect.mjs'), 'utf8').replace("from 'rss-parser'", `from '${parserURL}'`));
     fs.copyFileSync(path.join(scripts, 'lib', 'util.mjs'), path.join(temporary, 'scripts', 'lib', 'util.mjs'));
+    fs.copyFileSync(path.join(scripts, 'lib', 'collection-window.mjs'), path.join(temporary, 'scripts', 'lib', 'collection-window.mjs'));
     fs.writeFileSync(path.join(temporary, 'scripts', 'sources.json'), JSON.stringify({
       sources: ['healthy', 'blocked', 'stalled'].map(id => ({ id, name: id, type: 'rss', category: 'test', url: `${origin}/${id}` })),
       keywords: { release: [], model: [] },
@@ -75,6 +77,8 @@ test('every failing feed has three attempts regardless of its position in the so
     Parser: class {},
     fetch: async (url) => { attempts[url]++; throw new Error('HTTP 503'); },
     AbortSignal,
+    collectionWindow,
+    publishedIssueDates,
     paths: { sources: 'sources.json' },
     readJson: () => ({ sources, keywords: { release: [], model: [] } }),
     parseArgs: () => ({ check: true }),

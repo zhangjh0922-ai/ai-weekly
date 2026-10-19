@@ -14,6 +14,7 @@
  * 不核对就合并等于自毁招牌。
  */
 import Parser from 'rss-parser';
+import { extractReleaseModelNames, selectNewModels } from './lib/model-release-names.mjs';
 import { paths, readJson, writeJson, parseArgs, log } from './lib/util.mjs';
 
 const args = parseArgs();
@@ -183,80 +184,6 @@ const BLOGS = [
   { url: 'https://qwenlm.github.io/blog/index.xml', org: '阿里通义' },
 ];
 
-const RELEASE_VERB = /\b(introducing|announcing|meet|launch(ing)?|now available|available now|we[''']re releasing|releasing|previewing)\b/i;
-const MODEL_NAME = /\b(gpt|o\d|claude|gemini|gemma|llama|mistral|magistral|codestral|devstral|pixtral|qwen|qwq|deepseek|kimi|glm|grok|phi|nova|sora|veo|imagen|whisper|dall·?e)[\w.\-]*/i;
-
-/**
- * 带版本号的模型名，例如 GPT-5.6、Gemini 3.7、Claude Opus 5、Mistral Small 4。
- *
- * 为什么需要这条：只要求「发布动词 + 模型名」会漏掉真正的发布。
- * OpenAI 发 GPT-5.6 的标题是「GPT-5.6: Frontier intelligence that scales with
- * your ambition」—— 一个发布动词都没有，直接被旧规则丢掉了。
- */
-const VERSIONED_MODEL =
-  /\b(gpt|claude|gemini|gemma|llama|mistral|qwen|deepseek|kimi|glm|grok|phi)[\s-]*(opus|sonnet|haiku|small|medium|large|flash|pro|max|mini|nano)?[\s-]*\d+(\.\d+)?\b/i;
-
-/**
- * 客户故事、市场稿、系统卡、退役公告。这些标题也带模型名和版本号，但都不是发布：
- *   「Model ML completes finance work more efficiently with GPT-5.6 Sol」—— 客户故事
- *   「GPT-5.5 System Card」                                        —— 配套文档，不是发布本身
- *   「Retiring GPT-4o, GPT-4.1…」                                  —— 下线公告
- *   「GPT-5.2 derives a new result in theoretical physics」        —— 能力展示
- */
-const NOT_A_RELEASE = new RegExp(
-  [
-    '^(how |why |what |inside |retiring |introducing the )',
-    '\\b(system card|bug bounty|case study|guide to|adoption|customer)\\b',
-    '\\b(cuts?|saves?|scales?|expands?|brings?|helps?|builds?|moves?|completes?|derives?)\\b',
-    '\\b(transformed|is now the preferred|comes to|bet on|for work:)\\b',
-  ].join('|'),
-  'i',
-);
-
-/**
- * 标题看起来像一次模型发布吗。
- *
- * 核心判据是**模型名的位置**，不是关键词黑名单 —— 后者在散文标题上太脆弱。
- * 反例：OpenAI 发 GPT-5.6 的标题是「GPT-5.6: Frontier intelligence that scales
- * with your ambition」，含 "scales" 一词，纯黑名单会把真发布误杀。
- *
- * 规律是：真发布把模型名放在最前面（「GPT-5.6: …」「Introducing Claude Opus 5」），
- * 客户故事和能力展示把模型名放在句子中间（「Model ML completes … with GPT-5.6 Sol」）。
- */
-function looksLikeRelease(title) {
-  const t = title.trim();
-
-  // 「Introducing / Previewing / Announcing + 模型名」开头 —— 一定是发布
-  const leadVerb = t.match(new RegExp(`^(${RELEASE_VERB.source.slice(2, -2)})\\s+`, 'i'));
-  const rest = leadVerb ? t.slice(leadVerb[0].length) : t;
-
-  const hit = rest.match(VERSIONED_MODEL) ?? rest.match(MODEL_NAME);
-  if (!hit) return false;
-
-  // 配套文档不是发布本身
-  if (/\b(system card|model card|bug bounty)\b/i.test(t)) return false;
-
-  // 模型名后面紧跟一个动作动词 → 是能力展示，不是发布。
-  //   「GPT-5 lowers the cost of…」「GPT-5.2 derives a new result…」
-  // 而发布标题模型名后面跟的是冒号或修饰语：「GPT-5.6: Frontier intelligence…」
-  const after = rest.slice(hit.index + hit[0].length).trim();
-  // 「is now the preferred model in…」这类是采用消息，不是发布
-  if (
-    /^(lowers|derives|solves|accelerates|helps|powers|beats|wins|scores|finds|discovers|cuts|saves)\b/i.test(after) ||
-    /^(is|are)\s+now\b/i.test(after)
-  ) {
-    return false;
-  }
-
-  // 模型名前面只允许冠词一类的小词。
-  // 别用「字符数小于 N」来近似 —— "How " 正好 4 个字符，会把
-  // 「How GPT-5.6 fuses frontier intelligence…」这类稿子放进来。
-  const prefix = rest.slice(0, hit.index).trim();
-  if (prefix === '' || /^(the|a|an|new)$/i.test(prefix)) return true;
-
-  return RELEASE_VERB.test(t) && !NOT_A_RELEASE.test(t);
-}
-
 const closed = [];
 
 /** 和 collect.mjs 同样的退避重试：TLS 抖动和 429 太常见了 */
@@ -285,21 +212,19 @@ for (const blog of BLOGS) {
       if (Number.isNaN(d.getTime()) || d.getTime() < cutoff) continue;
 
       const title = (item.title ?? '').trim();
-      if (!looksLikeRelease(title)) continue;
-
-      // 优先取带版本号的那一段，取不到再退回裸模型名
-      const model = (title.match(VERSIONED_MODEL) ?? title.match(MODEL_NAME))[0].trim();
-      closed.push({
-        id: slugify(model + '-' + d.toISOString().slice(0, 10)),
-        name: model,
-        org: blog.org,
-        date: d.toISOString().slice(0, 10),
-        url: item.link,
-        note: `官方公告：「${title}」。（标题自动提取，模型名和内容需人工核对改写）`,
-        tags: ['闭源 API'],
-        _title: title,
-      });
-      kept++;
+      for (const model of extractReleaseModelNames(title)) {
+        closed.push({
+          id: slugify(model + '-' + d.toISOString().slice(0, 10)),
+          name: model,
+          org: blog.org,
+          date: d.toISOString().slice(0, 10),
+          url: item.link,
+          note: `官方公告：「${title}」。（标题自动提取，模型名和内容需人工核对改写）`,
+          tags: ['闭源 API'],
+          _title: title,
+        });
+        kept++;
+      }
     }
     log.dim(`  ${blog.org.padEnd(18)} ${String(kept).padStart(2)} 条`);
   } catch (err) {
@@ -452,10 +377,7 @@ if (!args['skip-sitemap']) {
 const all = [...open, ...closed, ...fromSitemap].sort((a, b) => b.date.localeCompare(a.date));
 
 const existing = readJson(paths.models, []);
-const existingIds = new Set(existing.map((m) => m.id));
-const existingUrls = new Set(existing.map((m) => m.url));
-
-const fresh = all.filter((m) => !existingIds.has(m.id) && !existingUrls.has(m.url));
+const fresh = selectNewModels(all, existing);
 
 console.log();
 log.ok(`共 ${all.length} 条（开放权重 ${open.length} / 闭源 RSS ${closed.length} / sitemap ${fromSitemap.length}），其中 ${fresh.length} 条是新的`);
