@@ -6,13 +6,36 @@
     "date": "2026-10-17",
     "url": "https://api-docs.deepseek.com/news/news261017/",
     "note": "V4.1-Flash 的更新版，已上线官网、App 与 API，并开放权重。官方重点展示完整项目开发，称任务完成更快、输出更短；这些效果尚未经本站实测。",
-    "tags": ["开放权重", "多模态", "编程"],
+    "tags": [
+      "开放权重",
+      "多模态",
+      "编程"
+    ],
     "issue": 4,
     "prev": "deepseek-v4-1-flash",
     "changes": [
       "官方展示网页游戏与 3D 场景开发；结果受到提示词、工具框架和执行环境影响",
       "同期开放 Search / Fetch API；搜索与抓取接口不等于完整浏览器操作能力"
     ]
+  },
+  {
+    "id": "hy-memory-30b-a3b",
+    "name": "Hy-Memory-30B-A3B",
+    "org": "腾讯",
+    "date": "2026-10-16",
+    "url": "https://memory.hunyuan.tencent.com/",
+    "note": "专门负责整理、更新外部记忆库的模型，可帮助智能体从长对话和历史任务中保存后续需要的信息。它是记忆系统中的写入组件，需要搭配检索与回答模型使用。",
+    "tags": [
+      "开放权重",
+      "智能体",
+      "记忆"
+    ],
+    "changes": [
+      "约 30B 总参数、3B 激活参数，采用 Apache 2.0 许可",
+      "同期开放 Hy Memory 2.0 框架与 MemHub 应用；跨工具记忆需要用户授权导入和相应集成",
+      "官方评测使用固定回答模型与工具框架，结果不能直接理解为通用聊天模型排名"
+    ],
+    "issue": 5
   },
   {
     "id": "timestral",
@@ -35,13 +58,159 @@
     ]
   },
   {
+    "id": "gpt-live-1-1",
+    "name": "GPT-Live-1.1",
+    "org": "OpenAI",
+    "date": "2026-10-15",
+    "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes#october-15-2026",
+    "note": "10 月 15 日开始在 ChatGPT Voice 分批上线，官方强调多语言口音更自然，并增加多种语言的新声音。这里记录的是 ChatGPT 上线日期，不能据此推断 API 已同步提供相同版本；具体声音因地区与账号而异。",
+    "tags": [
+      "语音",
+      "闭源"
+    ],
+    "prev": "gpt-live",
+    "issue": 5
+  },
+  {
+    "id": "gpt-live-1-1-quip",
+    "name": "GPT-Live-1.1 Quip",
+    "org": "OpenAI",
+    "date": "2026-10-15",
+    "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes#october-15-2026",
+    "note": "GPT-Live-1.1 的小型版本，10 月 15 日与主版本一起开始在 ChatGPT Voice 分批上线。官方日志未在该条目给出独立参数量或 API 价格，因此不以名称推算性能与费用。",
+    "tags": [
+      "语音",
+      "闭源"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "muse-spark-open",
+    "name": "Muse Spark Open",
+    "org": "Meta",
+    "date": "2026-10-15",
+    "url": "https://research.meta.ai/blog/muse-spark-open",
+    "note": "10 月 15 日正式开放权重。采用含有限商业条款的 Muse Model License，不能视为 Apache 2.0 或无限制商用。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "代码"
+    ],
+    "changes": [
+      "原生多模态 MoE 模型，总参数 816B、激活参数 42B，上下文 1M token",
+      "官方重点介绍长时间智能体任务、复杂软件工程与多步推理，本站未实测",
+      "权重在 Hugging Face 等入口开放，支持 SGLang、vLLM、MLX、llama.cpp 等推理引擎",
+      "官方展示在两台 Apple M5 Ultra Mac Studio 上运行；该示例不代表普通单台电脑即可部署"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "nemotron-3-5-super-vl",
+    "name": "Nemotron 3.5 Super VL 120B-A12B",
+    "org": "NVIDIA",
+    "date": "2026-10-15",
+    "url": "https://blogs.nvidia.com/blog/nemotron-3-5-super-vl/",
+    "note": "10 月 15 日开放的多模态智能体模型。官方模型卡标注 OpenMDW 1.1 许可；同期 Bolt E4B 仍为 10 月 23 日计划。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "代码"
+    ],
+    "changes": [
+      "120B 参数模型，面向持续运行的智能体、工具调用和多步骤工作",
+      "原生处理图像、网页与 PDF 中的文字、表格和图表，减少文档理解和后续行动之间的模型切换",
+      "开放权重、数据集与训练配方，可进一步定制并在自己的基础设施部署",
+      "已通过 Hugging Face、OpenRouter、ModelScope 和 NVIDIA NIM 提供"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "nemotron-3-5-bolt-74b-a9b",
+    "name": "Nemotron 3.5 Bolt 74B-A9B 24GB",
+    "org": "NVIDIA",
+    "date": "2026-10-15",
+    "url": "https://blogs.nvidia.com/blog/nemotron-3-5-super-vl/",
+    "note": "10 月 15 日与 Super VL 一同发布；24GB 版本面向本地智能体。官方模型卡标注 OpenMDW 1.1 许可。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "代码"
+    ],
+    "changes": [
+      "74B 总参数、9B 激活参数，原生 2-bit 量化版本以约 24GB 内存占用为目标",
+      "面向本地网页研究、编码和调试等智能体工作，可与其他应用一同运行",
+      "权重已在 Hugging Face 开放，并支持 llama.cpp、Ollama、LM Studio、Unsloth 与 vLLM",
+      "同场公布的 Bolt E4B 4GB 计划 10 月 23 日发布，不属于本次已经开放的模型"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "grok-voice-3-0",
+    "name": "Grok Voice 3.0",
+    "org": "xAI",
+    "date": "2026-10-14",
+    "url": "https://x.ai/news/grok-voice-3",
+    "note": "10 月 14 日正式发布的语音到语音模型，Voice Agent API 已开放；grok-voice-latest 自动切换到新版。",
+    "tags": [
+      "闭源 API",
+      "语音"
+    ],
+    "changes": [
+      "面向可调用工具、处理打断和多轮任务的实时语音交互，而非单纯文字朗读",
+      "官方重点介绍对话自然度、低延迟和语音任务完成能力，本站未统一实测",
+      "Voice Agent API 定价每分钟 0.08 美元，与 Grok Voice 2.0 相同",
+      "同时为 Grok Bot 语音模式提供底层能力，实际工具访问取决于连接器与授权"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "muse-wonder",
+    "name": "Muse Wonder",
+    "org": "Meta",
+    "date": "2026-10-12",
+    "url": "https://research.meta.ai/blog/muse-wonder",
+    "note": "10 月 12 日通过 Meta Model API 与 Muse Code 开放；面向普通 Muse 应用的接入是后续分批计划，不能等同于已对所有 Muse 用户上线。",
+    "tags": [
+      "闭源 API",
+      "代码"
+    ],
+    "changes": [
+      "面向个人与专业智能体任务，官方强调跨会话检索重要信息的 Active Memory",
+      "Active Focus 用于长任务中持续尝试、调整方案并在关键操作前确认",
+      "支持需要多轮测试、修改的编程项目，以及基于多份资料的专业工作",
+      "发布当日可经 Meta Model API 与 Muse Code 使用，普通 Muse 应用将先向订阅者推出"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "muse-wonder-full",
+    "name": "Muse Wonder Full",
+    "org": "Meta",
+    "date": "2026-10-12",
+    "url": "https://research.meta.ai/blog/muse-wonder",
+    "note": "10 月 12 日向 Muse Code 订阅者开放。原文未将 Wonder Full 宣布为面向所有用户的 Meta Model API 模型，不能沿用 Wonder 的开放范围。",
+    "tags": [
+      "代码"
+    ],
+    "changes": [
+      "与 Muse Wonder 同期公布，属于面向个人与专业智能体工作的更高能力版本",
+      "官方展示长期编程任务、专业资料处理和陌生任务泛化方面的表现，本站未实测",
+      "发布当日的明确使用入口为 Muse Code 订阅服务"
+    ],
+    "issue": 5
+  },
+  {
     "id": "qwen-image-2-1-turbo",
     "name": "Qwen-Image-2.1-Turbo",
     "org": "Qwen",
     "date": "2026-10-09",
     "url": "https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo",
     "note": "Qwen-Image-2.1 的加速版本，以 8 步去噪完成生图和编辑。开放权重采用研究许可，非商业研究与评估以外的用途需另行确认授权。",
-    "tags": ["开放权重", "图像生成", "研究许可"],
+    "tags": [
+      "开放权重",
+      "图像生成",
+      "研究许可"
+    ],
     "issue": 4,
     "prev": "qwen-image-2-1",
     "changes": [
@@ -110,18 +279,75 @@
     ]
   },
   {
+    "id": "embeddinggemma-2",
+    "name": "EmbeddingGemma 2",
+    "org": "Google",
+    "date": "2026-10-06",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/",
+    "note": "面向设备本地检索的多模态嵌入模型，把文字、代码、图片、音频和视频映射到同一个向量空间；完整模型 7.4 亿参数，按 Apache 2.0 开放权重。用于查找和组织信息，不能与聊天或生图模型直接比较输出效果。",
+    "tags": [
+      "开源",
+      "多模态",
+      "嵌入",
+      "端侧"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "nova-2-5-sonic",
+    "name": "Amazon Nova 2.5 Sonic",
+    "org": "Amazon",
+    "date": "2026-10-05",
+    "url": "https://aws.amazon.com/about-aws/whats-new/2026/10/amazon-nova-2.5-Sonic/",
+    "note": "10 月 5 日正式可用；10 月 13 日 AWS Weekly Roundup 只是回顾，不能作为模型首发日。",
+    "tags": [
+      "闭源 API",
+      "语音"
+    ],
+    "changes": [
+      "实时语音到语音模型，官方称改进推理、指令遵循、工具调用准确度与响应延迟",
+      "支持同一会话内语音与文字、异步工具调用、可控轮次切换和 256K 上下文",
+      "沿用七种语言的语音能力，可通过 Strands Bidi Agents 构建语音智能体",
+      "在 Bedrock 的弗吉尼亚北部、俄勒冈、斯德哥尔摩和东京区域开放，价格与 Nova 2 Sonic 相同"
+    ],
+    "issue": 5
+  },
+  {
     "id": "gemini-4-argon",
     "name": "Gemini 4 Argon",
     "org": "Google",
     "date": "2026-09-30",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
     "note": "9 月 30 日首次公布，10 月 13 日开放 API 及面向 Google AI Pro、Ultra 用户的 Gemini App 和 AI Mode 入口。官方强调复杂编程和多步骤资料处理能力，本站未做统一实测。",
-    "tags": ["闭源 API", "多模态"],
+    "tags": [
+      "闭源 API",
+      "多模态"
+    ],
     "issue": 4,
     "changes": [
       "时间线按首次公布日期收录；具体产品的开放日期与订阅条件需分开看",
       "官方工程和文档案例结合了工具与工作流程，不能只按模型名称推断任务完成效果"
     ]
+  },
+  {
+    "id": "kling-4-0",
+    "name": "Kling 4.0",
+    "org": "快手可灵",
+    "date": "2026-09-30",
+    "url": "https://kling.ai/release-note/release-notes/Kling_4",
+    "note": "可灵新一代视频模型。9 月 30 日公告确认进入早期访问，10 月 15 日正式向所有用户开放；支持更长的原生视频、多关键帧和多种参考素材，适合制作分镜与连续短片。",
+    "tags": [
+      "闭源服务",
+      "视频生成",
+      "多模态参考"
+    ],
+    "changes": [
+      "支持原生 3–30 秒视频，最多 10 个关键帧、15 个参考素材；不同素材类型仍有各自数量限制",
+      "当前发布页列出 MCP / CLI 接入，可用于智能体驱动的视频工作流；具体接入日期未单独标明",
+      "10-bit HDR 与视频延长至 2 分钟在当前正文仍标为 Coming soon，不能作为已开放功能",
+      "模型对所有用户开放不代表所有功能免费，具体配额和付费权限以平台为准"
+    ],
+    "issue": 5
   },
   {
     "id": "gpt-6-1-sol",
@@ -164,13 +390,32 @@
     ]
   },
   {
+    "id": "kling-4-0-flash",
+    "name": "Kling 4.0 Flash",
+    "org": "快手可灵",
+    "date": "2026-09-28",
+    "url": "https://kling.ai/blog/kling40-kling-visual-realism-creative-control-introducing-storytelling",
+    "note": "可灵 4.0 的快速视频生成型号。9 月 30 日官方公告追溯说明，自 9 月 28 日向 Ultra 年费订阅用户开放；不能把这一日期写成所有用户均可使用。",
+    "tags": [
+      "闭源服务",
+      "视频生成"
+    ],
+    "changes": [
+      "当前发布页列出 3–20 秒、720p、8-bit SDR，以及文本、图片与 Omni 参考输入",
+      "与 4.0 同属本轮视频生成升级；Flash 的规格和开放条件需要单独看，不能照搬 4.0 所有功能"
+    ],
+    "issue": 5
+  },
+  {
     "id": "claude-opus-5-5",
     "name": "Claude Opus 5.5",
     "org": "Anthropic",
     "date": "2026-09-22",
     "url": "https://www.anthropic.com/claude-opus-5-5",
     "note": "Opus 系列更新。模型于 9 月 22 日发布；其 API fast mode 于 10 月 15 日结束研究预览，使用同一个模型的更快推理配置，费用与调用限额需单独确认。",
-    "tags": ["闭源 API"],
+    "tags": [
+      "闭源 API"
+    ],
     "issue": 4,
     "prev": "claude-opus-5",
     "changes": [
@@ -252,18 +497,139 @@
     ]
   },
   {
+    "id": "hy-image-3-5-preview",
+    "name": "Hy Image3.5 preview",
+    "org": "腾讯",
+    "date": "2026-09-22",
+    "url": "https://hunyuan.tencent.com/blog/hy-image35-preview",
+    "note": "混元图像模型预览版，支持文本生图、参考图生成与多轮连续编辑。官方重点改善文字、布局和人物一致性，可用于海报、商品图与持续修改同一画面。",
+    "tags": [
+      "闭源 API",
+      "图像生成",
+      "图像编辑"
+    ],
+    "changes": [
+      "最多 5 张参考图，输出最高 2K；预览版仍在迭代",
+      "通过混元 Studio、腾讯云 API 以及元宝等产品提供体验；具体入口的权限与配额可能不同",
+      "公告提及元宝已提前约一个月灰度接入，不能将灰度试用与 9 月 22 日正式公告混为同一次发布"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "mimo-v2-6-pro",
+    "name": "MiMo-V2.6-Pro",
+    "org": "小米",
+    "date": "2026-09-22",
+    "url": "https://mimo.xiaomi.com/mimo-v2-6",
+    "note": "小米旗舰多模态模型更新，同时发布 API 与开放权重。支持文字、图片、视频、音频输入和百万 token 上下文，面向编程、文档制作和需要多步工具调用的任务。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "编程"
+    ],
+    "prev": "mimo-v2-5-pro",
+    "changes": [
+      "官方模型卡给出 1.02T 总参数、42B 激活参数，RL 权重采用 MIT 许可",
+      "9 月 25 日 06:00（UTC+8）原 API 型号更新，改善重复工具调用；这项修复于 9 月 27 日公告",
+      "Pro-UltraSpeed 是同一发布中的推理服务模式，不按新的独立模型重复录入",
+      "官方展示长任务与交付物生成，未在本次核查中实测其完成率"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "mimo-v2-6-flash",
+    "name": "MiMo-V2.6-Flash",
+    "org": "小米",
+    "date": "2026-09-22",
+    "url": "https://mimo.xiaomi.com/mimo-v2-6",
+    "note": "MiMo-V2.6 系列中侧重效率的型号，支持文字、图片、视频、音频与百万 token 上下文。适合作为文档、多模态理解和编程智能体的成本效率候选。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "编程"
+    ],
+    "changes": [
+      "官方模型卡给出 309B 总参数、15B 激活参数，RL 权重采用 MIT 许可",
+      "9 月 25 日原 API 型号也进行了重复工具调用修复；权重不同训练阶段和精度不拆成多个型号",
+      "参数量仍大，开放权重不等于普通笔记本即可本地运行"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "grok-4-7",
+    "name": "Grok 4.7",
+    "org": "xAI",
+    "date": "2026-09-21",
+    "url": "https://x.ai/news/grok-4-7",
+    "note": "9 月 21 日正式发布，明确入口包括 Cursor、Grok Build 与 Grok API；不可据此推断所有 Grok 聊天入口同时升级。",
+    "tags": [
+      "闭源 API",
+      "代码"
+    ],
+    "changes": [
+      "使用比 Grok 4.6 更大的基础模型，并加强需数小时完成的任务训练",
+      "官方重点介绍自检、长上下文管理、编程及文档与演示文稿工作能力",
+      "API 起价每百万输入 token 2 美元、输出 token 6 美元",
+      "另有输出速度约两倍、价格两倍的 fast 变体；速度表述来自厂商，未实测"
+    ],
+    "issue": 5
+  },
+  {
     "id": "qwen-image-2-1",
     "name": "Qwen-Image-2.1",
     "org": "Qwen",
     "date": "2026-09-20",
     "url": "https://huggingface.co/Qwen/Qwen-Image-2.1",
     "note": "统一生图与图像编辑的模型，支持透明背景、多参考图和局部修改。权重采用 Qwen Research License，仅限非商业研究与评估，商业使用需另行取得许可。",
-    "tags": ["开放权重", "图像生成", "研究许可"],
+    "tags": [
+      "开放权重",
+      "图像生成",
+      "研究许可"
+    ],
     "issue": 4,
     "changes": [
       "官方仓库记录 9 月 20 日开放权重；可用于研究海报、文档插图与网站素材生成",
       "7B 是视觉生成组件的参数量，完整管线还包括文本编码器，不能按 7B 估算整套部署资源"
     ]
+  },
+  {
+    "id": "step-5-preview",
+    "name": "Step 5 Preview",
+    "org": "阶跃星辰",
+    "date": "2026-09-20",
+    "url": "https://www.stepfun.com/news/step-5-preview",
+    "note": "阶跃旗舰预览模型，9 月 20 日开放 API 与 Studio 体验，主打编程、复杂文档和持续工具任务。支持文本与视觉输入、百万 token 上下文；官方发布示例尚未经本站实测。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "编程"
+    ],
+    "changes": [
+      "600B 总参数、27B 激活参数的稀疏 MoE",
+      "首发公告计划 10 月 15 日开放权重；核查时官方权重已可获取，但不能用仓库创建时间替代精确公开日期",
+      "权重采用 StepFun Model License 1.0，含额外商用条件，不能直接标为标准 Apache 2.0"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "qwen3-8-omni-flash",
+    "name": "Qwen3.8-Omni-Flash",
+    "org": "阿里通义",
+    "date": "2026-09-18",
+    "url": "https://qwen.ai/blog?id=qwen3.8-omni-flash",
+    "note": "9 月 18 日官方公告确认正式上线的原生全模态模型，支持文本、图像、音频、视频输入和 1M 上下文，面向音视频理解与智能体工作流。完整创作、视频笔记等任务还依赖插件与运行环境；本站未实测。",
+    "tags": [
+      "闭源 API",
+      "多模态",
+      "智能体"
+    ],
+    "changes": [
+      "官方公告与 QwenCloud 模型日志均将正式上线记为 2026 年 9 月 18 日",
+      "支持 1M 上下文，面向长音视频理解、会议整理、视频剪辑及多模态内容创作",
+      "支持工具调用与 low、medium、xhigh 三档 reasoning_effort，默认保留跨轮思考内容",
+      "可通过 Chat Completions 与 Responses 接口接入；配合 Qwen-MM-Plugins 处理视频笔记、素材理解等工作流"
+    ],
+    "issue": 5
   },
   {
     "id": "gemini-3-8-live",
@@ -306,18 +672,185 @@
     ]
   },
   {
+    "id": "stepaudio-3-realtime",
+    "name": "StepAudio 3 Realtime",
+    "org": "阶跃星辰",
+    "date": "2026-09-15",
+    "url": "https://www.stepfun.com/news/stepaudio-3",
+    "note": "面向实时对话的全双工语音模型，支持自然打断、边想边说和异步工具调用，可在后台任务执行期间继续与用户交谈。",
+    "tags": [
+      "闭源 API",
+      "实时语音",
+      "智能体"
+    ],
+    "changes": [
+      "9 月 15 日系列公告明确已上线开放平台",
+      "当前文档使用 stepaudio-3-realtime-preview；限免预览结束后将下线并新增正式付费版本，不能承诺永久免费",
+      "声音理解、话轮管理与工具能力仍需通过 Realtime API 和应用集成使用"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "stepaudio-3-asr",
+    "name": "StepAudio 3 ASR",
+    "org": "阶跃星辰",
+    "date": "2026-09-15",
+    "url": "https://www.stepfun.com/news/stepaudio-3",
+    "note": "StepAudio 3 系列的语音转写模型，面向中英文、方言、混合语言和较长录音，可用于会议、访谈与学习资料整理。",
+    "tags": [
+      "闭源 API",
+      "语音识别"
+    ],
+    "changes": [
+      "9 月 15 日系列公告明确已上线开放平台",
+      "官方重点展示复杂语音和专业术语识别；录音条件与具体领域会影响实际结果"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "stepaudio-3-tts",
+    "name": "StepAudio 3 TTS",
+    "org": "阶跃星辰",
+    "date": "2026-09-15",
+    "url": "https://www.stepfun.com/news/stepaudio-3",
+    "note": "StepAudio 3 系列的流式语音合成模型，可通过风格和情绪控制生成语音，用于朗读、配音及对话应用。",
+    "tags": [
+      "闭源 API",
+      "语音生成"
+    ],
+    "changes": [
+      "9 月 15 日系列公告明确已上线开放平台",
+      "官方强调语气、情绪和自然口语细节；具体音色与调用限制需查看平台文档"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "stepaudio-3-gen",
+    "name": "StepAudio 3 Gen",
+    "org": "阶跃星辰",
+    "date": "2026-09-15",
+    "url": "https://www.stepfun.com/news/stepaudio-3",
+    "note": "统一生成语音、音效、环境声和音乐的音频模型，可根据文字与参考音频安排人物、声场和声音发生的时间。",
+    "tags": [
+      "闭源 API",
+      "音频生成"
+    ],
+    "changes": [
+      "9 月 15 日系列公告明确已上线开放平台",
+      "适合有声场景与视频声音设计；多说话人和时间控制的质量需按具体任务检验"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "stepaudio-3-music",
+    "name": "StepAudio 3 Music",
+    "org": "阶跃星辰",
+    "date": "2026-09-15",
+    "url": "https://www.stepfun.com/news/stepaudio-3",
+    "note": "StepAudio 3 系列的音乐生成模型，支持歌词、参考歌曲与 ABC 乐谱等输入，以及作曲、伴奏和多轮修改。",
+    "tags": [
+      "闭源 API",
+      "音乐生成"
+    ],
+    "changes": [
+      "9 月 15 日系列公告明确已上线开放平台",
+      "支持作曲、伴奏与多轮编辑，实际可用控制项和调用限制应按开放平台文档确认"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "kimi-k2-8-preview",
+    "name": "Kimi K2.8 Preview",
+    "org": "Moonshot AI（月之暗面）",
+    "date": "2026-09-11",
+    "url": "https://www.kimi.com/code/docs/kimi-code/whats-new.html",
+    "note": "9 月 11 日全量上线 Kimi Code 的预览模型，沿用 kimi-for-coding ID，客户端和第三方工具无需改配置。这里记录 Kimi Code 正式开放日期；未找到权重开放公告，不能写成开源发布。",
+    "tags": [
+      "闭源 API",
+      "代码",
+      "预览"
+    ],
+    "prev": "kimi-k2-7-code",
+    "changes": [
+      "官方最新动态在 2026 年 9 月 11 日的模型发布栏目确认 K2.8 Preview 全量上线 Kimi Code",
+      "官方称编码与智能体能力提升，思考效率较 K2.7 Code 改善；本站未进行横向实测",
+      "支持 low、high、max 三档思考强度，默认 max，最高上下文窗口 1M",
+      "关闭 thinking 后，K3 系列与 K2.8 Preview 请求均路由到 K2.8 Preview 的无思考版本"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "grok-voice-transcribe-2-0",
+    "name": "Grok Voice Transcribe 2.0",
+    "org": "xAI",
+    "date": "2026-09-11",
+    "url": "https://x.ai/news/grok-voice-transcribe-2",
+    "note": "时间线采用官方控制台日志最早确认可用的 9 月 11 日（Speech-to-Text playground/clone matcher 使用 2.0），9 月 18 日为正式模型公告。两者不是同一种发布事件；尚未证明 9 月 11 日就是所有 API 用户的首次可用日。",
+    "tags": [
+      "闭源 API",
+      "语音"
+    ],
+    "changes": [
+      "支持批量与实时流式转写、多语言自动检测及录音中的语言切换",
+      "提供逐词时间戳、置信度、说话人区分、最多 8 声道及最多 100 个领域关键词提示",
+      "批量每小时音频 0.10 美元、流式 0.20 美元，包含说话人区分和时间戳",
+      "9 月 18 日公告仍把成为 Speech-to-Text API 默认模型、弃用 1.0 写为后续安排，不能提前当成已完成迁移"
+    ],
+    "issue": 5
+  },
+  {
     "id": "deepseek-v4-1-flash",
     "name": "DeepSeek-V4.1-Flash",
     "org": "DeepSeek",
     "date": "2026-09-10",
     "url": "https://api-docs.deepseek.com/news/news260910/",
     "note": "V4.1 系列模型，原生支持视觉理解，适合结合图片与文字处理任务。API 调用名为 deepseek-flash，权重已开放；本期未进行实际部署测试。",
-    "tags": ["开放权重", "多模态"],
+    "tags": [
+      "开放权重",
+      "多模态"
+    ],
     "prev": "deepseek-v4-flash-0731",
     "changes": [
       "采用新的 Causal Encoder–Decoder 架构，输入与输出激活的参数规模不同",
       "官方公告介绍了缓存资源与推理效率的变化，实际资源需求需结合部署配置核对"
     ]
+  },
+  {
+    "id": "auk",
+    "name": "AuK",
+    "org": "腾讯",
+    "date": "2026-09-09",
+    "url": "https://huggingface.co/tencent/AuK",
+    "note": "开放权重的语音生成与编辑模型，可用自然语言生成声音、替换语音内容、修改情绪和语速，也支持降噪与声音分离。",
+    "tags": [
+      "开放权重",
+      "语音生成",
+      "语音编辑"
+    ],
+    "changes": [
+      "官方模型卡明确 9 月 9 日公开代码与权重，采用 MIT 许可",
+      "主模型约 1.5B 参数，运行仍需要配套编码器等组件，不能只按主模型参数估算完整部署资源",
+      "提供参考音色与文字描述两种语音生成方式，以及语音和歌词内容修改"
+    ],
+    "issue": 5
+  },
+  {
+    "id": "auk-flash",
+    "name": "AuK-Flash",
+    "org": "腾讯",
+    "date": "2026-09-09",
+    "url": "https://huggingface.co/tencent/AuK-Flash",
+    "note": "AuK 的蒸馏加速型号，以 4 步推理完成语音生成与编辑，保留统一自然语言控制接口。",
+    "tags": [
+      "开放权重",
+      "语音生成",
+      "语音编辑"
+    ],
+    "changes": [
+      "官方模型卡明确 9 月 9 日公开代码与权重，采用 MIT 许可",
+      "4 步是推理步数，不等于在任意硬件上都固定快某个倍数"
+    ],
+    "issue": 5
   },
   {
     "id": "gpt-image-2-5-sunburst",
@@ -351,44 +884,6 @@
     "changes": [
       "官方 API 日志与模型快照均标明 9 月 8 日发布",
       "支持多档质量设置；同一提示词的对比还应记录尺寸、质量档位、尝试次数与生成时间"
-    ]
-  },
-  {
-    "id": "claude-fable-5-1",
-    "name": "Claude Fable 5.1",
-    "org": "Anthropic",
-    "date": "2026-09-03",
-    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
-    "note": "Fable 5 的迭代版，官方称是「面向编程与知识工作的最先进模型」。三个对使用者最实际的变化：价格约降 25%（高智能体场景最多约 45%）、新的企业级数据留存方案、网络安全误报大幅减少。⚠️ 官方页面只标到「2026 年 9 月」，未给具体日期，此处日期为近似。",
-    "tags": [
-      "闭源 API",
-      "降价"
-    ],
-    "prev": "claude-fable-5-mythos-5",
-    "changes": [
-      "官方称典型负载下比 Fable 5 便宜约 25%，原因是下调了缓存读取（cache read）的价格",
-      "官方称高强度智能体任务的节省更大，最多约 45%",
-      "推出 Enterprise Frontier Safeguards（EFS）：数据存在客户自己控制的云上而非 Anthropic，效果等同零数据留存；今秋起分批开放，在此之前符合条件的客户可直接用零留存模式",
-      "官方称网络安全场景的误报比此前减少 60%；Fable 5.1 现在可用于发现软件漏洞，但不能用于开发漏洞利用代码",
-      "官方称设为 Low 或 Medium 思考强度时，效果已能达到或超过 Fable 5，而成本低得多",
-      "在 Claude Code 里默认 High 强度，在 Claude Cowork 和 Claude 网页端默认 Medium"
-    ]
-  },
-  {
-    "id": "claude-mythos-5-1",
-    "name": "Claude Mythos 5.1",
-    "org": "Anthropic",
-    "date": "2026-09-03",
-    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
-    "note": "和 Fable 5.1 是**同一个模型**，区别只在防护级别。Mythos 5.1 仅通过受信任访问计划开放，其防护专为网络安全和生命科学工作设计。⚠️ 日期同为近似。",
-    "tags": [
-      "闭源 API",
-      "受限访问"
-    ],
-    "prev": "claude-fable-5-mythos-5",
-    "changes": [
-      "与 Fable 5.1 是同一个模型，仅防护级别不同：Fable 5.1 公开可用，Mythos 5.1 只走受信任访问计划",
-      "生物学能力方面，官方称与美国政府合作建立了访问计划，即将向科研人员开放报名"
     ]
   },
   {
@@ -431,6 +926,44 @@
       "支持约 100 万 token 输入、65,536 token 输出",
       "模型卡列出工具调用、搜索依据、代码执行与预览版 computer use 支持",
       "官方 10 月 8 日更新说明：3.7 Flash 不再可选，其 API 请求自动路由至 3.8 Flash"
+    ]
+  },
+  {
+    "id": "claude-fable-5-1",
+    "name": "Claude Fable 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-01",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+    "note": "Fable 5 的迭代版，官方称是「面向编程与知识工作的最先进模型」。三个对使用者最实际的变化：价格约降 25%（高智能体场景最多约 45%）、新的企业级数据留存方案、网络安全误报大幅减少。发布日期依据 Claude 官方产品与 API 更新日志核定为 9 月 1 日。",
+    "tags": [
+      "闭源 API",
+      "降价"
+    ],
+    "prev": "claude-fable-5-mythos-5",
+    "changes": [
+      "官方称典型负载下比 Fable 5 便宜约 25%，原因是下调了缓存读取（cache read）的价格",
+      "官方称高强度智能体任务的节省更大，最多约 45%",
+      "推出 Enterprise Frontier Safeguards（EFS）：数据存在客户自己控制的云上而非 Anthropic，效果等同零数据留存；今秋起分批开放，在此之前符合条件的客户可直接用零留存模式",
+      "官方称网络安全场景的误报比此前减少 60%；Fable 5.1 现在可用于发现软件漏洞，但不能用于开发漏洞利用代码",
+      "官方称设为 Low 或 Medium 思考强度时，效果已能达到或超过 Fable 5，而成本低得多",
+      "在 Claude Code 里默认 High 强度，在 Claude Cowork 和 Claude 网页端默认 Medium"
+    ]
+  },
+  {
+    "id": "claude-mythos-5-1",
+    "name": "Claude Mythos 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-01",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+    "note": "和 Fable 5.1 是**同一个模型**，区别只在防护级别。Mythos 5.1 仅通过受信任访问计划开放，其防护专为网络安全和生命科学工作设计。发布日期依据 Claude 官方产品与 API 更新日志核定为 9 月 1 日。",
+    "tags": [
+      "闭源 API",
+      "受限访问"
+    ],
+    "prev": "claude-fable-5-mythos-5",
+    "changes": [
+      "与 Fable 5.1 是同一个模型，仅防护级别不同：Fable 5.1 公开可用，Mythos 5.1 只走受信任访问计划",
+      "生物学能力方面，官方称与美国政府合作建立了访问计划，即将向科研人员开放报名"
     ]
   },
   {
