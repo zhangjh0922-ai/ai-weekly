@@ -4,12 +4,64 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
-import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { spawn, spawnSync } from 'node:child_process';
+import { createServer } from 'node:http';
+import { createRequire } from 'node:module';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createSourceDraft } from './source-draft.mjs';
 import { resolveProvider } from './llm.mjs';
 
 const scripts = fileURLToPath(new URL('../', import.meta.url));
+
+test('collection exits when rejected or stalled feeds leave their response body open, preserving healthy feeds', async () => {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'weekly-collect-test-'));
+  const server = createServer((request, response) => {
+    if (request.url === '/blocked') {
+      response.writeHead(403, { 'content-type': 'text/html' });
+      response.write('Access denied'); // Deliberately leave the response open.
+    } else if (request.url === '/stalled') {
+      response.writeHead(200, { 'content-type': 'application/rss+xml' });
+      response.write('<rss>'); // Headers arrive, but the feed never finishes.
+    } else {
+      response.writeHead(200, { 'content-type': 'application/rss+xml' });
+      response.end('<rss version="2.0"><channel><title>Official</title><item><title>Healthy candidate</title><link>https://example.com/news</link></item></channel></rss>');
+    }
+  });
+  let child;
+  try {
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+    const origin = `http://127.0.0.1:${server.address().port}`;
+    fs.mkdirSync(path.join(temporary, 'scripts', 'lib'), { recursive: true });
+    const parserURL = pathToFileURL(createRequire(import.meta.url).resolve('rss-parser')).href;
+    fs.writeFileSync(path.join(temporary, 'scripts', 'collect.mjs'),
+      fs.readFileSync(path.join(scripts, 'collect.mjs'), 'utf8').replace("from 'rss-parser'", `from '${parserURL}'`));
+    fs.copyFileSync(path.join(scripts, 'lib', 'util.mjs'), path.join(temporary, 'scripts', 'lib', 'util.mjs'));
+    fs.writeFileSync(path.join(temporary, 'scripts', 'sources.json'), JSON.stringify({
+      sources: ['healthy', 'blocked', 'stalled'].map(id => ({ id, name: id, type: 'rss', category: 'test', url: `${origin}/${id}` })),
+      keywords: { release: [], model: [] },
+    }));
+    child = spawn(process.execPath, ['scripts/collect.mjs', '--timeout=200'], { cwd: temporary, stdio: 'pipe' });
+    let output = '';
+    child.stdout.on('data', chunk => { output += chunk; });
+    child.stderr.on('data', chunk => { output += chunk; });
+    const result = await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => child.kill(), 8000);
+      child.on('error', error => { clearTimeout(timer); reject(error); });
+      child.on('exit', (code, signal) => { clearTimeout(timer); resolve({ code, signal }); });
+    });
+    assert.equal(result.code, 0, `collector did not exit normally (${result.signal}): ${output}`);
+    const collected = JSON.parse(fs.readFileSync(path.join(temporary, '.cache', 'collected.json'), 'utf8'));
+    assert.equal(collected.items.length, 1);
+    assert.equal(collected.items[0].title, 'Healthy candidate');
+    assert.deepEqual(collected.failures.map(failure => failure.id), ['blocked', 'stalled']);
+  } finally {
+    child?.kill();
+    server.closeAllConnections();
+    await new Promise(resolve => server.close(resolve));
+    assert.ok(path.resolve(temporary).startsWith(path.join(path.resolve(os.tmpdir()), 'weekly-collect-test-')));
+    fs.rmSync(temporary, { recursive: true, force: true });
+  }
+});
 
 test('every failing feed has three attempts regardless of its position in the source list', async () => {
   const sources = Array.from({ length: 6 }, (_, i) => ({ id: `feed-${i}`, url: `https://example.com/${i}` }));
@@ -20,7 +72,9 @@ test('every failing feed has three attempts regardless of its position in the so
   const quiet = () => {};
   const exit = Symbol('exit');
   await vm.runInNewContext(`(async () => { ${code}\n })()`, {
-    Parser: class { async parseURL(url) { attempts[url]++; throw new Error('HTTP 503'); } },
+    Parser: class {},
+    fetch: async (url) => { attempts[url]++; throw new Error('HTTP 503'); },
+    AbortSignal,
     paths: { sources: 'sources.json' },
     readJson: () => ({ sources, keywords: { release: [], model: [] } }),
     parseArgs: () => ({ check: true }),

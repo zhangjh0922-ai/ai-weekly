@@ -25,13 +25,24 @@ const TIMEOUT_MS = Number(args.timeout ?? 20000);
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
-const parser = new Parser({
-  timeout: TIMEOUT_MS,
-  headers: {
-    'User-Agent': UA,
-    Accept: 'application/rss+xml, application/atom+xml, application/xml;q=0.9, */*;q=0.8',
-  },
-});
+const parser = new Parser();
+
+async function fetchRSS(source) {
+  // 自己管理请求：rss-parser 的失败分支不会关闭连接，可能让采集进程无法退出。
+  const res = await fetch(source.url, {
+    headers: {
+      'User-Agent': UA,
+      Accept: 'application/rss+xml, application/atom+xml, application/xml;q=0.9, */*;q=0.8',
+    },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  if (!res.ok) {
+    await res.body?.cancel();
+    throw new Error(`Status code ${res.status}`);
+  }
+  // 同一个超时信号也覆盖响应体读取，避免只收到响应头后一直等待。
+  return (await parser.parseString(await res.text())).items ?? [];
+}
 
 const config = readJson(paths.sources);
 if (!config) {
@@ -176,7 +187,7 @@ async function fetchSource(source, retries = 2) {
           ? await fetchHuggingFace(source)
           : source.type === 'sitemap'
             ? await fetchSitemap(source)
-            : ((await parser.parseURL(source.url)).items ?? []);
+            : await fetchRSS(source);
       return { source, ok: true, ms: Date.now() - started, items, attempts: attempt + 1 };
     } catch (err) {
       lastError = err;
