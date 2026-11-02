@@ -1,5 +1,452 @@
 [
   {
+    "id": "hyinv",
+    "name": "HyInv",
+    "org": "腾讯",
+    "date": "2026-11-02",
+    "url": "https://github.com/Tencent-Hunyuan/hyra-results/tree/main/AI4Science/hyinv",
+    "note": "腾讯 Hyra 2.0 产出的 196 万参数蛋白质逆折叠模型，给定骨架生成序列。官方仓库 News 明确 11 月 2 日开放权重、代码与技术报告。",
+    "tags": [
+      "开放权重",
+      "科学研究",
+      "蛋白质"
+    ],
+    "changes": [
+      "模型卡说明公开权重为结构奖励强化学习版本，可用 CPU 或 GPU 推理",
+      "面向蛋白质设计研究，需要 Python 3.10+ 和 PyTorch；CUDA 加速另需 Triton",
+      "发布日期证据：https://github.com/Tencent-Hunyuan/hyra-results#news",
+      "未单独完成许可文件审查，不能据此承诺任意商业使用或实验效果"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "hyplm-flash",
+    "name": "HyPLM-Flash",
+    "org": "腾讯",
+    "date": "2026-11-02",
+    "url": "https://github.com/Tencent-Hunyuan/hyra-results/tree/main/AI4Science/hyplm_flash",
+    "note": "腾讯 Hyra 2.0 训练的 6.5 亿参数蛋白质语言模型。官方仓库 News 明确 11 月 2 日发布权重、推理代码与技术报告，适用于蛋白质表示提取及相关研究。",
+    "tags": [
+      "开放权重",
+      "科学研究",
+      "蛋白质"
+    ],
+    "changes": [
+      "提供掩码语言模型、残基及序列表示提取，单条序列最多 8190 个残基",
+      "模型卡列 2.6 GB FP32 权重分片、默认 INT8 推理；需要 CUDA GPU 和 Python 3.10+",
+      "发布日期证据：https://github.com/Tencent-Hunyuan/hyra-results#news",
+      "速度数字依赖指定 H20 与精度设置；许可未单独审查，不作任意商业使用承诺"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "gpt-6-rosalind",
+    "name": "GPT-6 Rosalind Research",
+    "org": "OpenAI",
+    "date": "2026-10-30",
+    "url": "https://help.openai.com/en/articles/9624314-model-release-notes",
+    "note": "面向多步骤生命科学研究的专用模型，开始向少量获批 Research 客户开放 Work、Codex 和 API。需要组织与用户的专门授权，Discovery 资格不等于 Research 资格，也不在普通 Chat 中提供。",
+    "tags": [
+      "闭源",
+      "科学研究",
+      "受限开放"
+    ],
+    "prev": "gpt-rosalind",
+    "changes": [
+      "API 标识为 gpt-6-rosalind；Rosalind Discovery 仍使用 5.5",
+      "Enterprise 初始为两周管理员预览，默认关闭"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "gemini-4-carbon",
+    "name": "Gemini 4 Carbon",
+    "org": "Google DeepMind",
+    "date": "2026-10-28",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/",
+    "note": "10 月 28 日公布，重点是长时间软件工程任务和网络防御。首批面向部分网络防御人员，并经 Fairwind 计划逐步扩展可信合作方；截至 11 月 2 日，不能视为普通 Gemini 用户或开发者已普遍可用。",
+    "tags": [
+      "闭源",
+      "编程",
+      "受限开放"
+    ],
+    "prev": "gemini-4-argon",
+    "changes": [
+      "官方介绍持续多日处理复杂工程任务的内部实验，不能等同于公开服务时长承诺",
+      "公告给出未来推出时的优惠价格；本条记录公告与受限开放事件，不代表公开 API 已上线"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-transcribe-30b-a4b",
+    "name": "Nemotron 3.5 Transcribe 30B-A4B",
+    "org": "NVIDIA",
+    "date": "2026-10-28",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B",
+    "note": "10 月 28 日 NVIDIA 正文明确 introduced today 并开放权重；这是离线录音模型。包含音频编码器约 34B 总参数、4.3B 激活，不与已有 0.6B 流式 ASR 混同。",
+    "tags": [
+      "开放权重",
+      "语音",
+      "转写"
+    ],
+    "changes": [
+      "一个可用提示词控制的模型处理转写、说话人归属、语音翻译、时间戳及音频问答",
+      "支持 40 种语言、最长 1 小时录音与 65536 token 上下文",
+      "采用混合 Mamba-2 / Transformer MoE 语言模型与并行音频编码器，支持按任务调整推理模式",
+      "权重采用 OpenMDW 1.1；10 月 28 日公告将量化列为后续，当前模型卡已列 BF16、FP8、NVFP4 入口，但未据此倒填量化首发日期"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "genie-4",
+    "name": "Genie 4",
+    "org": "Google DeepMind",
+    "date": "2026-10-27",
+    "url": "https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation/",
+    "note": "可实时交互的世界模型，能够同时生成场景、环境声和角色对话，并用自然语言改变正在运行的场景。10 月 27 日开始向可信测试者推出研究预览，普通用户仍需等待后续开放。",
+    "tags": [
+      "世界模型",
+      "多模态",
+      "研究预览"
+    ],
+    "changes": [
+      "官方计划随后面向 Project Genie 的 Google AI Ultra 用户及 API / AI Studio 早期合作方开放；计划不等于已全量上线",
+      "演示涉及场景连续性与交互；不能把生成画面直接视为可靠的物理实验结果"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "qwen-audio-3-1-realtime-flash",
+    "name": "Qwen-Audio-3.1-Realtime-Flash",
+    "org": "阿里通义",
+    "date": "2026-10-27",
+    "url": "https://docs.qwencloud.com/changelog/models",
+    "note": "10 月 27 日 QwenCloud 确认上架的实时双工语音型号，面向语音助手、客服和互动应用。记录 API 开放，不等同于消费者聊天应用全面启用。",
+    "tags": [
+      "闭源 API",
+      "实时语音"
+    ],
+    "changes": [
+      "支持文字与音频输入输出、函数调用、联网搜索和音色克隆；上下文为 262144 token",
+      "使用 WebSocket、WebRTC 或 AOQ 接入，需对应区域 API Key",
+      "当前文档列音频历史最多 50 轮、累计 300 秒，不能只凭文本窗口暗示无限语音记忆",
+      "使用与限制：https://docs.qwencloud.com/developer-guides/speech/qwen-audio-realtime"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "gpt-6-1-terra",
+    "name": "GPT-6.1 Terra",
+    "org": "OpenAI",
+    "date": "2026-10-26",
+    "url": "https://openai.com/index/introducing-gpt-6-1-terra/",
+    "note": "面向视觉理解、电脑操作与写作的模型，10 月 26 日开始进入 API、ChatGPT Work 和 Codex；不在普通 Chat 标签页提供。官方强调较低成本下执行日常电脑任务，本站尚未实测。",
+    "tags": [
+      "闭源",
+      "多模态",
+      "电脑操作"
+    ],
+    "changes": [
+      "标准 API 每百万输入 / 缓存输入 / 输出 token 分别为 1 / 0.05 / 5 美元",
+      "厂商展示表单填写、图纸理解、视频编辑等任务；实际能力仍取决于工具和执行环境"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "kimi-k3-1-pro",
+    "name": "Kimi K3.1 Pro",
+    "org": "Moonshot AI（月之暗面）",
+    "date": "2026-10-23",
+    "url": "https://www.kimi.com/code/docs/kimi-code/whats-new.html",
+    "note": "10 月 23 日全量上线 Kimi Code；10 月 24 日官网公告确认网页、App、Kimi Work 和 API 可用。3 万亿级、1M 上下文；公告计划 11 月 4 日前开放完整权重，截至本轮不能写成权重已公开。",
+    "tags": [
+      "闭源 API",
+      "代码",
+      "多模态"
+    ],
+    "prev": "kimi-k3",
+    "changes": [
+      "官方确认是 Kimi K3 的后训练版本，重点增强代码、3D 创作、金融研究和长程 Agent 工作",
+      "Kimi Code 中 Plus / Moderato 及以上可用，最高 1M 上下文需 Pro / Allegretto 及以上",
+      "仅支持思考模式，low / high / max 三档；关闭思考返回 400，建议使用新会话",
+      "同步提供 Highspeed 高速服务，官方称同等效果下约 2–3 倍速度，API价格两倍；Code需Pro / Allegretto及以上。未找到独立训练或权重证据，按服务档位并入本条，不独立计新模型",
+      "10 月 24 日完整发布公告：https://www.kimi.com/news/kimi-k3-1-pro"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-bolt-e4b-4gb",
+    "name": "Nemotron 3.5 Bolt E4B 4GB",
+    "org": "NVIDIA",
+    "date": "2026-10-23",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+    "note": "模型卡明确列出 Hugging Face 与 Build.NVIDIA.com 的 Release Date 均为 2026-10-23；兑现先前计划。8B 总参数、4B effective，不把 E4B 当作 MoE 激活参数。",
+    "tags": [
+      "开放权重",
+      "小模型",
+      "本地部署"
+    ],
+    "changes": [
+      "基于 Gemma 4 E4B 进一步后训练，加强多轮工具调用、指令遵循和输入依据约束",
+      "Q4_K_M 权重面向约 4GB 内存档的本地设备助手、交互角色和边缘界面",
+      "模型输入输出均为文字，可配合其他语音组件组成助手；支持 64K 上下文和可控推理",
+      "采用 OpenMDW 1.1 许可，并提供 BF16 版本与可选 DFlash 草稿模型"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "qwen-audio-3-1-tts-next",
+    "name": "Qwen-Audio-3.1-TTS-Next",
+    "org": "阿里通义",
+    "date": "2026-10-22",
+    "url": "https://docs.qwencloud.com/changelog/models",
+    "note": "10 月 22 日 QwenCloud 上架的统一音频生成型号，将语音、音效和环境声共同生成，适合播客、音频剧及视频配声。此日期为已核实的平台开放记录。",
+    "tags": [
+      "闭源 API",
+      "音频生成"
+    ],
+    "changes": [
+      "输入文字、时间信息与参考音频，支持多说话人和声音场景的统一生成",
+      "当前指南列中英文、每次最多 3000 字符，播客最长 240 秒，其他场景最长 120 秒",
+      "最多三段参考音频，每段不超过 30 秒和 10 MB；支持 WAV、MP3、OGG Opus",
+      "使用限制来源：https://docs.qwencloud.com/developer-guides/speech/audio-generation"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "qwen-audio-3-1-tts-plus",
+    "name": "Qwen-Audio-3.1-TTS-Plus",
+    "org": "阿里通义",
+    "date": "2026-10-21",
+    "url": "https://docs.qwencloud.com/changelog/models",
+    "note": "10 月 21 日 QwenCloud 模型日志确认 API 上架；这里记录平台开放日，不主张是所有地区的全球首发。面向专业配音与高质量语音内容。",
+    "tags": [
+      "闭源 API",
+      "语音生成"
+    ],
+    "changes": [
+      "多语言与方言、流式合成、自然语言指令，以及情绪、音调、角色、语速和音量标签控制",
+      "官方称音色克隆对参考音频噪声和混响更稳；质量、清晰度与表现力改进未在本轮实测",
+      "Plus 侧重品牌声音、影视配音和角色表演；不与 10 月 12 日已上架的 TTS-Flash 混同"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-embed-8b",
+    "name": "Nemotron 3.5 Embed 8B",
+    "org": "NVIDIA",
+    "date": "2026-10-21",
+    "url": "https://huggingface.co/nvidia/Nemotron-3.5-Embed-8B-BF16",
+    "note": "10 月 21 日 NVIDIA 官方技术文章宣布开放的新多模态检索模型；日期依据公告，不采用 Hugging Face 仓库创建时间。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "向量检索"
+    ],
+    "changes": [
+      "为文字与文档图像生成检索表示，可检索图表、信息图、数据表与示意图中的信息",
+      "面向更重视质量的多语言企业检索与智能体证据检索",
+      "提供 BF16 权重以及 NVIDIA NIM 等部署入口；用途是召回证据而非生成聊天回复"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-embed-1b",
+    "name": "Nemotron 3.5 Embed 1B",
+    "org": "NVIDIA",
+    "date": "2026-10-21",
+    "url": "https://huggingface.co/nvidia/Nemotron-3.5-Embed-1B-BF16",
+    "note": "10 月 21 日开放；BF16 与 NVFP4 作为同一型号的精度版本合并记录，不拆成两款基础模型。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "向量检索"
+    ],
+    "changes": [
+      "从 Embed 8B 蒸馏多模态检索能力，用于更小资源占用的文档索引与查询服务",
+      "支持文字与文档图像，面向表格、图表等视觉信息的检索",
+      "另有 NVFP4 版本，对文字与图像编码器量化，具体吞吐取决于受支持硬件"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-rerank-8b",
+    "name": "Nemotron 3.5 Rerank 8B",
+    "org": "NVIDIA",
+    "date": "2026-10-21",
+    "url": "https://huggingface.co/nvidia/Nemotron-3.5-Rerank-8B-BF16",
+    "note": "10 月 21 日 NVIDIA 官方技术文章宣布开放；这是检索后的重排模型，不能替代通用聊天模型。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "重排"
+    ],
+    "changes": [
+      "8B 交叉编码器联合评估查询与候选文档，重新排序检索结果",
+      "支持文字和图像候选，帮助 RAG 与智能体把更相关的证据放入上下文",
+      "提供 BF16 权重及 NVIDIA NIM 等部署入口；官方报告的节省 token 依赖其评测管线"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "nemotron-3-5-parse",
+    "name": "Nemotron 3.5 Parse",
+    "org": "NVIDIA",
+    "date": "2026-10-21",
+    "url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse",
+    "note": "10 月 21 日开放的 631M 文档解析模型；日期依据 NVIDIA 官方技术文章。",
+    "tags": [
+      "开放权重",
+      "OCR",
+      "文档解析"
+    ],
+    "changes": [
+      "从页面图像提取文字、文档元素、位置与阅读顺序，并将表格和图表转成结构化表示",
+      "输出 Markdown、HTML 表格和结构化块，方便索引、检索与回溯原页证据",
+      "可选择单次、双次或三次处理，对复杂图表区域追加检查，在速度与精度之间取舍"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "voxtral-mini-transcribe-3",
+    "name": "Voxtral Mini Transcribe 3",
+    "org": "Mistral AI",
+    "date": "2026-10-20",
+    "url": "https://docs.mistral.ai/models/voxtral-mini-transcribe-3-0",
+    "note": "10 月 20 日公开预览；API 型号 voxtral-mini-transcribe-3-0。官方提供 API 与联系团队自部署入口，未据此确认公开下载权重。",
+    "tags": [
+      "API 预览",
+      "语音",
+      "转写"
+    ],
+    "changes": [
+      "Voxtral 3 家族的 4B 小型离线转写模型，支持多语言转写、说话人区分和时间戳",
+      "支持关键词与自由文本的上下文偏置，适应专业术语；模型卡标注 32K 上下文",
+      "API 价格每分钟音频 0.0035 美元；可通过 Mistral Studio 试用"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "voxtral-small-transcribe-3",
+    "name": "Voxtral Small Transcribe 3",
+    "org": "Mistral AI",
+    "date": "2026-10-20",
+    "url": "https://docs.mistral.ai/models/voxtral-small-transcribe-3-0",
+    "note": "10 月 20 日公开预览；API 型号 voxtral-small-transcribe-3-0。与 Mini 是独立型号，不能把厂商效果宣称写成本站实测。",
+    "tags": [
+      "API 预览",
+      "语音",
+      "转写"
+    ],
+    "changes": [
+      "Voxtral 3 家族的高精度离线转写模型，支持 50 多种语言、说话人区分、时间戳与上下文偏置",
+      "模型卡另列翻译、语音问答、摘要和函数调用能力，标注 32K 上下文",
+      "API 价格每分钟音频 0.004 美元；自部署需联系 Mistral 团队"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "voxtral-mini-transcribe-realtime-3",
+    "name": "Voxtral Mini Transcribe Realtime 3",
+    "org": "Mistral AI",
+    "date": "2026-10-20",
+    "url": "https://docs.mistral.ai/models/voxtral-mini-transcribe-realtime-3-0",
+    "note": "10 月 20 日公开预览；API 型号 voxtral-mini-transcribe-realtime-3-0。实时转写与离线 Mini Transcribe 分开记录。",
+    "tags": [
+      "API 预览",
+      "语音",
+      "实时转写"
+    ],
+    "changes": [
+      "通过 WebSocket 在同一流式会话中转写，支持说话人区分与上下文偏置",
+      "内置轮次结束检测，官方给出 80 至 2400 毫秒可配置延迟，属于配置范围而非本站实测",
+      "API 价格每分钟音频 0.008 美元；可作为 Voice Agents SDK 的语音识别阶段"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "voxtral-mini-tts-3",
+    "name": "Voxtral Mini TTS 3",
+    "org": "Mistral AI",
+    "date": "2026-10-20",
+    "url": "https://docs.mistral.ai/models/voxtral-mini-tts-3-0",
+    "note": "10 月 20 日公开预览；文档标题 Voxtral TTS 3，发布公告称 Voxtral Mini TTS 3，API 型号为 voxtral-mini-tts-3-0。",
+    "tags": [
+      "API 预览",
+      "语音",
+      "语音合成"
+    ],
+    "changes": [
+      "支持 35 多种语言和 50 多种方言，可按对话上下文调整情绪、语速和重音",
+      "支持零样本声音克隆与专业声音适配；专业模式使用约 30 分钟录音",
+      "支持流式生成、5 种输出格式，文档列出 34 种情绪标签和 2 种语速标签",
+      "API 价格每百万字符 13 美元；不是一个独立的端到端语音对话模型"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "minimax-m3-1-flash",
+    "name": "MiniMax M3.1 Flash",
+    "org": "MiniMax",
+    "date": "2026-10-19",
+    "url": "https://www.minimax.io/blog/minimax-m31f",
+    "note": "10 月 19 日正式上线 MiniMax API、M Plan 和 MiniMax Code，属于上轮截止日边界漏项。重点是 Agent、编程与电脑操作的能力和成本；公告明确权重稍后发布。",
+    "tags": [
+      "闭源 API",
+      "代码",
+      "智能体"
+    ],
+    "changes": [
+      "官方确认匿名测试模型 Space Bunny 是其早期版本",
+      "发布定价为每百万 token 输入 0.15 美元、输出 0.60 美元、缓存输入 0.015 美元；不同地区和后续定价以平台为准",
+      "官方称推理近三倍提速、Agent 总使用成本下降 70%，均为厂商口径而非本轮横测",
+      "发布正文写明模型权重稍后开放，Pro 版本同样只是未来计划"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "pplx-decider-v1-2",
+    "name": "pplx-decider v1.2 (27B)",
+    "org": "Perplexity",
+    "date": "2026-10-19",
+    "url": "https://huggingface.co/perplexity-ai/pplx-decider-v1.2",
+    "note": "基于 Qwen3.8-27B 的专项决策模型，接收文本和图片，直接输出分类概率及评分。日期采用 10 月 19 日官方明确确认 API 与权重下载可用的事件；官方仓库有 10 月 16 日提交历史，但提交日不能单独证明当时已公开。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "专项模型",
+      "本地部署"
+    ],
+    "changes": [
+      "官方模型卡将其定义为 v1.1-27b 的新版，保留 Qwen3.8-27B 底座，并更新训练数据与联合请求格式；不是从零训练的新通用基础模型",
+      "多个问题可共享同一输入状态，并分别输出判断；问题会相互影响，独立候选排序等场景需分开请求和验证",
+      "权重采用 Apache 2.0 许可；官方 BF16 运行参考需要约 52 GiB 权重空间及额外工作内存，不能理解为普通笔记本默认可运行",
+      "最早官方仓库提交：2026-10-16，225c913ddc8761a8264f04f64548e1f97e443eb3；10-19 产品日志确认 API 与下载入口"
+    ],
+    "issue": 6
+  },
+  {
+    "id": "pplx-decider-flash-v1-2",
+    "name": "pplx-decider Flash v1.2 (4B)",
+    "org": "Perplexity",
+    "date": "2026-10-19",
+    "url": "https://huggingface.co/perplexity-ai/pplx-decider-flash-v1.2",
+    "note": "基于 Qwen3.5-4B、从 27B 决策模型蒸馏的轻量判断模型，支持文本和图片分类、评分。日期采用 10 月 19 日官方明确确认 API 与权重下载可用的事件；10 月 16 日权重提交历史不足以单独证明当时已公开。",
+    "tags": [
+      "开放权重",
+      "多模态",
+      "专项模型",
+      "本地部署"
+    ],
+    "changes": [
+      "学习教师模型的完整概率分布，并合并多次训练的权重；是独立权重的派生模型，而非仅平台路由配置",
+      "采用与 27B 版相同的请求格式，但官方建议默认每次只问一个问题；仅将紧密相关的多标签或同一决策步骤合并，并在实际任务中验证",
+      "权重采用 Apache 2.0 许可；官方 BF16 运行参考约需 9 GiB 权重空间及额外内存，量化版本与特定设备部署条件另计",
+      "最早官方仓库提交：2026-10-16，6d771ad；10-19 产品日志及 API 团队公告明确 Flash v1.2 同期可用"
+    ],
+    "issue": 6
+  },
+  {
     "id": "deepseek-v4-1-flash-1017",
     "name": "DeepSeek-V4.1-Flash-1017",
     "org": "DeepSeek",
@@ -110,7 +557,7 @@
     "org": "NVIDIA",
     "date": "2026-10-15",
     "url": "https://blogs.nvidia.com/blog/nemotron-3-5-super-vl/",
-    "note": "10 月 15 日开放的多模态智能体模型。官方模型卡标注 OpenMDW 1.1 许可；同期 Bolt E4B 仍为 10 月 23 日计划。",
+    "note": "10 月 15 日开放的多模态智能体模型，官方模型卡标注 OpenMDW 1.1 许可。同场预告的 Bolt E4B 已于 10 月 23 日另行开放，见对应型号。",
     "tags": [
       "开放权重",
       "多模态",
@@ -140,7 +587,7 @@
       "74B 总参数、9B 激活参数，原生 2-bit 量化版本以约 24GB 内存占用为目标",
       "面向本地网页研究、编码和调试等智能体工作，可与其他应用一同运行",
       "权重已在 Hugging Face 开放，并支持 llama.cpp、Ollama、LM Studio、Unsloth 与 vLLM",
-      "同场公布的 Bolt E4B 4GB 计划 10 月 23 日发布，不属于本次已经开放的模型"
+      "同场预告的 Bolt E4B 4GB 后于 10 月 23 日另行开放，见模型目录对应记录"
     ],
     "issue": 5
   },
@@ -260,22 +707,23 @@
   },
   {
     "id": "mistral-large-4-preview",
-    "name": "Mistral Large 4 Preview",
+    "name": "Mistral Large 4",
     "org": "Mistral AI",
     "date": "2026-10-06",
     "url": "https://mistral.ai/news/mistral-large-4/",
-    "note": "Mistral Large 4 的公开 API 预览，原生多模态，面向编程、工具工作流及复杂文档理解。官方公布约 1 万亿总参数、520 亿激活参数；截至本次核查，公告仍将权重开放列为 10 月底的计划，不能视为权重已经可下载。",
+    "note": "10 月 6 日先开放 API 预览，10 月 29 日发布继续强化训练后的开放权重版本。原生多模态，面向编程、工具工作流与复杂文档；日期保留首次预览事件，后续权重开放单独说明。",
     "tags": [
-      "API 预览",
+      "开放权重",
       "多模态",
-      "权重待发布"
+      "编程"
     ],
     "issue": 4,
     "changes": [
-      "2026 年 10 月 6 日开放 Mistral Studio 预览 API",
-      "原生多模态 MoE，官方公布约 1 万亿总参数、520 亿激活参数",
-      "官方展示文档、图表理解以及创建和修改电子表格等工作流",
-      "训练与后续改进仍在进行，官方计划月底开放权重并补充架构与训练细节"
+      "2026 年 10 月 6 日开放 Mistral Studio 预览 API；原生多模态 MoE，约 1 万亿总参数、520 亿激活参数",
+      "2026 年 10 月 29 日开放改进后的权重，支持 low / medium / high 三档推理，low 替代原 none",
+      "权重采用 Mistral Ecosystem Open-Weight 修改版 MIT 许可；模型服务业务需另获商业许可，不能视为无限制标准 MIT",
+      "10 月 29 日公告：https://mistral.ai/news/mistral-large-4-oss/",
+      "新标准 API 每百万输入 / 缓存输入 / 输出 token 分别为 0.70 / 0.07 / 2.10 美元；专用网络安全变体仍是受审核伙伴有限预览"
     ]
   },
   {
