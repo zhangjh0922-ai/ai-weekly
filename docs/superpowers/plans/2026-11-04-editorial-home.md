@@ -52,6 +52,15 @@ featuredModels: z.array(z.string()).max(3).default([]),
 - [x] 用 `SITE_URL=https://emergenceailab.com` 构建主站；以 `BASE_PATH=/ai-weekly/` 另建镜像版本，检查新页面与媒体链接带前缀。
 - [x] 浏览器验证桌面、390px 手机、视频两版本、键盘分区切换与历史/深链。
 - [x] 独立审查先看设计要求覆盖，再看回归和代码质量；修复有效问题。
-- [ ] 合并 main 并推送；检查 GitHub workflow、主站与功能页部署、视频资源可访问。保存最终截图。
+- [x] 合并 main 并推送；检查 GitHub workflow、主站与功能页部署、视频资源可访问。保存最终截图。
 
 这是展示与内容结构改动，使用类型检查、构建及真实浏览器交互验证，不添加仅复制实现的单元测试。
+## 验证记录（2026-11-04）
+
+- 实现提交：d80fa9d7873ffc8619a31875f364cb23c6b4051c。
+- Astro check：22 个文件，0 errors / warnings / hints；根路径与 GitHub 子路径均构建 77 页成功。
+- 两种构建各检查 69 个站内链接及媒体引用，目标均存在。
+- 浏览器验证：桌面与 390px 手机布局、旧周报阅读、分区深链/键盘/返回、隐藏视频暂停；阻断初始视频时正确显示失败提示与下载入口，随后已恢复网络设置和默认视口。
+- GitHub Pages 工作流 41764163902 的 build、deploy 成功。
+- emergenceailab.com 首页与 /capabilities 已显示新版；线上完整片段读取到 63.833 秒并播放，节选读取到 7 秒并播放完成。两文件均返回 HTTP 200、video/mp4，支持 Range。
+- 线上截图保存在本地 output/design-preview/live-home-2026-11-04.png（不进入仓库）。
