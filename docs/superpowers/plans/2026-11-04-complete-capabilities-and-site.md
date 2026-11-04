@@ -13,7 +13,7 @@
 - [x] Explain text/reasoning, image understanding, search, code, files, image generation, speech recognition, speech generation, video generation, tool calling, browser use and computer use. Preserve real recording provenance.
 - [x] Update all public page types: homepage entry, timeline, concept list/detail, issue archive/detail, tag archive, about, 404. Keep a single masthead, navigation, colors and spacing; readable narrower article columns.
 - [x] Validate Astro types and both deployment path builds; check matrix sources/internal links, filters/reset/empty state/cell dialog/hash/back, existing page interactions, video playback and mobile overflow.
-- [ ] Review scope and implementation; commit, publish through existing Git integration, verify live representative pages and hand back screenshots.
+- [x] Review scope and implementation; commit, publish through existing Git integration, verify live representative pages and hand back screenshots.
 
 ## Acceptance checks
 
@@ -28,3 +28,7 @@ The default function page visibly includes multiple general models and dedicated
 - No-JavaScript build: full 20 × 12 table readable, script controls hidden, direct evidence anchor expands its native details section.
 - At 390 px viewport, table scroll stays inside its container and all representative routes fit the viewport. Fixed an absolute-positioned screen-reader label escaping its scroll container by establishing the container as its positioning context.
 - Independent code review completed. Long-running development server refreshed after stale content-schema defaults affected the home preview; optional brief data also has an explicit empty fallback.
+- The `/ai-weekly/` build also passed the same 2,451 internal-reference and 265-anchor audit with zero failures.
+- Published implementation commit `c69be77f5c3417e9b60acb201aac92dd892deb18`. EdgeOne custom domain and default domain serve the 20-model atlas; live about and timeline pages use the editorial layout. The live evidence modal opens with conditions, source, verification date and model notes.
+- GitHub Pages build/deploy succeeded: https://github.com/zhangjh0922-ai/ai-weekly/actions/runs/41782761091 (2026-11-04 14:02 Asia/Shanghai).
+- Live screenshots saved under `output/design-preview/live-capability-atlas-2026-11-04.png`, `live-model-timeline-2026-11-04.png`, and `live-about-editorial-2026-11-04.png`.
