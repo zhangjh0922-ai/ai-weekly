@@ -4,10 +4,26 @@ import { SITE } from '../consts';
 import { link } from '../lib/utils';
 ---
 
-<BaseLayout title="关于" description="了解 AI 周报的内容方向、来源核查与更正方式。">
-  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 1.5rem;">关于</h1>
-
-  <div class="prose">
+<BaseLayout title="关于" description="了解 AI 周报的内容方向、来源核查与更正方式。" wide>
+  <div class="editorial-page">
+  <header class="page-header">
+    <p class="page-kicker">ABOUT THE PUBLICATION / 关于这份周报</p>
+    <h1>记录变化，也交代依据。</h1>
+    <p class="lede">我们是 {SITE.org} 的学生团队。从学习和日常使用出发，整理 AI 的新进展，解释它们可能带来的变化，并把来源、实测与尚未确认的部分写清楚。</p>
+    <div class="page-links"><a href={link('/issues')}>阅读往期 ↗</a><a href={link('/rss.xml')}>RSS 订阅 ↗</a><a href={`${SITE.repo}/issues`} target="_blank" rel="noopener noreferrer">反馈与共建 ↗</a></div>
+  </header>
+  <div class="about-layout">
+  <nav class="about-nav" aria-label="关于页目录">
+    <p>编辑说明</p>
+    <a href="#这是什么">01 / 这是什么</a>
+    <a href="#每条怎么写">02 / 每条怎么写</a>
+    <a href="#我们怎么对待不确定">03 / 如何对待不确定</a>
+    <a href="#ai-在生产流程里的位置">04 / AI 如何参与编辑</a>
+    <a href="#纠错与共建">05 / 纠错与共建</a>
+    <a href="#授权">06 / 内容授权</a>
+  </nav>
+  <div class="prose about-copy">
+    <section>
     <h2 id="这是什么">这是什么</h2>
     <p>
       {SITE.title} 由 {SITE.org} 的学生团队维护，每周整理值得关注的模型发布、产品更新、研究与行业动态。
@@ -17,7 +33,8 @@ import { link } from '../lib/utils';
       可能用在哪些场景，还有哪些限制。内容面向对 AI 感兴趣的读者，也会结合学习和项目中的具体问题展开。
     </p>
 
-    <h2 id="每条怎么写">每条怎么写</h2>
+    </section>
+    <section><h2 id="每条怎么写">每条怎么写</h2>
     <p>重要条目根据内容说明以下信息：</p>
     <ol>
       <li><strong>发生了什么</strong>：概述事件，附来源链接，区分官方公告与第三方报道。</li>
@@ -28,7 +45,8 @@ import { link } from '../lib/utils';
       <li><strong>限制与待核实信息</strong>：列出已知限制、失败情况和仍待确认的问题。</li>
     </ol>
 
-    <h2 id="我们怎么对待不确定">我们怎么对待不确定</h2>
+    </section>
+    <section><h2 id="我们怎么对待不确定">我们怎么对待不确定</h2>
     <ul>
       <li>
         <strong>标注时间和版本。</strong> 使用体验会随模型和产品更新而变化，实测时记录模型、版本、日期和工具环境。
@@ -48,7 +66,8 @@ import { link } from '../lib/utils';
       </li>
     </ul>
 
-    <h2 id="ai-在生产流程里的位置">AI 如何参与编辑</h2>
+    </section>
+    <section><h2 id="ai-在生产流程里的位置">AI 如何参与编辑</h2>
     <p>
       我们使用 AI 辅助筛选、分类和整理资料，生成待编辑的草稿。编辑负责核对来源、选择内容，
       并根据资料和实际使用情况补充观察。
@@ -58,7 +77,8 @@ import { link } from '../lib/utils';
       <a href={SITE.repo} rel="noopener noreferrer" target="_blank">项目仓库</a>公开。
     </p>
 
-    <h2 id="纠错与共建">纠错与共建</h2>
+    </section>
+    <section><h2 id="纠错与共建">纠错与共建</h2>
     <p>
       发现事实错误、失效链接，或有想补充的内容，欢迎到
       <a href={`${SITE.repo}/issues`} rel="noopener noreferrer" target="_blank">GitHub 留言</a>。
@@ -69,10 +89,14 @@ import { link } from '../lib/utils';
       <a href={link('/models')}>模型时间线</a>。
     </p>
 
-    <h2 id="授权">授权</h2>
+    </section>
+    <section><h2 id="授权">授权</h2>
     <p>
       文章内容以 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>
       发布，站点与脚本代码以 MIT 发布。转载请注明来源并链接回原文。
     </p>
+    </section>
+  </div>
+  </div>
   </div>
 </BaseLayout>

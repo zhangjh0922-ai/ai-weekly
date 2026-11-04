@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { link, formatDate } from '../../lib/utils';
+import { link, formatDate, isoDate } from '../../lib/utils';
 
 export const getStaticPaths = (async () => {
   const issues = await getCollection('issues', ({ data }) => import.meta.env.DEV || !data.draft);
@@ -30,31 +30,31 @@ const relatedModels = (await getCollection('models'))
   .sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
-<BaseLayout title={`第 ${d.issue} 期 · ${d.title}`} description={d.summary}>
-  <article>
-    <header style="margin-bottom:2.5rem">
-      <div class="issue-card__top">
-        <span class="issue-card__no">第 {d.issue} 期</span>
-        <span class="meta">
-          {formatDate(d.date)} · 覆盖 {d.range}
-          {d.editors.length > 0 && ` · ${d.editors.join('、')}`}
-          {d.draft && ' · 草稿'}
-        </span>
+<BaseLayout title={`第 ${d.issue} 期 · ${d.title}`} description={d.summary} wide edition={{ issue: d.issue, date: d.date }}>
+  <div class="editorial-page">
+  <article class="reading-page">
+    <header class="page-header">
+      <a class="page-back" href={link('/issues')}>← 全部往期</a>
+      <p class="page-kicker">THE WEEKLY / 第 {String(d.issue).padStart(2, '0')} 期{d.draft && ' · 草稿'}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      <div class="article-meta">
+        <time datetime={isoDate(d.date)}>{formatDate(d.date)}</time>
+        <span>覆盖 {d.range}</span>
+        {d.editors.length > 0 && <span>编辑 / {d.editors.join('、')}</span>}
       </div>
-
-      <h1 style="font-size:1.85rem;line-height:1.4;letter-spacing:-0.02em;margin:0.3rem 0 0.9rem;font-weight:700;">
-        {d.title}
-      </h1>
-
-      <p class="lede" style="margin:0 0 1.5rem;">{d.summary}</p>
+    </header>
 
       {
         d.highlights.length > 0 && (
-          <ul style="margin:0 0 1.75rem;padding-left:1.2rem;color:var(--text-muted);font-size:0.95rem;">
+          <section class="article-highlights" aria-label="本期要点">
+          <h2>本期要点</h2>
+          <ul>
             {d.highlights.map((h) => (
-              <li style="margin-block:0.25rem">{h}</li>
+              <li>{h}</li>
             ))}
           </ul>
+          </section>
         )
       }
 
@@ -72,15 +72,13 @@ const relatedModels = (await getCollection('models'))
           </nav>
         )
       }
-    </header>
-
     <div class="prose">
       <Content />
     </div>
 
     {
       relatedModels.length > 0 && (
-        <section style="margin-top:3.5rem">
+        <section class="related-publications">
           <h2 class="section-title">本期涉及的模型发布</h2>
           <ul class="timeline">
             {relatedModels.map((m) => (
@@ -106,7 +104,7 @@ const relatedModels = (await getCollection('models'))
 
     {
       d.tags.length > 0 && (
-        <div class="tag-row" style="margin-top:2.5rem">
+        <div class="tag-row article-tags">
           {d.tags.map((t) => (
             <a class="tag" href={link(`/tags/${encodeURIComponent(t)}`)}>
               {t}
@@ -139,4 +137,5 @@ const relatedModels = (await getCollection('models'))
       }
     </nav>
   </article>
+  </div>
 </BaseLayout>

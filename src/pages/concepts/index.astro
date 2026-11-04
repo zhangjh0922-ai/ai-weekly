@@ -10,13 +10,22 @@ const concepts = (await getCollection('concepts')).sort((a, b) =>
 );
 ---
 
-<BaseLayout title="概念指南" description="用简短解释、具体例子和原始来源，读懂 AI 新闻中的概念与评测指标。">
-  <header class="concept-header">
-    <p class="eyebrow">读懂 AI 新闻</p>
-    <h1>概念指南</h1>
-    <p class="lede">从一个陌生的词开始，了解它的含义、用途，以及容易混淆的地方。模型规格、工具用法和评测名称，都可以在这里查。</p>
+<BaseLayout title="概念指南" description="用简短解释、具体例子和原始来源，读懂 AI 新闻中的概念与评测指标。" wide>
+  <div class="editorial-page">
+  <header class="page-header">
+    <p class="page-kicker">FIELD GUIDE / 概念与方法</p>
+    <div class="page-heading-row"><div>
+      <h1>从一个陌生的词开始</h1>
+      <p class="lede">概念指南用简短解释、具体例子和原始来源，帮助你读懂模型规格、工具用法与评测。知道它是什么，也知道它不代表什么。</p>
+    </div><p class="page-number"><strong>{concepts.length}</strong>个概念</p></div>
+    <div class="page-links"><a href={link('/capabilities')}>结合日常任务，看看模型功能图鉴 ↗</a></div>
   </header>
 
+  <nav class="concept-starts" aria-label="从实际问题开始阅读">
+    <a href={link('/concepts/context-window')}><span>读一份长报告</span><strong>上传成功，就等于全部读懂了吗？ ↗</strong><small>从「上下文窗口」了解材料如何进入模型</small></a>
+    <a href={link('/concepts/computer-use')}><span>让 AI 操作电脑</span><strong>看到它点了导出，任务就完成了吗？ ↗</strong><small>从「计算机操作」了解工具环境与结果验收</small></a>
+    <a href={link('/concepts/benchmark')}><span>看一张模型榜单</span><strong>分数更高，自己的任务就做得更好吗？ ↗</strong><small>从「基准评测」了解题目、条件与能力边界</small></a>
+  </nav>
   <div class="filters concept-filters" role="search" aria-label="查找概念">
     <input type="search" id="concept-query" placeholder="搜索 AGI、BF16、MCP、数学评测…" aria-label="搜索概念的中英文名称或解释" autocomplete="off" />
     <button class="chip" data-category="" aria-pressed="true">全部</button>
@@ -40,6 +49,7 @@ const concepts = (await getCollection('concepts')).sort((a, b) =>
     ))}
   </ul>
   <p class="empty-note" id="concept-empty" hidden>没有找到匹配的概念，可以换个关键词，或清空筛选。</p>
+  </div>
 </BaseLayout>
 
 <script>

@@ -25,14 +25,14 @@ const { tag, issues } = Astro.props;
 ---
 
 <BaseLayout title={`标签：${tag}`} description={`所有带「${tag}」标签的 AI 周报。`} wide>
-  <p class="eyebrow">标签</p>
-  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0.3rem 0 0.5rem;">{tag}</h1>
-  <p class="lede" style="margin:0 0 2rem;">
-    {issues.length} 期 · <a
-      href={link('/issues')}
-      style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;">返回全部往期</a
-    >
-  </p>
-
+  <div class="editorial-page">
+  <header class="page-header">
+    <a class="page-back" href={link('/issues')}>← 全部往期</a>
+    <p class="page-kicker">TOPIC INDEX / 按主题阅读</p>
+    <div class="page-heading-row"><div><h1>{tag}</h1><p class="lede">收录这一主题下的新闻与观察，按期数倒序排列。</p></div><p class="page-number"><strong>{issues.length}</strong>期相关周报</p></div>
+  </header>
+  <div class="archive-list">
   {issues.map((issue) => <IssueCard issue={issue} />)}
+  </div>
+  </div>
 </BaseLayout>

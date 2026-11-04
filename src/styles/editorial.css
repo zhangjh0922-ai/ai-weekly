@@ -10,6 +10,7 @@ html.editorial-site {
   --border-strong: #a7ada3;
   --accent: #ac442e;
   --accent-soft: #efe0d7;
+  --accent-border: #d8b5a2;
   --editorial-green: #335b48;
   color-scheme: light;
 }
@@ -69,6 +70,17 @@ html.editorial-site {
 .editorial-site .site-footer .wrap { padding-bottom: 23px; row-gap: 17px; }
 .editorial-site .site-footer a { text-decoration: none; }
 .editorial-site [hidden] { display: none !important; }
+
+/* The publication stays on paper even when the operating system uses dark mode. */
+@media (prefers-color-scheme: dark) {
+  .editorial-site .prose .astro-code,
+  .editorial-site .prose .astro-code span {
+    color: var(--shiki-light) !important;
+    font-style: var(--shiki-light-font-style) !important;
+    font-weight: var(--shiki-light-font-weight) !important;
+    text-decoration: var(--shiki-light-text-decoration) !important;
+  }
+}
 
 @media (max-width: 950px) {
   .editorial-site .wrap-wide { padding-inline: 24px; }

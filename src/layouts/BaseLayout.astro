@@ -3,6 +3,7 @@ import { SITE, NAV } from '../consts';
 import { link, formatDate, isoDate } from '../lib/utils';
 import '../styles/global.css';
 import '../styles/editorial.css';
+import '../styles/content-pages.css';
 
 interface Props {
   title?: string;
@@ -13,7 +14,7 @@ interface Props {
   edition?: { issue: number; date: Date };
 }
 
-const { title, description, wide = false, editorial = false, edition } = Astro.props;
+const { title, description, wide = false, editorial = true, edition } = Astro.props;
 
 const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.org}`;
 const pageDesc = description ?? SITE.description;
@@ -54,7 +55,7 @@ const seg = '/' + (path.split('/').filter(Boolean)[0] ?? '');
 
   <body>
     <header class="site-header">
-      <div class:list={['wrap', wide && 'wrap-wide']}>
+      <div class:list={['wrap', (editorial || wide) && 'wrap-wide']}>
         <div class="masthead">
           <a class="brand" href={link('/')} aria-label={`${SITE.org} · ${SITE.title}首页`}>
             {editorial ? <><strong>Emergence</strong><span>{SITE.title}</span></> : <>{SITE.title}<small>{SITE.org}</small></>}
@@ -88,7 +89,7 @@ const seg = '/' + (path.split('/').filter(Boolean)[0] ?? '');
     </main>
 
     <footer class="site-footer">
-      <div class:list={['wrap', wide && 'wrap-wide']}>
+      <div class:list={['wrap', (editorial || wide) && 'wrap-wide']}>
         <span>{SITE.org} · 内容以 CC BY 4.0 发布，代码以 MIT 发布</span>
         <span>
           <a href={link('/rss.xml')}>RSS 订阅</a>

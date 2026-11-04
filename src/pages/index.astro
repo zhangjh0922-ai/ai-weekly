@@ -4,19 +4,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import RecordingPlayer from '../components/RecordingPlayer.astro';
 import { SITE } from '../consts';
 import { link, isoDate } from '../lib/utils';
+import { capabilityGuides } from '../data/capability-guide';
 
 const isProd = import.meta.env.PROD;
 const issues = (await getCollection('issues', ({ data }) => !isProd || !data.draft)).sort(
   (a, b) => b.data.issue - a.data.issue,
 );
 const latest = issues[0];
+const homeBriefs = latest?.data.homeBriefs ?? [];
 const latestHref = latest ? link(`/issues/${latest.id}`) : link('/issues');
 const range = latest?.data.range
   .replace(/\b\d{4}-(\d{2})-(\d{2})\b/g, '$1.$2')
   .replace(/\s*~\s*/g, ' — ');
 const briefs = latest
-  ? (latest.data.homeBriefs.length > 0
-      ? latest.data.homeBriefs.map((brief) => ({ ...brief, external: true }))
+  ? (homeBriefs.length > 0
+      ? homeBriefs.map((brief) => ({ ...brief, external: true }))
       : latest.data.highlights.map((title) => ({
           title,
           summary: '',
@@ -69,9 +71,9 @@ const homeModels = featuredModels.length > 0 ? featuredModels : models.slice(0, 
       </div>
       <RecordingPlayer id="home-recording" />
       <figcaption>
-        <h2><a href={link('/capabilities')}>让 AI 自己查找一条模型更新</a></h2>
+        <h2><a href={link('/capabilities#recording')}>让 AI 自己查找一条模型更新</a></h2>
         <p>搜索 Kimi，展开版本记录，找到使用条件。看看它实际怎样操作网页。</p>
-        <a href={link('/capabilities')}>看操作记录与使用的工具 →</a>
+        <a href={link('/capabilities#recording')}>看操作记录与使用的工具 →</a>
       </figcaption>
     </figure>
   </div>
@@ -106,6 +108,11 @@ const homeModels = featuredModels.length > 0 ? featuredModels : models.slice(0, 
       </section>
     )
   }
+
+  <section class="atlas-entry" aria-labelledby="atlas-title">
+    <div><p class="kicker">模型功能图鉴</p><h2 id="atlas-title">同一个任务，哪些模型能做？</h2><p>对照功能，也看具体入口和条件。</p><a href={link('/capabilities')}>打开模型功能对照表 ↗</a></div>
+    <nav aria-label="按功能查看模型图鉴">{capabilityGuides.map((cap) => <a href={link(`/capabilities#${cap.id}`)}>{cap.label}<span aria-hidden="true">↗</span></a>)}</nav>
+  </section>
 
   <div class="lower">
     <section aria-labelledby="models-title">
@@ -144,6 +151,15 @@ const homeModels = featuredModels.length > 0 ? featuredModels : models.slice(0, 
 </BaseLayout>
 
 <style>
+  .atlas-entry { display: grid; grid-template-columns: 1fr 1.4fr; gap: 50px; padding: 29px 0; border-top: 1px solid var(--text); border-bottom: 1px solid var(--border); }
+  .atlas-entry .kicker { margin-bottom: 12px; }
+  .atlas-entry h2 { font-size: 24px; line-height: 1.5; font-weight: 600; margin: 0 0 9px; }
+  .atlas-entry p:not(.kicker) { margin: 0 0 17px; color: var(--text-muted); font-size: 13px; }
+  .atlas-entry > div > a { color: var(--editorial-green); font-size: 12px; }
+  .atlas-entry nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: center; }
+  .atlas-entry nav a { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 13px 14px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .atlas-entry nav span { color: var(--text-muted); font-size: 10px; }
+  @media (max-width: 700px) { .atlas-entry { grid-template-columns: 1fr; gap: 20px; } .atlas-entry h2 { font-size: 22px; } .atlas-entry nav a { padding: 12px 9px; font-size: 11px; } }
   .cover {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);

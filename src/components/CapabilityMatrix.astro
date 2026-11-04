@@ -1,0 +1,224 @@
+---
+import { generalModels } from '../data/capability-general';
+import { specialistModels } from '../data/capability-specialists';
+import { capabilityGuides, capabilityGroups, statusLabels } from '../data/capability-guide';
+import { link } from '../lib/utils';
+const models = [...generalModels, ...specialistModels];
+const symbols = { native: '●', tool: '↗', product: '◇', unsupported: '×' };
+---
+
+<section class="comparison" aria-labelledby="comparison-title" data-comparison>
+  <div class="matrix-heading">
+    <div><p class="section-kicker">01 / COMPARE</p><h2 id="comparison-title">模型功能对照</h2></div>
+    <p>{models.length} 个型号 · {capabilityGuides.length} 类能力<br />点击格子查看入口、限制与依据</p>
+  </div>
+
+  <div class="matrix-controls" hidden data-matrix-controls>
+    <div class="matrix-groups" role="group" aria-label="选择能力分类">
+      {capabilityGroups.map((group) => <button type="button" data-capability-group={group.id} data-columns={group.ids.join(',')} aria-pressed={group.id === 'all'}>{group.label}</button>)}
+    </div>
+    <div class="matrix-search">
+      <input type="search" data-matrix-search aria-label="搜索对照表中的模型或厂商" placeholder="搜索模型或厂商" autocomplete="off" />
+      <select aria-label="筛选模型类型" data-model-kind><option value="">全部型号</option><option value="general">通用模型</option><option value="specialist">专项模型</option></select>
+      <button type="button" data-only-selected disabled aria-pressed="false">只看已选（0）</button>
+      <button type="button" data-matrix-reset>重置</button>
+    </div>
+  </div>
+
+  <div class="matrix-key" id="matrix-key">
+    <span class="status-native">● 原生能力</span><span class="status-tool">↗ 需要工具</span><span class="status-product">◇ 产品集成</span><span>× 明确不支持</span><span>— 尚未核实</span>
+  </div>
+  <p class="matrix-help">收录代表型号；以格子内的入口和来源日期为准。“尚未核实”不代表不支持。功能支持与效果优劣分开看。</p>
+  <div class="matrix-scroll" tabindex="0" role="region" aria-label="模型功能对照表，窄屏可左右滚动">
+    <table class="matrix-table" aria-describedby="matrix-key">
+      <caption class="sr-only">模型与功能支持方式；选择单元格查看证据。标题链接可跳转功能解释。</caption>
+      <thead><tr><th scope="col" class="model-column">模型 / 使用入口</th>{capabilityGuides.map((cap) => <th scope="col" data-cap-column={cap.id}><a href={`#${cap.id}`} title={`了解${cap.title}`}>{cap.label}<span aria-hidden="true">↓</span></a></th>)}</tr></thead>
+      <tbody>
+        {models.map((model) => <tr data-cap-model={model.id} data-kind={model.kind} data-search={`${model.name} ${model.org} ${model.entry}`.normalize('NFKC').toLowerCase()}>
+          <th scope="row" class="model-column">
+            <div class="matrix-model-name"><label class="model-select" hidden><input type="checkbox" data-select-model={model.id} aria-label={`选择 ${model.name} 进行对比`} /></label><a href={link(`/models#${model.id}`)}>{model.name}</a></div>
+            <span class="model-entry">{model.entry}</span>
+          </th>
+          {capabilityGuides.map((cap) => {
+            const evidence = model.capabilities[cap.id];
+            return <td data-cap-column={cap.id}>{evidence ? <a class:list={['support-cell', `status-${evidence.status}`]} href={`#evidence-${model.id}-${cap.id}`} data-evidence-link aria-label={`${model.name} · ${cap.label}：${statusLabels[evidence.status]}，查看条件与来源`}><span aria-hidden="true">{symbols[evidence.status]}</span><small>{statusLabels[evidence.status]}</small></a> : <span class="unknown-cell" title="尚未核实；不代表不支持"><span aria-hidden="true">—</span><span class="sr-only">尚未核实</span></span>}</td>;
+          })}
+        </tr>)}
+      </tbody>
+    </table>
+  </div>
+  <p class="matrix-empty" data-matrix-empty hidden>没有匹配的已收录型号。可以换个关键词，或重置筛选。</p>
+  <div class="matrix-foot"><p data-matrix-count role="status" aria-live="polite">显示 {models.length} 个型号</p><span>横向滚动看更多能力 · 勾选型号可缩小对比范围</span></div>
+
+  <details class="evidence-index" data-evidence-index>
+    <summary>逐项依据与使用条件</summary>
+    <p class="evidence-intro">下面保留所有已收录依据。表中的空白项尚未核实；这里不做能力评分，也不把文档核查写成实测。</p>
+    {models.map((model) => <section class="model-evidence">
+      <h3><a href={link(`/models#${model.id}`)}>{model.name}</a></h3><p>{model.note}</p>
+      {capabilityGuides.map((cap) => {
+        const evidence = model.capabilities[cap.id];
+        return evidence && <div class="evidence-item" id={`evidence-${model.id}-${cap.id}`} data-model-name={model.name} data-entry={model.entry} data-model-note={model.note}>
+          <h4>{cap.label} <span class:list={['evidence-status', `status-${evidence.status}`]}>{statusLabels[evidence.status]}</span></h4>
+          <p>{evidence.detail}</p><p class="evidence-source"><a href={evidence.source} target="_blank" rel="noopener noreferrer">{evidence.sourceLabel} ↗</a><span>资料核查：<time datetime={evidence.checkedAt}>{evidence.checkedAt}</time></span></p>
+        </div>;
+      })}
+    </section>)}
+  </details>
+  <dialog class="evidence-dialog" aria-labelledby="evidence-dialog-title" data-evidence-dialog>
+    <div class="dialog-top"><p>功能依据</p><button type="button" data-close-evidence aria-label="关闭功能依据">关闭 ×</button></div>
+    <h2 id="evidence-dialog-title"></h2><p data-dialog-entry class="dialog-entry"></p><div data-dialog-content></div><p data-dialog-note class="dialog-note"></p>
+  </dialog>
+</section>
+
+<script>
+  const matrix = document.querySelector<HTMLElement>('[data-comparison]');
+  if (matrix) {
+    const rows = [...matrix.querySelectorAll<HTMLElement>('[data-cap-model]')];
+    const columns = [...matrix.querySelectorAll<HTMLElement>('[data-cap-column]')];
+    const groups = [...matrix.querySelectorAll<HTMLButtonElement>('[data-capability-group]')];
+    const query = matrix.querySelector<HTMLInputElement>('[data-matrix-search]')!;
+    const kind = matrix.querySelector<HTMLSelectElement>('[data-model-kind]')!;
+    const selection = [...matrix.querySelectorAll<HTMLInputElement>('[data-select-model]')];
+    const onlySelected = matrix.querySelector<HTMLButtonElement>('[data-only-selected]')!;
+    const reset = matrix.querySelector<HTMLButtonElement>('[data-matrix-reset]')!;
+    const count = matrix.querySelector<HTMLElement>('[data-matrix-count]')!;
+    const empty = matrix.querySelector<HTMLElement>('[data-matrix-empty]')!;
+    let selectedOnly = false;
+
+    function apply() {
+      const words = query.value.normalize('NFKC').trim().toLowerCase().split(/\s+/).filter(Boolean);
+      const checked = new Set(selection.filter((item) => item.checked).map((item) => item.dataset.selectModel));
+      if (!checked.size) selectedOnly = false;
+      onlySelected.disabled = checked.size === 0;
+      onlySelected.setAttribute('aria-pressed', String(selectedOnly));
+      onlySelected.textContent = `${selectedOnly ? '显示全部' : '只看已选'}（${checked.size}）`;
+      let shown = 0;
+      for (const row of rows) {
+        row.hidden = !((!kind.value || row.dataset.kind === kind.value) && words.every((word) => row.dataset.search?.includes(word)) && (!selectedOnly || checked.has(row.dataset.capModel)));
+        if (!row.hidden) shown++;
+      }
+      empty.hidden = shown > 0;
+      count.textContent = `显示 ${shown} / ${rows.length} 个型号${checked.size ? ` · 已选 ${checked.size} 个` : ''}`;
+    }
+    function showGroup(button: HTMLButtonElement) {
+      const visible = new Set(button.dataset.columns?.split(','));
+      groups.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      columns.forEach((column) => { column.hidden = !visible.has(column.dataset.capColumn!); });
+    }
+    groups.forEach((button) => button.addEventListener('click', () => showGroup(button)));
+    query.addEventListener('input', apply);
+    kind.addEventListener('change', apply);
+    selection.forEach((box) => box.addEventListener('change', apply));
+    onlySelected.addEventListener('click', () => { selectedOnly = !selectedOnly; apply(); });
+    reset.addEventListener('click', () => {
+      query.value = ''; kind.value = ''; selectedOnly = false;
+      selection.forEach((box) => { box.checked = false; });
+      showGroup(groups[0]); apply(); query.focus();
+    });
+    matrix.querySelector<HTMLElement>('[data-matrix-controls]')!.hidden = false;
+    matrix.querySelectorAll<HTMLElement>('.model-select').forEach((label) => { label.hidden = false; });
+    apply();
+
+    const dialog = matrix.querySelector<HTMLDialogElement>('[data-evidence-dialog]')!;
+    const title = dialog.querySelector<HTMLElement>('#evidence-dialog-title')!;
+    const entry = dialog.querySelector<HTMLElement>('[data-dialog-entry]')!;
+    const content = dialog.querySelector<HTMLElement>('[data-dialog-content]')!;
+    const note = dialog.querySelector<HTMLElement>('[data-dialog-note]')!;
+    matrix.querySelectorAll<HTMLAnchorElement>('[data-evidence-link]').forEach((anchor) => anchor.addEventListener('click', (event) => {
+      const evidence = document.getElementById(anchor.hash.slice(1));
+      if (!evidence || typeof dialog.showModal !== 'function') return;
+      event.preventDefault();
+      title.textContent = evidence.dataset.modelName ?? '';
+      entry.textContent = evidence.dataset.entry ?? '';
+      note.textContent = evidence.dataset.modelNote ?? '';
+      const copy = evidence.cloneNode(true) as HTMLElement;
+      copy.removeAttribute('id'); content.replaceChildren(copy); dialog.showModal();
+    }));
+    dialog.querySelector<HTMLButtonElement>('[data-close-evidence]')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) { const box = dialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close(); } });
+    function revealEvidenceHash() {
+      if (!location.hash.startsWith('#evidence-')) return;
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) { matrix!.querySelector<HTMLDetailsElement>('[data-evidence-index]')!.open = true; target.scrollIntoView({ block: 'center' }); }
+    }
+    window.addEventListener('hashchange', revealEvidenceHash);
+    revealEvidenceHash();
+  }
+</script>
+
+<style>
+  .comparison { margin-bottom: 48px; }
+  .matrix-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; padding: 0 0 20px; }
+  .section-kicker { margin: 0 0 7px; font-size: 10px; letter-spacing: 1.5px; color: var(--accent); }
+  .matrix-heading h2 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.6px; }
+  .matrix-heading > p { margin: 0; font-size: 12px; color: var(--text-muted); text-align: right; }
+  .matrix-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 15px 0 12px; border-top: 1px solid var(--text); }
+  .matrix-groups { display: flex; flex-wrap: wrap; gap: 6px; }
+  .matrix-groups button, .matrix-search button, .matrix-search select { background: transparent; border: 1px solid var(--border); color: var(--text); font: inherit; font-size: 12px; padding: 7px 12px; cursor: pointer; }
+  .matrix-groups button[aria-pressed='true'] { background: var(--text); border-color: var(--text); color: var(--bg); }
+  .matrix-search { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+  .matrix-search input { background: transparent; border: 1px solid var(--border); font: inherit; font-size: 13px; color: var(--text); padding: 8px 12px; min-width: 140px; width: 180px; }
+  .matrix-search button:disabled { opacity: .5; cursor: default; }
+  .matrix-search button[aria-pressed='true'] { color: var(--accent); border-color: var(--accent); }
+  .matrix-key { display: flex; gap: 9px 21px; flex-wrap: wrap; font-size: 11px; padding: 11px 0 5px; }
+  .matrix-help { margin: 0 0 16px; color: var(--text-muted); font-size: 11px; }
+  .matrix-scroll { position: relative; width: 100%; overflow: auto; max-height: 720px; border-block: 1px solid var(--border-strong); overscroll-behavior-x: contain; }
+  .matrix-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; line-height: 1.5; }
+  .matrix-table th, .matrix-table td { border-bottom: 1px solid var(--border); padding: 10px 6px; text-align: center; min-width: 71px; }
+  .matrix-table thead th { position: sticky; top: 0; z-index: 2; background: #e9ebe3; border-bottom-color: var(--border-strong); font-size: 11px; font-weight: 600; height: 55px; }
+  .matrix-table thead a { display: block; white-space: nowrap; }
+  .matrix-table thead a span { display: block; color: var(--text-muted); font-size: 11px; }
+  .matrix-table .model-column { position: sticky; left: 0; text-align: left; min-width: 205px; width: 238px; padding: 12px 14px; background: var(--bg); z-index: 1; border-right: 1px solid var(--border); }
+  .matrix-table thead .model-column { z-index: 3; background: #e9ebe3; }
+  .matrix-model-name { display: flex; align-items: start; gap: 8px; }
+  .matrix-model-name a { font-size: 12px; font-weight: 600; }
+  .model-entry { display: block; padding-top: 5px; font-weight: 400; font-size: 10px; line-height: 1.5; color: var(--text-muted); }
+  .model-select { display: flex; flex-shrink: 0; padding-top: 2px; }
+  .model-select input { margin: 0; width: 13px; height: 13px; accent-color: var(--editorial-green); }
+  .support-cell { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; min-width: 48px; min-height: 40px; border-radius: 3px; font-size: 14px; }
+  .support-cell:hover { background: var(--bg-sunken); }
+  .support-cell small { font-size: 10px; }
+  .status-native { color: #335b48; }
+  .status-tool { color: #9b4a2c; }
+  .status-product { color: #565c86; }
+  .status-unsupported, .unknown-cell { color: var(--text-muted); }
+  .unknown-cell { opacity: .65; }
+  .matrix-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 7px; padding: 11px 0; color: var(--text-muted); font-size: 11px; }
+  .matrix-foot p { margin: 0; }
+  .matrix-empty { padding: 25px; text-align: center; color: var(--text-muted); background: var(--bg-sunken); }
+  .evidence-index { margin-top: 5px; font-size: 12px; }
+  .evidence-index > summary { width: fit-content; cursor: pointer; color: var(--editorial-green); }
+  .evidence-intro { color: var(--text-muted); }
+  .model-evidence { padding: 20px 0; border-bottom: 1px solid var(--border); max-width: 780px; }
+  .model-evidence h3 { font-size: 18px; margin: 0 0 8px; }
+  .evidence-item { margin: 15px 0; padding-top: 10px; border-top: 1px solid var(--border); scroll-margin-top: 30px; }
+  .evidence-item h4 { margin: 0 0 9px; font-size: 15px; }
+  .evidence-item p { margin: 0 0 13px; line-height: 1.9; }
+  .evidence-status { display: inline-block; margin-left: 10px; font-size: 11px; font-weight: 400; }
+  .evidence-source { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--text-muted); font-size: 11px; }
+  .evidence-source a { color: var(--editorial-green); text-decoration: underline; text-underline-offset: 3px; }
+  .evidence-dialog { width: min(560px, calc(100% - 32px)); max-height: 85vh; overflow-y: auto; padding: 26px; color: var(--text); background: var(--bg); border: 1px solid var(--border-strong); box-shadow: 0 15px 70px #15251b30; }
+  .evidence-dialog::backdrop { background: #1b27235e; }
+  .dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 25px; }
+  .dialog-top p { font-size: 11px; letter-spacing: 1px; color: var(--accent); margin: 0; }
+  .dialog-top button { background: transparent; color: var(--text); border: 0; cursor: pointer; font: inherit; font-size: 12px; }
+  .evidence-dialog h2 { font-size: 23px; line-height: 1.4; margin: 0 0 9px; }
+  .dialog-entry { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+  .dialog-note { border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 0; font-size: 12px; line-height: 1.8; color: var(--text-muted); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 700px) {
+    .matrix-heading { align-items: start; }
+    .matrix-heading h2 { font-size: 21px; }
+    .matrix-heading > p { max-width: 145px; font-size: 10px; }
+    .matrix-search { width: 100%; }
+    .matrix-search input { width: 100%; }
+    .matrix-search select { flex: 1; }
+    .matrix-key { gap: 6px 13px; font-size: 10px; }
+    .matrix-scroll { max-height: 630px; }
+    .matrix-table .model-column { min-width: 155px; max-width: 155px; padding-inline: 10px; }
+    .matrix-model-name a { font-size: 11px; }
+    .matrix-table th, .matrix-table td { min-width: 69px; }
+    .evidence-dialog { padding: 21px; }
+  }
+</style>

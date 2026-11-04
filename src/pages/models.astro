@@ -28,39 +28,35 @@ const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
   description="按发布日期整理模型更新，附主要变化、已收录的规格与来源链接。"
   wide
 >
-  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 0.5rem;">模型时间线</h1>
-  <p class="lede" style="margin:0 0 0.5rem;">
-    共 {models.length} 条记录，按发布日期排序，附主要变化和来源链接。
-  </p>
-  <p class="meta" style="margin:0 0 2rem;">
-    展开条目可查看规格与版本变化，带点线的术语可点击查看解释。更多缩写可查<a href={link('/concepts')}>概念指南</a>；需要补充或纠错，欢迎<a href={link('/about#纠错与共建')}>联系我们</a>。
-  </p>
+  <div class="editorial-page">
+  <header class="page-header">
+    <p class="page-kicker">MODEL CHRONICLE / 模型档案</p>
+    <div class="page-heading-row">
+      <div>
+        <h1>模型时间线</h1>
+        <p class="lede">沿着时间，看模型怎样变化。记录发布、版本与开放动态，保留主要变化、已收录的规格和原始来源。</p>
+      </div>
+      <p class="page-number"><strong>{models.length}</strong>条更新记录</p>
+    </div>
+    <div class="page-links">
+      <a href={link('/capabilities')}>对照能力与使用入口：模型功能图鉴 ↗</a>
+      <a href={link('/concepts')}>查阅概念指南 ↗</a>
+    </div>
+  </header>
 
-  <div class="filters">
-    <input
-      type="search"
-      id="q"
-      placeholder="搜索模型名、厂商、说明…"
-      aria-label="搜索模型"
-      autocomplete="off"
-    />
-    <button class="chip" data-org="" aria-pressed="true">全部</button>
-    {
-      orgs.map((o) => (
-        <button class="chip" data-org={o} aria-pressed="false">
-          {o}
-        </button>
-      ))
-    }
+  <div class="filter-bar" role="search" aria-label="筛选模型记录">
+    <label class="filter-field"><span>关键词</span><input type="search" id="q" placeholder="搜索模型名、厂商或说明…" autocomplete="off" /></label>
+    <label class="filter-field"><span>发布机构</span><select id="model-org"><option value="">全部机构（{orgs.length}）</option>{orgs.map((o) => <option value={o}>{o}</option>)}</select></label>
+    <button class="filter-reset" id="model-reset" type="button" hidden>清空筛选</button>
   </div>
+  <div class="filter-status"><p id="model-count" role="status" aria-live="polite">共 {models.length} 条记录</p><p>按日期倒序 · 展开查看详情</p></div>
+  <noscript><p class="page-note">以下展示全部记录。启用 JavaScript 后可按关键词和机构筛选。</p></noscript>
 
   <div id="list">
     {
       years.map((year) => (
         <section data-year-group={year}>
-          <h2 class="section-title" style="margin-top:2rem" data-year-head={year}>
-            {year}
-          </h2>
+          <div class="timeline-year"><h2 data-year-head={year}>{year}</h2><span data-year-count>{byYear.get(year)!.length} 条记录</span></div>
           <ul class="timeline">
             {byYear.get(year)!.map((m) => (
               <li
@@ -70,7 +66,7 @@ const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
                 data-org={m.data.org}
                 data-search={[m.data.name, m.data.org, m.data.note, ...m.data.tags]
                   .join(' ')
-                  .toLowerCase()}
+                  .normalize('NFKC').toLowerCase()}
                 data-recent={daysAgo(m.data.date) <= 30 ? 'true' : 'false'}
               >
                 <div class="tl-date">
@@ -106,24 +102,26 @@ const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
   </div>
 
   <p class="empty-note" id="empty" hidden>没有匹配的模型。</p>
+  <p class="page-note">日期对应本站收录的发布或开放事件。规格与使用条件以链接中的官方说明为准。发现遗漏或错误，欢迎<a href={link('/about#纠错与共建')}>反馈与共建</a>。</p>
+  </div>
 </BaseLayout>
 
 <script>
   const q = document.getElementById('q') as HTMLInputElement | null;
-  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-org]')];
+  const org = document.getElementById('model-org') as HTMLSelectElement;
   const rows = [...document.querySelectorAll<HTMLElement>('[data-model-row]')];
   const groups = [...document.querySelectorAll<HTMLElement>('[data-year-group]')];
   const empty = document.getElementById('empty');
-
-  let activeOrg = '';
+  const count = document.getElementById('model-count')!;
+  const reset = document.getElementById('model-reset')!;
 
   function apply() {
-    const term = (q?.value ?? '').trim().toLowerCase();
+    const terms = (q?.value ?? '').normalize('NFKC').trim().toLowerCase().split(/\s+/).filter(Boolean);
     let shown = 0;
 
     for (const row of rows) {
-      const okOrg = !activeOrg || row.dataset.org === activeOrg;
-      const okTerm = !term || (row.dataset.search ?? '').includes(term);
+      const okOrg = !org.value || row.dataset.org === org.value;
+      const okTerm = terms.every((term) => (row.dataset.search ?? '').includes(term));
       const visible = okOrg && okTerm;
 
       row.hidden = !visible;
@@ -132,22 +130,26 @@ const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a));
 
     // 一整年都被过滤掉时，把年份标题也藏起来
     for (const group of groups) {
-      const anyVisible = [...group.querySelectorAll<HTMLElement>('[data-model-row]')].some(
+      const visible = [...group.querySelectorAll<HTMLElement>('[data-model-row]')].filter(
         (r) => !r.hidden,
       );
-      group.hidden = !anyVisible;
+      group.hidden = visible.length === 0;
+      group.querySelector('[data-year-count]')!.textContent = `${visible.length} 条记录`;
     }
 
     if (empty) empty.hidden = shown > 0;
+    count.textContent = terms.length || org.value ? `找到 ${shown} 条记录 / 共 ${rows.length} 条` : `共 ${rows.length} 条记录`;
+    reset.hidden = !q?.value && !org.value;
   }
 
   q?.addEventListener('input', apply);
 
-  for (const chip of chips) {
-    chip.addEventListener('click', () => {
-      activeOrg = chip.dataset.org ?? '';
-      for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
-      apply();
-    });
-  }
+  org.addEventListener('change', apply);
+  reset.addEventListener('click', () => {
+    if (q) q.value = '';
+    org.value = '';
+    apply();
+    q?.focus();
+  });
+  apply();
 </script>

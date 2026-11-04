@@ -1,0 +1,137 @@
+/* Interior pages share the cover's paper, rules and type; cover spacing is independent. */
+.editorial-page { padding-bottom: 64px; }
+.editorial-page .page-header { padding: 35px 0 30px; border-bottom: 1px solid var(--text); margin-bottom: 26px; }
+.editorial-page .page-kicker { margin: 0 0 15px; color: var(--accent); font-size: 11px; font-weight: 650; letter-spacing: 1.7px; }
+.editorial-page .page-header h1 { margin: 0 0 12px; font-size: clamp(29px, 3.5vw, 42px); line-height: 1.4; font-weight: 650; letter-spacing: -1.2px; }
+.editorial-page .page-header .lede { max-width: 700px; margin: 0; font-size: 15px; line-height: 1.9; }
+.editorial-page .page-header .meta { margin: 15px 0 0; font-size: 12px; }
+.editorial-page .page-header a:not(.page-back), .editorial-page .page-note a { text-decoration: underline; text-underline-offset: 4px; }
+.editorial-page .page-back { display: inline-block; margin-bottom: 22px; font-size: 12px; color: var(--text-muted); }
+.editorial-page .page-heading-row { display: flex; justify-content: space-between; gap: 32px; align-items: flex-end; }
+.editorial-page .page-number { flex-shrink: 0; text-align: right; color: var(--text-muted); font-size: 11px; }
+.editorial-page .page-number strong { display: block; color: var(--editorial-green); font: 48px/1.2 Georgia, serif; }
+.editorial-page .page-note { margin: 14px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.8; }
+.editorial-page .page-links { display: flex; flex-wrap: wrap; gap: 10px 25px; margin: 20px 0 0; font-size: 13px; }
+.editorial-page .page-links a { color: var(--editorial-green); }
+.editorial-page .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.editorial-page .filter-field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 180px; min-width: 0; }
+.editorial-page .filter-field:first-child { flex-grow: 3; }
+.editorial-page .filter-field > span { font-size: 11px; color: var(--text-muted); }
+.editorial-page .filter-bar input, .editorial-page .filter-bar select { width: 100%; min-width: 0; height: 42px; padding: 8px 12px; background: transparent; color: var(--text); border: 1px solid var(--border-strong); border-radius: 0; font: inherit; font-size: 13px; }
+.editorial-page .filter-bar select { background-color: var(--bg); }
+.editorial-page .filter-reset, .editorial-page .concept-reset { min-height: 42px; padding: 8px 0; background: none; border: 0; color: var(--accent); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.editorial-page .filter-status { display: flex; justify-content: space-between; gap: 15px; margin: 15px 0 26px; padding-bottom: 13px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 11px; }
+.editorial-page .filter-status p { margin: 0; }
+.editorial-page .tag { border-radius: 0; padding: 1px 6px; font-size: 10px; background: transparent; }
+.editorial-page .tag-row { gap: 5px; }
+.editorial-page .section-title { font-size: 12px; color: var(--text); letter-spacing: 1px; }
+.editorial-page .timeline::before, .editorial-page .tl-item::before { display: none; }
+.editorial-page .tl-item { grid-template-columns: 110px minmax(0, 1fr); gap: 0 28px; padding: 24px 0; border-bottom: 1px solid var(--border); }
+.editorial-page .tl-date { padding-top: 3px; text-align: left; font-size: 11px; color: var(--text-muted); }
+.editorial-page .tl-body { min-width: 0; }
+.editorial-page .tl-body h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 15px; font-size: 19px; line-height: 1.5; }
+.editorial-page .tl-body h3 > a { text-decoration: none; }
+.editorial-page .tl-org { margin: 0; font-size: 11px; }
+.editorial-page .tl-body > p { max-width: 900px; margin: 8px 0 12px; font-size: 13px; line-height: 1.85; }
+.editorial-page .timeline-year { display: flex; align-items: baseline; gap: 14px; margin: 33px 0 0; padding-bottom: 12px; border-bottom: 2px solid var(--text); }
+.editorial-page .timeline-year h2 { margin: 0; font: 31px/1 Georgia, serif; }
+.editorial-page .timeline-year span { font-size: 11px; color: var(--text-muted); }
+.editorial-page .md { margin-top: 12px; }
+.editorial-page .md > summary { padding: 5px 0; border: 0; border-radius: 0; background: transparent; font-size: 11px; }
+.editorial-page .md__body, .editorial-page .md__what { border-radius: 0; }
+.editorial-page .md__badge { border-radius: 0; font-size: 10px; }
+.editorial-page .md__body { padding: 20px; }
+.editorial-page .concept-filters { margin-bottom: 0; padding-bottom: 16px; gap: 9px; }
+.editorial-page .concept-starts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-bottom: 30px; }
+.editorial-page .concept-starts a { display: flex; flex-direction: column; gap: 7px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.editorial-page .concept-starts span { color: var(--accent); font-size: 10px; }
+.editorial-page .concept-starts strong { font-size: 14px; font-weight: 600; }
+.editorial-page .concept-starts small { color: var(--text-muted); font-size: 11px; }
+.editorial-page .concept-filters input[type='search'] { flex-basis: 300px; border-radius: 0; padding: 10px 12px; background: transparent; font-size: 13px; }
+.editorial-page .chip { border-radius: 0; padding: 7px 12px; font-size: 12px; }
+.editorial-page .concept-count { margin: 14px 0 8px; font-size: 11px; }
+.editorial-page .concept-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; }
+.editorial-page .concept-list > li { min-width: 0; border-bottom: 1px solid var(--border); }
+.editorial-page .concept-card { height: 100%; padding: 25px 0 27px; border: 0; }
+.editorial-page .concept-card h2 { margin-top: 12px; font-size: 19px; }
+.editorial-page .concept-card p { margin-top: 10px; font-size: 13px; line-height: 1.85; }
+.editorial-page .concept-card .concept-english { margin-top: 3px; font-size: 11px; }
+.editorial-page .reading-page { max-width: 780px; margin-inline: auto; }
+.editorial-page .reading-page .page-header { margin-bottom: 32px; }
+.editorial-page .reading-page .page-header h1 { font-size: clamp(28px, 3.5vw, 38px); line-height: 1.5; }
+.editorial-page .article-meta { display: flex; flex-wrap: wrap; gap: 5px 17px; margin-top: 21px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-muted); }
+.editorial-page .article-highlights { margin: 0 0 28px; padding: 20px 24px; background: var(--bg-sunken); border-top: 2px solid var(--editorial-green); }
+.editorial-page .article-highlights h2 { margin: 0 0 10px; font-size: 12px; color: var(--editorial-green); }
+.editorial-page .article-highlights ul { margin: 0; padding-left: 19px; font-size: 13px; color: var(--text-muted); }
+.editorial-page .article-highlights li + li { margin-top: 6px; }
+.editorial-page .toc { padding: 20px 24px; margin: 0 0 32px; border-radius: 0; background: transparent; font-size: 13px; }
+.editorial-page .prose { font-size: 16px; line-height: 1.95; }
+.editorial-page .prose h2 { margin-top: 2.3em; padding-top: 0; padding-bottom: 9px; border-top: 0; border-bottom: 1px solid var(--border); font-size: 23px; line-height: 1.5; }
+.editorial-page .prose h3 { font-size: 18px; }
+.editorial-page .prose img, .editorial-page .prose pre { border-radius: 0; }
+.editorial-page .concept-definition { margin-top: 18px !important; background: var(--bg-sunken); border-color: var(--editorial-green); }
+.editorial-page .concept-section { padding-top: 20px; border-top: 1px solid var(--border); }
+.editorial-page .concept-section h2 { margin-top: 0; }
+.editorial-page .related-publications { margin-top: 45px; }
+.editorial-page .article-tags { margin-top: 32px; }
+.editorial-page .about-layout { display: grid; grid-template-columns: 220px minmax(0, 740px); gap: 60px; justify-content: space-between; }
+.editorial-page .about-nav { align-self: start; position: sticky; top: 25px; padding-top: 10px; }
+.editorial-page .about-nav p { font-size: 11px; color: var(--text-muted); margin: 0 0 15px; letter-spacing: 1px; }
+.editorial-page .about-nav a { display: block; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.editorial-page .about-copy > section { padding-bottom: 22px; }
+.editorial-page .about-copy > section:first-child h2 { margin-top: 0; }
+.editorial-page .about-copy h2 { font-size: 23px; }
+.editorial-page .about-copy p, .editorial-page .about-copy li { font-size: 14px; }
+.editorial-page .archive-list { border-top: 2px solid var(--text); }
+.editorial-page .issue-card { display: grid; grid-template-columns: 120px minmax(0, 1fr) 28px; gap: 28px; margin: 0; padding: 28px 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: transparent; }
+.editorial-page .issue-card__index { color: var(--text-muted); font-size: 10px; }
+.editorial-page .issue-card__index strong { display: block; margin: 5px 0 10px; color: var(--editorial-green); font: 40px/1 Georgia, serif; }
+.editorial-page .issue-card__index time { display: block; font-size: 11px; }
+.editorial-page .issue-card__content { min-width: 0; }
+.editorial-page .issue-card h2 { margin: 0 0 10px; font-size: 23px; line-height: 1.5; letter-spacing: -.5px; }
+.editorial-page .issue-card p { max-width: 860px; margin: 0 0 14px; font-size: 13px; line-height: 1.85; }
+.editorial-page .issue-card ul { margin: 0 0 16px; padding-left: 18px; font-size: 12px; }
+.editorial-page .issue-card__range { font-size: 10px !important; color: var(--text-muted); }
+.editorial-page .issue-card__arrow { font-size: 22px; color: var(--editorial-green); }
+.editorial-page .error-page { padding-top: 65px; padding-bottom: 85px; }
+.editorial-page .error-number { margin: 0 0 22px; color: var(--editorial-green); font: 100px/1 Georgia, serif; }
+.editorial-page .error-page h1 { font-size: 30px; margin: 0 0 15px; }
+.editorial-page .error-page .lede { max-width: 500px; font-size: 15px; }
+@media (max-width: 950px) {
+  .editorial-page .concept-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .editorial-page .about-layout { grid-template-columns: 170px minmax(0, 1fr); gap: 30px; }
+}
+@media (max-width: 700px) {
+  .editorial-page { padding-bottom: 45px; }
+  .editorial-page .page-header { padding: 26px 0 23px; margin-bottom: 22px; }
+  .editorial-page .page-heading-row { gap: 15px; }
+  .editorial-page .page-number strong { font-size: 35px; }
+  .editorial-page .page-header .lede { font-size: 13px; }
+  .editorial-page .page-header .meta { font-size: 11px; }
+  .editorial-page .tl-item { grid-template-columns: 1fr; gap: 9px; padding: 22px 0; }
+  .editorial-page .tl-body h3 { font-size: 18px; }
+  .editorial-page .filter-field { flex-basis: 140px; }
+  .editorial-page .filter-field:first-child { flex-basis: 100%; }
+  .editorial-page .filter-status { margin-bottom: 18px; }
+  .editorial-page .concept-list { grid-template-columns: 1fr; }
+  .editorial-page .concept-starts { grid-template-columns: 1fr; gap: 13px; margin-bottom: 24px; }
+  .editorial-page .concept-starts a { gap: 4px; padding-bottom: 13px; }
+  .editorial-page .concept-card { padding-block: 21px; }
+  .editorial-page .concept-filters { gap: 7px; }
+  .editorial-page .concept-filters input[type='search'] { flex-basis: 100%; }
+  .editorial-page .chip { padding: 6px 9px; font-size: 11px; }
+  .editorial-page .prose { font-size: 15px; }
+  .editorial-page .prose h2 { font-size: 21px; }
+  .editorial-page .article-highlights, .editorial-page .toc { padding: 16px 18px; }
+  .editorial-page .about-layout { grid-template-columns: 1fr; gap: 30px; }
+  .editorial-page .about-nav { position: static; display: flex; flex-wrap: wrap; gap: 6px 20px; padding: 0 0 18px; border-bottom: 1px solid var(--border); }
+  .editorial-page .about-nav p { width: 100%; margin-bottom: 3px; }
+  .editorial-page .about-nav a { padding: 3px 0; border: 0; }
+  .editorial-page .issue-card { grid-template-columns: 58px minmax(0, 1fr); gap: 16px; padding-block: 23px; }
+  .editorial-page .issue-card__index strong { font-size: 31px; }
+  .editorial-page .issue-card__index time { font-size: 9px; }
+  .editorial-page .issue-card h2 { font-size: 19px; }
+  .editorial-page .issue-card__arrow { display: none; }
+  .editorial-page .issue-card p { font-size: 12px; }
+  .editorial-page .error-page { padding-block: 45px 65px; }
+}

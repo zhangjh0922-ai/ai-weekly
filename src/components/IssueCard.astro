@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { link, formatDate } from '../lib/utils';
+import { link, formatDate, isoDate } from '../lib/utils';
 
 interface Props {
   issue: CollectionEntry<'issues'>;
@@ -25,15 +25,16 @@ const haystack = filterable
   data-tags={filterable ? d.tags.join('|') : undefined}
   data-search={haystack}
 >
-  <div class="issue-card__top">
-    <span class="issue-card__no">第 {d.issue} 期</span>
-    <span class="meta">{formatDate(d.date)} · 覆盖 {d.range}</span>
+  <div class="issue-card__index">
+    <span>ISSUE / 期数</span>
+    <strong>{String(d.issue).padStart(2, '0')}</strong>
+    <time datetime={isoDate(d.date)}>{formatDate(d.date)}</time>
   </div>
-
+  <div class="issue-card__content">
   <a href={href}>
-    <h3>{d.title}</h3>
+    <h2>{d.title}</h2>
   </a>
-
+  <p class="issue-card__range">覆盖 {d.range}{d.draft && ' · 草稿'}</p>
   <p>{d.summary}</p>
 
   {
@@ -57,4 +58,6 @@ const haystack = filterable
       </div>
     )
   }
+  </div>
+  <a class="issue-card__arrow" href={href} aria-label={`阅读第 ${d.issue} 期：${d.title}`}><span aria-hidden="true">↗</span></a>
 </article>

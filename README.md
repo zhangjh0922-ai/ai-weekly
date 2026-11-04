@@ -16,7 +16,7 @@ npm run dev
 
 打开 http://localhost:4321 。`draft: true` 的期在本地能看到，但不会出现在线上。
 
-### 首页与功能实录
+### 首页与模型功能图鉴
 
 首页只展示最新一期的主稿入口，不重复铺开整期正文。以下可选 frontmatter 与该期一起维护：
 
@@ -33,9 +33,11 @@ featuredModels: [gpt-6-1-terra, kimi-k3-1-pro]
 
 `homeBriefs` 最多 3 条；为空时使用本期 `highlights`，不会沿用上一期短讯。`featuredModels` 最多 3 个模型记录 ID；不指定时展示最新型号。日期、标题与导语必须属于本期，并沿用正文的来源核查标准。
 
-`/capabilities` 展示功能说明、已核查模型入口与真实操作样片。数据在 `src/data/capabilities.ts`，视频组件在 `src/components/RecordingPlayer.astro`，素材及来源说明在 `public/media/browser-lookup-2026-11-02/`。更新模型入口时同时维护核查日期和官方来源；实录应记录型号、产品、工具、环境、重试与人工协助，不把文档支持、厂商演示或展示样片标为统一实测。
+`/capabilities` 展示模型 × 功能对照、十二类功能的用途与流程，以及真实网页操作样片。通用和专项型号分别维护在 `src/data/capability-general.ts`、`src/data/capability-specialists.ts`；型号 ID 与 `data/models.json` 对应。每个已填单元格必须有使用条件、官方来源和核查日期，留空表示“尚未核实”，不是“不支持”。状态区分模型原生能力、外部工具和产品集成；只有明确的规格证据才能写“不支持”。视频列专指生成；语音分输入、输出；接收参考图片或音频不直接计作通用理解能力。
 
-首页和功能页使用 `editorial.css` 与各自的页面样式；其他阅读页仍由 `global.css` 管理。
+功能解释与分组在 `src/data/capability-guide.ts`。录屏记录在 `src/data/capabilities.ts`，视频组件在 `src/components/RecordingPlayer.astro`，素材及来源说明在 `public/media/browser-lookup-2026-11-02/`。实录应记录型号、产品、工具、环境、重试与人工协助，不把文档支持、厂商演示或展示样片标为统一实测。
+
+所有公开页面共用 `BaseLayout.astro` 与 `editorial.css` 的纸感主题和导航；目录、时间线与正文的排版在 `content-pages.css`，首页和功能页保留各自的局部样式。`global.css` 提供基础样式。类型检查排除 `output/` 中的历史预览与临时工作副本。
 
 ---
 
@@ -48,7 +50,7 @@ featuredModels: [gpt-6-1-terra, kimi-k3-1-pro]
 │   ├── pages/                 首页 / 往期 / 单期 / 模型时间线 / 标签 / 关于 / RSS
 │   ├── layouts/               页面骨架
 │   ├── components/            期号卡片
-│   └── styles/global.css      全部样式，含深色模式
+│   └── styles/               基础样式、全站主题与内容页面排版
 ├── data/models.json           模型时间线数据（含规格与版本谱系）
 ├── scripts/
 │   ├── sources.json           信息源清单

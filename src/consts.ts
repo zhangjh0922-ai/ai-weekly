@@ -11,7 +11,7 @@ export const SITE = {
 
 export const NAV = [
   { href: '/', label: '首页' },
-  { href: '/capabilities', label: '功能与实录' },
+  { href: '/capabilities', label: '模型功能图鉴' },
   { href: '/models', label: '模型时间线' },
   { href: '/concepts', label: '概念指南' },
   { href: '/issues', label: '往期' },

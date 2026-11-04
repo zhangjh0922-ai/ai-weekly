@@ -15,41 +15,33 @@ const allTags = [...new Set(issues.flatMap((i) => i.data.tags))].sort((a, b) =>
 ---
 
 <BaseLayout title="往期" description="AI 周报全部往期，可按标签和关键词筛选。" wide>
-  <h1 style="font-size:1.7rem;letter-spacing:-0.02em;margin:0 0 0.5rem;">往期</h1>
-  <p class="lede" style="margin:0 0 2rem;">共 {issues.length} 期。输入关键词或点标签筛选。</p>
-
-  <div class="filters">
-    <input
-      type="search"
-      id="q"
-      placeholder="搜索标题、摘要、要点…"
-      aria-label="搜索往期"
-      autocomplete="off"
-    />
-    <button class="chip" data-tag="" aria-pressed="true">全部</button>
-    {
-      allTags.map((t) => (
-        <button class="chip" data-tag={t} aria-pressed="false">
-          {t}
-        </button>
-      ))
-    }
+  <div class="editorial-page">
+  <header class="page-header">
+    <p class="page-kicker">THE ARCHIVE / 周报归档</p>
+    <div class="page-heading-row"><div><h1>每周一页，连起来看。</h1><p class="lede">回到当时的新闻与观察，追踪模型、产品和研究怎样走到今天。</p></div><p class="page-number"><strong>{issues.length}</strong>期周报</p></div>
+  </header>
+  <div class="filter-bar" role="search" aria-label="筛选往期周报">
+    <label class="filter-field"><span>关键词</span><input type="search" id="q" placeholder="搜索标题、摘要或要点…" autocomplete="off" /></label>
+    <label class="filter-field"><span>主题</span><select id="issue-tag"><option value="">全部主题</option>{allTags.map((tag) => <option value={tag}>{tag}</option>)}</select></label>
+    <button class="filter-reset" id="issue-reset" type="button" hidden>清空筛选</button>
   </div>
-
-  <div id="list">
+  <div class="filter-status"><p id="issue-count" role="status" aria-live="polite">共 {issues.length} 期</p><p>最新一期在前</p></div>
+  <div id="list" class="archive-list">
     {issues.map((issue) => <IssueCard issue={issue} filterable />)}
   </div>
 
   <p class="empty-note" id="empty" hidden>没有找到匹配的周报，可以换个关键词或标签。</p>
+  </div>
 </BaseLayout>
 
 <script>
   const q = document.getElementById('q') as HTMLInputElement | null;
-  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-tag]')];
+  const tag = document.getElementById('issue-tag') as HTMLSelectElement;
   const cards = [...document.querySelectorAll<HTMLElement>('[data-issue-card]')];
   const empty = document.getElementById('empty');
 
-  let activeTag = '';
+  const count = document.getElementById('issue-count')!;
+  const reset = document.getElementById('issue-reset')!;
 
   function apply() {
     const term = (q?.value ?? '').trim().toLowerCase();
@@ -59,7 +51,7 @@ const allTags = [...new Set(issues.flatMap((i) => i.data.tags))].sort((a, b) =>
       const tags = (card.dataset.tags ?? '').split('|').filter(Boolean);
       const hay = card.dataset.search ?? '';
 
-      const okTag = !activeTag || tags.includes(activeTag);
+      const okTag = !tag.value || tags.includes(tag.value);
       const okTerm = !term || hay.includes(term);
       const visible = okTag && okTerm;
 
@@ -68,15 +60,18 @@ const allTags = [...new Set(issues.flatMap((i) => i.data.tags))].sort((a, b) =>
     }
 
     if (empty) empty.hidden = shown > 0;
+    count.textContent = term || tag.value ? `找到 ${shown} 期 / 共 ${cards.length} 期` : `共 ${cards.length} 期`;
+    reset.hidden = !q?.value && !tag.value;
   }
 
   q?.addEventListener('input', apply);
 
-  for (const chip of chips) {
-    chip.addEventListener('click', () => {
-      activeTag = chip.dataset.tag ?? '';
-      for (const c of chips) c.setAttribute('aria-pressed', String(c === chip));
-      apply();
-    });
-  }
+  tag.addEventListener('change', apply);
+  reset.addEventListener('click', () => {
+    if (q) q.value = '';
+    tag.value = '';
+    apply();
+    q?.focus();
+  });
+  apply();
 </script>
