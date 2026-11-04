@@ -1,0 +1,93 @@
+/* Magazine pages share the existing layout and metadata; article styles stay scoped separately. */
+html.editorial-site {
+  --bg: #f4f3ed;
+  --bg-raised: #f4f3ed;
+  --bg-sunken: #e8e9e1;
+  --text: #202823;
+  --text-muted: #68706a;
+  --text-faint: #68706a;
+  --border: #d1d3c9;
+  --border-strong: #a7ada3;
+  --accent: #ac442e;
+  --accent-soft: #efe0d7;
+  --editorial-green: #335b48;
+  color-scheme: light;
+}
+
+.editorial-site body { font-size: 15px; line-height: 1.7; }
+.editorial-site .wrap-wide { max-width: 1240px; padding-inline: 40px; }
+.editorial-site main { padding-block: 0; }
+.editorial-site .site-header {
+  position: static;
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+}
+.editorial-site .site-header .wrap { display: block; }
+.editorial-site .masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 25px 21px;
+}
+.editorial-site .brand { gap: 19px; line-height: 1; }
+.editorial-site .brand strong {
+  font: italic 600 41px/1 Georgia, 'Times New Roman', serif;
+  letter-spacing: -1.9px;
+}
+.editorial-site .brand span { font-size: 18px; letter-spacing: 2px; }
+.editorial-site .edition-stamp { text-align: right; font-size: 12px; line-height: 1.8; }
+.editorial-site .edition-stamp time { display: block; color: var(--text-muted); }
+.editorial-site .site-nav {
+  border-top: 2px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  gap: 31px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  min-height: 49px;
+  font-size: 14px;
+}
+.editorial-site .site-nav a {
+  color: var(--text);
+  white-space: nowrap;
+  padding-block: 11px;
+  margin-bottom: -1px;
+}
+.editorial-site .site-nav a[aria-current='page'] { color: var(--accent); font-weight: 650; }
+.editorial-site a:hover { color: var(--accent); }
+.editorial-site .site-footer { padding-block: 0; border: 0; }
+.editorial-site .site-footer .wrap { font-size: 11px; }
+.editorial-site .site-footer .wrap::before {
+  content: '';
+  display: block;
+  width: 100%;
+  border-top: 2px solid var(--text);
+}
+.editorial-site .site-footer .wrap { padding-bottom: 23px; row-gap: 17px; }
+.editorial-site .site-footer a { text-decoration: none; }
+.editorial-site [hidden] { display: none !important; }
+
+@media (max-width: 950px) {
+  .editorial-site .wrap-wide { padding-inline: 24px; }
+}
+@media (max-width: 700px) {
+  .editorial-site .wrap-wide { padding-inline: 18px; }
+  .editorial-site .masthead { padding-block: 22px 20px; }
+  .editorial-site .brand { gap: 10px; }
+  .editorial-site .brand strong { font-size: 31px; letter-spacing: -1.5px; }
+  .editorial-site .brand span { font-size: 14px; letter-spacing: 0; }
+  .editorial-site .edition-stamp { font-size: 10px; }
+  .editorial-site .site-nav { gap: 24px; min-height: 46px; font-size: 12px; }
+  .editorial-site .site-nav a { padding-block: 12px; }
+  .editorial-site .site-footer .wrap { font-size: 10px; }
+}
+@media (max-width: 380px) {
+  .editorial-site .brand strong { font-size: 27px; }
+  .editorial-site .brand span { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.editorial-site { scroll-behavior: auto; }
+}

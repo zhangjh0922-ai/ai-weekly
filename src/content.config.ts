@@ -19,6 +19,18 @@ const issues = defineCollection({
     range: z.string(),
     /** 一句话概述，用在列表页和分享卡片 */
     summary: z.string(),
+    /** 首页主稿的简短导语，未填写时使用 summary */
+    homeSummary: z.string().optional(),
+    /** 仅跟随本期展示的首页短讯，避免换期后沿用旧内容 */
+    homeBriefs: z.array(z.object({
+      title: z.string(),
+      summary: z.string(),
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      category: z.string(),
+      url: z.url(),
+    })).max(3).default([]),
+    /** 首页精选型号的 models collection id */
+    featuredModels: z.array(z.string()).max(3).default([]),
     /** 本期最值得看的 2—4 条，列表页会直接展示 */
     highlights: z.array(z.string()).default([]),
     /** 标签，用于筛选 */

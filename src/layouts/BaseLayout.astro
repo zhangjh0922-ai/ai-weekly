@@ -1,16 +1,19 @@
 ---
 import { SITE, NAV } from '../consts';
-import { link } from '../lib/utils';
+import { link, formatDate, isoDate } from '../lib/utils';
 import '../styles/global.css';
+import '../styles/editorial.css';
 
 interface Props {
   title?: string;
   description?: string;
   /** 用宽版容器（模型时间线、往期列表） */
   wide?: boolean;
+  editorial?: boolean;
+  edition?: { issue: number; date: Date };
 }
 
-const { title, description, wide = false } = Astro.props;
+const { title, description, wide = false, editorial = false, edition } = Astro.props;
 
 const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} · ${SITE.org}`;
 const pageDesc = description ?? SITE.description;
@@ -25,7 +28,7 @@ const seg = '/' + (path.split('/').filter(Boolean)[0] ?? '');
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={SITE.lang} class:list={{ 'editorial-site': editorial }}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,10 +55,17 @@ const seg = '/' + (path.split('/').filter(Boolean)[0] ?? '');
   <body>
     <header class="site-header">
       <div class:list={['wrap', wide && 'wrap-wide']}>
-        <a class="brand" href={link('/')}>
-          {SITE.title}
-          <small>{SITE.org}</small>
-        </a>
+        <div class="masthead">
+          <a class="brand" href={link('/')} aria-label={`${SITE.org} · ${SITE.title}首页`}>
+            {editorial ? <><strong>Emergence</strong><span>{SITE.title}</span></> : <>{SITE.title}<small>{SITE.org}</small></>}
+          </a>
+          {editorial && edition && (
+            <div class="edition-stamp">
+              <span>第 {String(edition.issue).padStart(2, '0')} 期</span>
+              <time datetime={isoDate(edition.date)}>{formatDate(edition.date)}</time>
+            </div>
+          )}
+        </div>
         <nav class="site-nav" aria-label="主导航">
           {
             NAV.map((item) => (

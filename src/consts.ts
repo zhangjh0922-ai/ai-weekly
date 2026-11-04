@@ -11,9 +11,10 @@ export const SITE = {
 
 export const NAV = [
   { href: '/', label: '首页' },
-  { href: '/issues', label: '往期' },
+  { href: '/capabilities', label: '功能与实录' },
   { href: '/models', label: '模型时间线' },
   { href: '/concepts', label: '概念指南' },
+  { href: '/issues', label: '往期' },
   { href: '/about', label: '关于' },
 ] as const;
 

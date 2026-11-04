@@ -16,6 +16,27 @@ npm run dev
 
 打开 http://localhost:4321 。`draft: true` 的期在本地能看到，但不会出现在线上。
 
+### 首页与功能实录
+
+首页只展示最新一期的主稿入口，不重复铺开整期正文。以下可选 frontmatter 与该期一起维护：
+
+```yaml
+homeSummary: "首页使用的简短导语；未填写则使用 summary。"
+homeBriefs:
+  - title: "一条具体更新的标题"
+    summary: "写明改变了什么，以及主要使用条件。"
+    date: "2026-11-02"
+    category: "产品更新"
+    url: "https://example.com/official-announcement"
+featuredModels: [gpt-6-1-terra, kimi-k3-1-pro]
+```
+
+`homeBriefs` 最多 3 条；为空时使用本期 `highlights`，不会沿用上一期短讯。`featuredModels` 最多 3 个模型记录 ID；不指定时展示最新型号。日期、标题与导语必须属于本期，并沿用正文的来源核查标准。
+
+`/capabilities` 展示功能说明、已核查模型入口与真实操作样片。数据在 `src/data/capabilities.ts`，视频组件在 `src/components/RecordingPlayer.astro`，素材及来源说明在 `public/media/browser-lookup-2026-11-02/`。更新模型入口时同时维护核查日期和官方来源；实录应记录型号、产品、工具、环境、重试与人工协助，不把文档支持、厂商演示或展示样片标为统一实测。
+
+首页和功能页使用 `editorial.css` 与各自的页面样式；其他阅读页仍由 `global.css` 管理。
+
 ---
 
 ## 目录结构

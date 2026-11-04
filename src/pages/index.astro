@@ -1,125 +1,259 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import IssueCard from '../components/IssueCard.astro';
+import RecordingPlayer from '../components/RecordingPlayer.astro';
 import { SITE } from '../consts';
-import { link, formatDate, daysAgo } from '../lib/utils';
+import { link, isoDate } from '../lib/utils';
 
 const isProd = import.meta.env.PROD;
-
 const issues = (await getCollection('issues', ({ data }) => !isProd || !data.draft)).sort(
   (a, b) => b.data.issue - a.data.issue,
 );
+const latest = issues[0];
+const latestHref = latest ? link(`/issues/${latest.id}`) : link('/issues');
+const range = latest?.data.range
+  .replace(/\b\d{4}-(\d{2})-(\d{2})\b/g, '$1.$2')
+  .replace(/\s*~\s*/g, ' — ');
+const briefs = latest
+  ? (latest.data.homeBriefs.length > 0
+      ? latest.data.homeBriefs.map((brief) => ({ ...brief, external: true }))
+      : latest.data.highlights.map((title) => ({
+          title,
+          summary: '',
+          date: isoDate(latest.data.date),
+          category: '本期要点',
+          url: latestHref,
+          external: false,
+        })))
+      .slice(0, 3)
+  : [];
 
-const [latest, ...rest] = issues;
-const recentIssues = rest.slice(0, 4);
-
-const models = (await getCollection('models'))
-  .sort((a, b) => b.data.date.localeCompare(a.data.date))
-  .slice(0, 6);
-
-const LatestContent = latest ? (await render(latest)).Content : null;
+const models = (await getCollection('models')).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date),
+);
+const featuredModels = (latest?.data.featuredModels ?? [])
+  .map((id) => models.find((model) => model.data.id === id))
+  .filter((model): model is (typeof models)[number] => Boolean(model))
+  .slice(0, 3);
+const homeModels = featuredModels.length > 0 ? featuredModels : models.slice(0, 3);
 ---
 
-<BaseLayout>
-  <section style="margin-bottom:3.5rem">
-    <p class="eyebrow">{SITE.org}</p>
-    <h1 style="font-size:2rem;line-height:1.4;letter-spacing:-0.02em;margin:0.4rem 0 0.75rem;">
-      {SITE.title}
-    </h1>
-    <p class="lede" style="margin:0;">{SITE.tagline}。</p>
-    <p class="lede" style="margin:0.6rem 0 0;font-size:0.95rem;">
-      收录模型发布、产品更新与研究动态，附来源链接与编辑观察。
-      <a href={link('/about')} style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;"
-        >了解这份周报 →</a
-      >
-    </p>
-  </section>
+<BaseLayout wide editorial edition={latest?.data}>
+  <div class="cover">
+    <article class="cover-story">
+      {
+        latest ? (
+          <>
+            <p class="kicker">本期焦点 · {range}</p>
+            <h1><a href={latestHref}>{latest.data.title}</a></h1>
+            <p class="intro">{latest.data.homeSummary ?? latest.data.summary}</p>
+            <a class="read-link" href={latestHref}>
+              阅读第 {latest.data.issue} 期 <span aria-hidden="true">↗</span>
+            </a>
+            <p class="source-note">依据官方公告与更新日志整理 · 附原始来源</p>
+          </>
+        ) : (
+          <>
+            <p class="kicker">{SITE.org}</p>
+            <h1>{SITE.title}</h1>
+            <p class="intro">第一期周报正在准备中，欢迎稍后回来看看。</p>
+          </>
+        )
+      }
+    </article>
+
+    <figure class="feature-video">
+      <div class="video-label">
+        <b><span class="live-dot" aria-hidden="true"></span>浏览器操作 · 实机样片</b>
+        <span>Codex / 网页工具</span>
+      </div>
+      <RecordingPlayer id="home-recording" />
+      <figcaption>
+        <h2><a href={link('/capabilities')}>让 AI 自己查找一条模型更新</a></h2>
+        <p>搜索 Kimi，展开版本记录，找到使用条件。看看它实际怎样操作网页。</p>
+        <a href={link('/capabilities')}>看操作记录与使用的工具 →</a>
+      </figcaption>
+    </figure>
+  </div>
 
   {
-    latest ? (
-      <section style="margin-bottom:4rem">
-        <h2 class="section-title">最新一期</h2>
-
-        <div class="issue-card__top">
-          <span class="issue-card__no">第 {latest.data.issue} 期</span>
-          <span class="meta">
-            {formatDate(latest.data.date)} · 覆盖 {latest.data.range}
-            {latest.data.editors.length > 0 && ` · ${latest.data.editors.join('、')}`}
-          </span>
+    briefs.length > 0 && (
+      <section aria-labelledby="brief-title">
+        <div class="section-head">
+          <h2 id="brief-title">近期变化</h2>
+          <a href={latestHref}>本期全部更新 ↗</a>
         </div>
-
-        <h3 style="font-size:1.5rem;line-height:1.45;letter-spacing:-0.015em;margin:0.2rem 0 0.6rem;font-weight:680;">
-          <a href={link(`/issues/${latest.id}`)}>{latest.data.title}</a>
-        </h3>
-
-        <p class="lede" style="margin:0 0 1.5rem;">{latest.data.summary}</p>
-
-        <div class="prose">
-          {LatestContent && <LatestContent />}
-        </div>
-
-        {latest.data.tags.length > 0 && (
-          <div class="tag-row" style="margin-top:2rem">
-            {latest.data.tags.map((t) => (
-              <a class="tag" href={link(`/tags/${encodeURIComponent(t)}`)}>
-                {t}
-              </a>
-            ))}
-          </div>
-        )}
-      </section>
-    ) : (
-      <p class="empty-note">
-        第一期周报正在准备中，欢迎稍后回来看看。
-      </p>
-    )
-  }
-
-  {
-    models.length > 0 && (
-      <section style="margin-bottom:4rem">
-        <h2 class="section-title">最近的模型发布</h2>
-        <ul class="timeline">
-          {models.map((m) => (
-            <li class="tl-item" data-recent={daysAgo(m.data.date) <= 30 ? 'true' : 'false'}>
-              <div class="tl-date">
-                <time datetime={m.data.date}>{m.data.date}</time>
+        <div class="briefs">
+          {briefs.map((brief) => (
+            <article class="brief">
+              <div class="brief-meta">
+                <time datetime={brief.date}>{brief.date.slice(5).replace('-', ' / ')}</time>
+                <span class="category">{brief.category}</span>
               </div>
-              <div class="tl-body">
-                <h3>
-                  <a href={m.data.url} rel="noopener noreferrer" target="_blank">
-                    {m.data.name}
-                  </a>
-                  <span class="tl-org">{m.data.org}</span>
-                </h3>
-                <p>{m.data.note}</p>
-              </div>
-            </li>
+              <h3>
+                <a
+                  href={brief.url}
+                  target={brief.external ? '_blank' : undefined}
+                  rel={brief.external ? 'noopener noreferrer' : undefined}
+                >
+                  {brief.title}
+                </a>
+              </h3>
+              {brief.summary && <p>{brief.summary}</p>}
+            </article>
           ))}
-        </ul>
-        <p style="margin-top:1.5rem">
-          <a class="btn" href={link('/models')}>
-            查看完整时间线 →
-          </a>
-        </p>
+        </div>
       </section>
     )
   }
 
-  {
-    recentIssues.length > 0 && (
-      <section>
-        <h2 class="section-title">往期</h2>
-        {recentIssues.map((issue) => (
-          <IssueCard issue={issue} showHighlights={false} />
-        ))}
-        <p style="margin-top:1.75rem">
-          <a class="btn" href={link('/issues')}>
-            全部 {issues.length} 期 →
-          </a>
-        </p>
-      </section>
-    )
-  }
+  <div class="lower">
+    <section aria-labelledby="models-title">
+      <div class="section-head">
+        <h2 id="models-title">近期型号</h2>
+        <a href={link('/models')}>查看 {models.length} 条记录 ↗</a>
+      </div>
+      {
+        homeModels.length > 0 ? (
+          <ul class="model-list">
+            {homeModels.map((model) => (
+              <li>
+                <a href={link(`/models#${model.data.id}`)}>
+                  <strong>{model.data.name}</strong>
+                  <span>
+                    <time datetime={model.data.date}>{model.data.date.slice(5).replace('-', '.')}</time>
+                    {' · '}{model.data.org} <span aria-hidden="true">↗</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="intro">模型记录正在整理中。</p>
+        )
+      }
+    </section>
+
+    <aside class="concept" aria-labelledby="concept-title">
+      <p class="concept-eyebrow">概念解读 / COMPUTER USE</p>
+      <h2 id="concept-title">会查资料，<br />就等于会操作电脑吗？</h2>
+      <p>获取信息、操作网页、跨应用完成任务，用到的工具和环境各有不同。</p>
+      <a href={link('/capabilities#computer')}>看区别，也看对应的模型入口 →</a>
+    </aside>
+  </div>
 </BaseLayout>
+
+<style>
+  .cover {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 45px;
+    align-items: start;
+    padding: 35px 0 31px;
+    border-bottom: 1px solid var(--text);
+  }
+  .cover-story, .feature-video, .brief, .lower > * { min-width: 0; }
+  .kicker {
+    display: flex; align-items: center; gap: 12px; margin: 0 0 22px;
+    color: var(--accent); font-size: 12px; letter-spacing: 1px;
+  }
+  .kicker::before { content: ''; flex: 0 0 6px; height: 6px; background: currentColor; }
+  .cover h1 {
+    max-width: 470px; margin: 0 0 19px; font-size: 39px; font-weight: 650;
+    line-height: 1.5; letter-spacing: -1.8px; text-wrap: balance; overflow-wrap: break-word;
+  }
+  .intro { max-width: 440px; margin: 0 0 26px; color: var(--text-muted); font-size: 15px; line-height: 1.9; }
+  .read-link {
+    display: inline-flex; align-items: center; gap: 32px; padding-bottom: 5px;
+    border-bottom: 1px solid var(--text); font-size: 14px; font-weight: 600;
+  }
+  .read-link span { font-size: 20px; line-height: 1; }
+  .source-note { margin: 26px 0 0; color: var(--text-muted); font-size: 11px; }
+  .feature-video { margin: 0; }
+  .video-label {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 8px; margin-bottom: 11px; color: var(--text-muted); font-size: 12px; line-height: 1.3;
+  }
+  .video-label b { color: var(--text); font-weight: 600; }
+  .live-dot {
+    display: inline-block; width: 6px; height: 6px; margin-right: 8px;
+    border-radius: 50%; background: var(--editorial-green);
+  }
+  .feature-video h2 {
+    margin: 14px 0 5px; font-size: 21px; font-weight: 600; line-height: 1.45;
+    letter-spacing: -0.5px; text-wrap: balance;
+  }
+  .feature-video figcaption p { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.8; }
+  .feature-video figcaption > a {
+    display: inline-block; margin-top: 9px; color: var(--editorial-green); font-size: 12px; font-weight: 600;
+  }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px 20px; margin: 25px 0 18px;
+  }
+  .section-head h2 { margin: 0; font-size: 14px; font-weight: 650; letter-spacing: 1.4px; }
+  .section-head a { color: var(--text-muted); font-size: 12px; }
+  .briefs {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px;
+    padding-bottom: 29px; border-bottom: 1px solid var(--border);
+  }
+  .brief + .brief { padding-left: 30px; border-left: 1px solid var(--border); }
+  .brief-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+  .brief time { color: var(--text-muted); font-size: 12px; line-height: 1.4; }
+  .category { color: var(--editorial-green); font-size: 10px; letter-spacing: 1px; }
+  .brief h3 {
+    margin: 9px 0 8px; font-size: 19px; font-weight: 600; line-height: 1.55;
+    letter-spacing: -0.3px; text-wrap: balance; overflow-wrap: break-word;
+  }
+  .brief p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.8; }
+  .lower {
+    display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 55px; padding: 7px 0 35px;
+  }
+  .model-list { list-style: none; margin: 0; padding: 0; }
+  .model-list li { border-top: 1px solid var(--border); }
+  .model-list a { display: flex; align-items: baseline; justify-content: space-between; gap: 5px 20px; padding: 13px 0; }
+  .model-list strong { min-width: 0; font-size: 14px; font-weight: 550; overflow-wrap: anywhere; }
+  .model-list a > span { flex-shrink: 0; color: var(--text-muted); font-size: 12px; }
+  .concept { margin-top: 25px; padding-left: 30px; border-left: 1px solid var(--border); }
+  .concept .concept-eyebrow { margin: 0 0 14px; color: var(--editorial-green); font-size: 11px; letter-spacing: 1.5px; }
+  .concept h2 { margin: 0 0 11px; font-size: 23px; font-weight: 600; line-height: 1.5; letter-spacing: -0.7px; }
+  .concept p { margin: 0 0 15px; color: var(--text-muted); font-size: 13px; }
+  .concept a { color: var(--editorial-green); font-size: 13px; font-weight: 600; }
+  a:hover { color: var(--accent); }
+
+  @media (min-width: 1400px) {
+    .cover { gap: 64px; padding-top: 42px; padding-bottom: 35px; }
+    .cover h1 { font-size: 43px; }
+  }
+  @media (max-width: 950px) {
+    .cover { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 27px; }
+    .cover h1 { font-size: 31px; letter-spacing: -1.2px; }
+    .intro { margin-bottom: 18px; font-size: 14px; }
+    .kicker { margin-bottom: 17px; }
+    .source-note { margin-top: 18px; }
+    .feature-video h2 { font-size: 18px; }
+    .brief h3 { font-size: 17px; }
+    .briefs { gap: 20px; }
+    .brief + .brief { padding-left: 20px; }
+    .lower { gap: 30px; }
+    .model-list a { flex-wrap: wrap; }
+  }
+  @media (max-width: 700px) {
+    .cover { display: block; padding: 24px 0; }
+    .cover h1 { max-width: 100%; margin-bottom: 13px; font-size: 27px; line-height: 1.6; letter-spacing: -1px; }
+    .intro { max-width: none; margin-bottom: 17px; }
+    .kicker { margin-bottom: 15px; font-size: 11px; }
+    .read-link { font-size: 13px; }
+    .source-note { display: none; }
+    .feature-video { margin-top: 30px; }
+    .feature-video h2 { margin-top: 13px; font-size: 20px; }
+    .briefs { grid-template-columns: 1fr; gap: 20px; }
+    .brief + .brief { padding: 19px 0 0; border-top: 1px solid var(--border); border-left: 0; }
+    .brief h3 { margin: 6px 0; font-size: 19px; }
+    .section-head { margin-top: 23px; margin-bottom: 16px; }
+    .lower { grid-template-columns: 1fr; gap: 4px; padding-bottom: 28px; }
+    .concept { margin-top: 13px; padding: 22px 0 0; border-top: 1px solid var(--border); border-left: 0; }
+    .concept .concept-eyebrow { margin-bottom: 12px; }
+  }
+</style>
